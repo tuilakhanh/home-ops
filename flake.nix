@@ -6,12 +6,12 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { 
-    self, 
+  outputs = {
+    self,
     disko,
     flake-parts,
-    ... 
-  } @ inputs: 
+    ...
+  } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
       flake = {
@@ -51,7 +51,7 @@
             sops
             go-task
             helmfile
-            helm
+            kubernetes-helm
             jq
             kustomize
             kubectl
