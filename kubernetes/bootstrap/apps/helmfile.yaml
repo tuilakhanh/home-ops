@@ -28,12 +28,12 @@ releases:
     values: ['{{ requiredEnv "KUBERNETES_DIR" }}/apps/kube-system/coredns/app/helm-values.yaml']
     needs: ['kube-system/cilium']
 
-  # - name: cert-manager
-  #   namespace: cert-manager
-  #   chart: jetstack/cert-manager
-  #   version: v1.17.1
-  #   values: ['{{ requiredEnv "KUBERNETES_DIR" }}/apps/cert-manager/cert-manager/app/helm-values.yaml']
-  #   needs: ['kube-system/coredns']
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: v1.17.1
+    values: ['{{ requiredEnv "KUBERNETES_DIR" }}/apps/cert-manager/cert-manager/app/helm-values.yaml']
+    needs: ['kube-system/coredns']
 
   - name: flux-operator
     namespace: flux-system

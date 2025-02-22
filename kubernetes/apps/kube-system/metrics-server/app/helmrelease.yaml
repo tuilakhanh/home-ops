@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: metrics-server
-      version: 3.12.2
+      version: 3.12.1
       sourceRef:
         kind: HelmRepository
         name: metrics-server
@@ -30,11 +30,10 @@ spec:
           kind: Pod
   values:
     args:
-      - --kubelet-insecure-tls
       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
       - --kubelet-use-node-status-port
-      - --metric-resolution=10s
-      - --kubelet-request-timeout=2s
+      - --metric-resolution=15s
+      - --kubelet-insecure-tls
     metrics:
       enabled: true
     serviceMonitor:
