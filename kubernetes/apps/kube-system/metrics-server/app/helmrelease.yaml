@@ -34,6 +34,10 @@ spec:
       - --kubelet-use-node-status-port
       - --metric-resolution=15s
       - --kubelet-insecure-tls
+      - --secure-port=4443
+    containerPort: 4443
+    hostNetwork:
+      enabled: true
     metrics:
       enabled: true
     serviceMonitor:
