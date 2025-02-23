@@ -9,6 +9,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: cloudflare-gateway
+      namespace: network
   interval: 30m
   path: ./kubernetes/apps/default/echo-server/app
   prune: true
