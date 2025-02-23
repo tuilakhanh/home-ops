@@ -7,5 +7,5 @@ spec:
   parametersRef:
     group: ""
     kind: Secret
-    namespace: cloudflare-gateway
+    namespace: network
     name: cloudflare
