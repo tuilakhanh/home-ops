@@ -22,6 +22,8 @@ hubble:
   enabled: true
 ipam:
   mode: kubernetes
+gatewayapi:
+  enabled: true
 autoDirectNodeRoutes: true
 routingMode: native
 ipv4NativeRoutingCIDR: "10.69.0.0/16"
