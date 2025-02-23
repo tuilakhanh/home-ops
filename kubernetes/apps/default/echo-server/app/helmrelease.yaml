@@ -22,7 +22,7 @@ spec:
     remediation:
       retries: 3
   # dependsOn:
-  #   - name: cloudflared
+  #   - name: cloudflare-gateway
   #     namespace: network
   values:
     controllers:
@@ -93,3 +93,14 @@ spec:
     #             service:
     #               identifier: app
     #               port: http
+    route:
+      main:
+        parentRefs:
+          - name: external-gateway-cloudflare
+            namespace: network
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        rules:
+          - backendRefs:
+            - name: echo-server
+              port: 8080
