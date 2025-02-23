@@ -8,4 +8,4 @@ components:
 resources:
   - ./external/ks.yaml
   - ./gateway-api/ks.yaml
-  # - ./internal/ks.yaml
+  - ./internal/ks.yaml

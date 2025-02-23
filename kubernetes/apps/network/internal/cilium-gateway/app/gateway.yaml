@@ -1,0 +1,14 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal-gateway-cilium
+spec:
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: "192.168.2.10"
+  gatewayClassName: cilium
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
