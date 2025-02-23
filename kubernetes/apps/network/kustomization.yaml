@@ -7,5 +7,5 @@ components:
   - ../../flux/components/common
 resources:
   - ./external/ks.yaml
-  - ./gateway-api/ks.yaml
+  # - ./gateway-api/ks.yaml
   # - ./internal/ks.yaml

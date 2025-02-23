@@ -77,6 +77,32 @@ function apply_prometheus_crds() {
     fi
 }
 
+function apply_gateway_api_crds() {
+    gum "${LOG_ARGS[@]}" debug "Applying Gateway API CRDs"
+
+    # renovate: datasource=github-tags depName=kubernetes-sigs/gateway-api
+    local -r version=v1.2.1
+    local resources crds
+
+    # Fetch resources using kustomize build
+    if ! resources=$(kustomize build "https://github.com/kubernetes-sigs/gateway-api/config/crd?ref=${version}" 2>/dev/null) || [[ -z "${resources}" ]]; then
+        gum "${LOG_ARGS[@]}" fatal "Failed to fetch Gateway API CRDs, check the version or the repository URL"
+    fi
+
+    # Check if the CRDs are up-to-date
+    if echo "${resources}" | kubectl diff --filename - &>/dev/null; then
+        gum "${LOG_ARGS[@]}" info "Gateway API CRDs are up-to-date"
+        return
+    fi
+
+    # Apply the CRDs
+    if echo "${resources}" | kubectl apply --server-side --filename - &>/dev/null; then
+        gum "${LOG_ARGS[@]}" info "Gateway API CRDs applied successfully"
+    else
+        gum "${LOG_ARGS[@]}" fatal "Failed to apply Gateway API CRDs"
+    fi
+}
+
 # The application namespaces are created before applying the resources
 function apply_namespaces() {
     gum "${LOG_ARGS[@]}" debug "Applying namespaces"
@@ -170,7 +196,8 @@ function success() {
 function main() {
     check_dependencies
     wait_for_nodes
-    # apply_prometheus_crds
+    apply_prometheus_crds
+    apply_gateway_api_crds
     apply_namespaces
     apply_configmaps
     apply_sops_secrets

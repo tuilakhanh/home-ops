@@ -9,9 +9,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: gateway-api-cdrs
-      namespace: network
+  # dependsOn:
+  #   - name: gateway-api-cdrs
+  #     namespace: network
   interval: 30m
   path: ./kubernetes/apps/network/external/cloudflare-gateway
   prune: true
