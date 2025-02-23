@@ -103,11 +103,9 @@ spec:
               port: 8080
       internal:
         parentRefs:
-          - name: cilium-gateway
+          - name: internal-gateway-cilium
             namespace: network
-        hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
-          - backendRefs:
-            - name: echo-server
-              port: 8080
+          -  backendRefs:
+              - name: echo-server
+                port: 8080

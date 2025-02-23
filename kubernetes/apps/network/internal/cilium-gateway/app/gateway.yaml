@@ -4,11 +4,14 @@ kind: Gateway
 metadata:
   name: internal-gateway-cilium
 spec:
-  infrastructure:
-    annotations:
-      io.cilium/lb-ipam-ips: "192.168.2.10"
+  addresses:
+  - type: IPAddress
+    value: 192.168.2.10
   gatewayClassName: cilium
   listeners:
   - name: http
     protocol: HTTP
     port: 80
+    allowedRoutes:
+      namespaces:
+        from: All
