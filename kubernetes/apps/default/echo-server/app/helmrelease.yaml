@@ -105,6 +105,8 @@ spec:
         parentRefs:
           - name: internal-gateway-cilium
             namespace: network
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
               - name: echo-server
