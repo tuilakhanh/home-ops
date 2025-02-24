@@ -14,3 +14,4 @@ resources:
   - ./metrics-server.yaml
   - ./spegel.yaml
   - ./stakater.yaml
+  - ./openebs.yaml
