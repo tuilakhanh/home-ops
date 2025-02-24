@@ -25,9 +25,14 @@ spec:
     fullnameOverride: k8s-gateway
     domain: "${SECRET_DOMAIN}"
     ttl: 1
+    image:
+      registry: ghcr.io
+      repository: soliddowant/k8s_gateway
+      tag: v0.4.0-37-g9b0bbe7
     service:
       type: LoadBalancer
       port: 53
       annotations:
         lbipam.cilium.io/ips: "192.168.2.11"
-    watchedResources: ["Gateway", "HttpRoute", "Service"]
+    # watchedResources: ["Gateway", "HttpRoute", "Service"]
+
