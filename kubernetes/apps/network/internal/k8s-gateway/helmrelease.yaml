@@ -33,6 +33,6 @@ spec:
       type: LoadBalancer
       port: 53
       annotations:
-        lbipam.cilium.io/ips: "192.168.2.11"
+        lbipam.cilium.io/ips: ${CORE_DNS_VIP}
     # watchedResources: ["Gateway", "HttpRoute", "Service"]
 

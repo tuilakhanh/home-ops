@@ -6,3 +6,6 @@ metadata:
   name: cluster-settings
 data:
   TIMEZONE: Asia/Ho_Chi_Minh
+  GATEWAY_VIP: 192.168.2.10
+  CORE_DNS_VIP: 192.168.2.11
+  ADGUARD_HOME_LB_VIP: 192.168.2.12
