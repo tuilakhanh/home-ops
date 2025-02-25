@@ -8,3 +8,4 @@ prometheus:
   enabled: true
   servicemonitor:
     enabled: true
+featureGates: ExperimentalGatewayAPISupport=true
