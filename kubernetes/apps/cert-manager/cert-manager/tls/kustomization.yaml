@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./staging.yaml
   - ./cross-namespace.yaml
+  - ./production.yaml

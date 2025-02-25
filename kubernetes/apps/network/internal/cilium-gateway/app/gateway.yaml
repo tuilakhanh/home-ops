@@ -4,7 +4,7 @@ kind: Gateway
 metadata:
   name: internal-gateway-cilium
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   addresses:
   - type: IPAddress
@@ -22,5 +22,5 @@ spec:
       mode: Terminate
       certificateRefs:
         - kind: Secret
-          name: "${SECRET_DOMAIN/./-}-staging-tls"
+          name: "${SECRET_DOMAIN/./-}-production-tls"
           namespace: cert-manager
