@@ -11,5 +11,5 @@ spec:
     - "adguard-home.${SECRET_DOMAIN}"
   rules:
     - backendRefs:
-      - name: adguard
+      - name: adguard-home
         port: 3000
