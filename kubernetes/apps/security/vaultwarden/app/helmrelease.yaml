@@ -1,0 +1,119 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app vaultwarden
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      vaultwarden:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/dani-garcia/vaultwarden
+              tag: 1.33.2
+            env:
+              TZ: "${TIMEZONE}"
+              SIGNUPS_ALLOWED: false
+              WEBSOCKET_ENABLED: true
+              DATA_FOLDER: "data"
+              ICON_CACHE_FOLDER: data/icon_cache
+              ATTACHMENTS_FOLDER: data/attachments
+              DOMAIN: "https://vaultwarden.${SECRET_DOMAIN}"
+              SMTP_HOST: ${MAIL_HOST}
+              SMTP_PORT: ${MAIL_PORT}
+              SMTP_USERNAME: ${MAIL_USERNAME}
+              SMTP_PASSWORD: ${MAIL_PASSWORD}
+              SMTP_FROM: ${MAIL_SENDER}
+              SMTP_FROM_NAME: ${MAIL_SENDER_NAME}
+              SMTP_SECURITY: "force_tls"
+              ADMIN_TOKEN: ${VAULT_ADMIN_TOKEN}
+              EXPERIMENTAL_CLIENT_FEATURE_FLAGS: "ssh-key-vault-item,ssh-agent"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 5Gi
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      webui:
+        controller: *app
+        ports:
+          http:
+            port: 80
+
+    route:
+      external:
+        parentRefs:
+          - name: external-gateway-cloudflare
+            namespace: network
+        hostnames:
+          - "vaultwarden.${SECRET_DOMAIN}"
+        rules:
+          - matches:
+            - path:
+                type: PathPrefix
+                value: /admin
+            backendRefs:
+            - name: webui
+              port: 0 # Disable access to the admin panel,
+          - matches:
+            - path:
+                type: PathPrefix
+                value: /
+            backendRefs:
+            - name: webui
+              port: 80
+      internal:
+        parentRefs:
+          - name: internal-gateway-cilium
+            namespace: network
+        hostnames:
+          - "vaultwarden.${SECRET_DOMAIN}"
+        rules:
+          -  backendRefs:
+              - name: webui
+                port: 80
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: vaultwarden-data
+        globalMounts:
+          - path: /data
