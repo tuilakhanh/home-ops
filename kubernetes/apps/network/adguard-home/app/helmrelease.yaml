@@ -63,17 +63,5 @@ spec:
         globalMounts:
           - path: /opt/adguardhome/conf
 
-    # route:
-    #   internal:
-    #     parentRefs:
-    #       - name: internal-gateway-cilium
-    #         namespace: network
-    #     hostnames:
-    #       - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-    #     rules:
-    #       - backendRefs:
-    #           - name: adguard
-    #             port: 3000
-
 
 

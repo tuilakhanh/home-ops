@@ -85,7 +85,7 @@ function apply_gateway_api_crds() {
     local resources crds
 
     # Fetch resources using kustomize build
-    if ! resources=$(kustomize build "https://github.com/kubernetes-sigs/gateway-api/config/crd?ref=${version}" 2>/dev/null) || [[ -z "${resources}" ]]; then
+    if ! resources=$(kustomize build "https://github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=${version}" 2>/dev/null) || [[ -z "${resources}" ]]; then
         gum "${LOG_ARGS[@]}" fatal "Failed to fetch Gateway API CRDs, check the version or the repository URL"
     fi
 

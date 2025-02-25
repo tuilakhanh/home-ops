@@ -58,6 +58,7 @@
             yq
             kubeconform
             kubernetes-helmPlugins.helm-diff
+            cilium-cli
             (python3.withPackages (ps: with ps; [
               cloudflare
               dnspython
