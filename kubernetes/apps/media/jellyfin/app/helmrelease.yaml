@@ -107,11 +107,11 @@ spec:
         globalMounts:
           - path: /config/transcodes
 
-      # library:
-      #   type: hostPath
-      #   hostPath: "/var/mnt/merged/"
-      #   globalMounts:
-      #     - path: /var/mnt/merged/
+      library:
+        type: hostPath
+        hostPath: "/mnt/media/"
+        globalMounts:
+          - path: /mount/gdrive/
 
       # nas:
       #   type: hostPath
