@@ -38,11 +38,11 @@ spec:
               tag: 4.0.13.2933@sha256:12427949df13731d802514d5f417e2d302f2d7c026be1903ae287921b4a60ac7
             env:
               SONARR__APP__INSTANCENAME: Sonarr
-              # SONARR__AUTH__APIKEY:
-              #   valueFrom:
-              #     secretKeyRef:
-              #       name: sonarr-secret
-              #       key: api_key
+              SONARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-secret
+                    key: api_key
               SONARR__AUTH__METHOD: External
               SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
               SONARR__LOG__DBENABLED: "False"
