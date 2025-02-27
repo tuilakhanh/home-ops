@@ -59,6 +59,7 @@ spec:
                 gpu.intel.com/i915: 1
                 memory: 512Mi
               limits:
+                cpu: 4000m
                 gpu.intel.com/i915: 1
                 memory: 4Gi
             probes:
