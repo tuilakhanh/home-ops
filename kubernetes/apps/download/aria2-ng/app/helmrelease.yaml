@@ -42,9 +42,6 @@ spec:
               BASIC_AUTH_USERNAME: ${ARIA2_USER}
               BASIC_AUTH_PASSWORD: ${ARIA2_PASSWORD}
               RPC_SECRET: ${RPC_SECRET}
-            envFrom:
-              - secretRef:
-                  name: aria2-ng-secret
             probes:
               liveness:
                 enabled: true
