@@ -33,11 +33,14 @@ spec:
           - 44
           - 109
           - 100
-      annotations:
-        reloader.stakater.com/auto: "true"
+          - 65542
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
 
     controllers:
       jellyfin:
+        annotations:
+          reloader.stakater.com/auto: "true"
         type: deployment
         strategy: RollingUpdate
         containers:
@@ -46,23 +49,33 @@ spec:
               repository: ghcr.io/jellyfin/jellyfin
               tag: "2025022405"
             env:
+              JELLYFIN_FFmpeg__probesize: "50000000"
+              JELLYFIN_FFmpeg__analyzeduration: "500000000"
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               TZ: ${TIMEZONE}
             resources:
               requests:
-                memory: 1Gi
+                cpu: 100m
+                gpu.intel.com/i915: 1
+                memory: 512Mi
               limits:
+                gpu.intel.com/i915: 1
                 memory: 4Gi
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
+                custom: true
                 spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
+                  httpGet:
+                    path: /health
+                    port: &port 8096
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
     service:
       jellyfin:
         controller: *app
@@ -102,10 +115,15 @@ spec:
             app:
               - path: /config
 
-      transcode:
+      tmpfs:
         type: emptyDir
-        globalMounts:
-          - path: /config/transcodes
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /transcode
+                subPath: transcode
 
       library:
         type: hostPath
