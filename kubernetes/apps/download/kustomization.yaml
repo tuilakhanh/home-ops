@@ -8,4 +8,4 @@ components:
 resources:
   - ./sonarr/ks.yaml
   - ./qbittorrent/ks.yaml
-  - ./aria2-ng/ks.yaml
+  - ./aria2/ks.yaml

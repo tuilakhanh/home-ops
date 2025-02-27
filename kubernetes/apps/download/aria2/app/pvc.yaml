@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: aria2-ng-config
+  name: aria2-config
   labels:
-    app.kubernetes.io/name: aria2-ng
-    app.kubernetes.io/instance: aria2-ng
+    app.kubernetes.io/name: aria2
+    app.kubernetes.io/instance: aria2
 spec:
   accessModes:
     - ReadWriteOnce
