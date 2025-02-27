@@ -65,10 +65,7 @@ spec:
 
     service:
       aria2:
-        type: LoadBalancer
         controller: *app
-        annotations:
-          lbipam.cilium.io/ips: "192.168.2.13"
         ports:
           http:
             port: *port
