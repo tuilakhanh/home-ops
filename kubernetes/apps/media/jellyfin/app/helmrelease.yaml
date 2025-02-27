@@ -131,10 +131,10 @@ spec:
         globalMounts:
           - path: /mount/gdrive/
 
-      # nas:
-      #   type: hostPath
-      #   hostPath: "/mnt/nas"
-      #   globalMounts:
-      #     - path: /mnt/nas
+      drive:
+        type: hostPath
+        hostPath: "/mnt/disk/"
+        globalMounts:
+          - path: /mount/disk/
 
 
