@@ -163,6 +163,7 @@ function apply_sops_secrets() {
     gum "${LOG_ARGS[@]}" debug "Applying secrets"
 
     local -r secrets=(
+        "${KUBERNETES_DIR}/flux/components/common/cluster-settings-secrets.sops.yaml"
         "${KUBERNETES_DIR}/bootstrap/apps/resources/github-deploy-key.sops.yaml"
         "${KUBERNETES_DIR}/flux/components/common/cluster-secrets.sops.yaml"
         "${KUBERNETES_DIR}/flux/components/common/sops-age.sops.yaml"
