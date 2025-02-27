@@ -19,27 +19,19 @@ spec:
     controllers:
       recyclarr:
         type: cronjob
-
         cronjob:
-          schedule: "@daily"
+          schedule: 0 0 * * *
           backoffLimit: 0
           concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
           failedJobsHistory: 1
-          successfulJobsHistory: 0
-
-        pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            runAsNonRoot: true
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
+          ttlSecondsAfterFinished: 86400
 
         containers:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
-              tag: 7.4.1
+              tag: 7.4.1@sha256:759540877f95453eca8a26c1a93593e783a7a824c324fbd57523deffb67f48e1
             env:
               SONARR_ANIME_API_KEY:
                 valueFrom:
@@ -62,12 +54,17 @@ spec:
                 memory: 36M
               limits:
                 memory: 128M
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+        pod:
+          restartPolicy: Never
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+
 
     persistence:
       config:
@@ -83,3 +80,13 @@ spec:
           - path: /config/recyclarr.yml
             subPath: recyclarr.yml
             readOnly: true
+      config-logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      config-repositories:
+        type: emptyDir
+        globalMounts:
+          - path: /config/repositories
+      tmp:
+        type: emptyDir

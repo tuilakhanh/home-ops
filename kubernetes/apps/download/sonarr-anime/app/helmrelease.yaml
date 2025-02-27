@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sonarra-anime
+  name: sonarr-anime
 spec:
   interval: 30m
   chart:
@@ -17,7 +17,7 @@ spec:
         namespace: flux-system
   values:
     controllers:
-      sonarra-anime:
+      sonarr-anime:
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -37,7 +37,7 @@ spec:
               repository: ghcr.io/onedr0p/sonarr-develop
               tag: 4.0.13.2933@sha256:12427949df13731d802514d5f417e2d302f2d7c026be1903ae287921b4a60ac7
             env:
-              SONARR__APP__INSTANCENAME: Sonarra-anime
+              SONARR__APP__INSTANCENAME: Sonarr-anime
               SONARR__AUTH__APIKEY:
                 valueFrom:
                   secretKeyRef:
@@ -76,8 +76,8 @@ spec:
                   - ALL
 
     service:
-      sonarra-anime:
-        controller: sonarra-anime
+      sonarr-anime:
+        controller: sonarr-anime
         ports:
           http:
             port: *port
@@ -88,15 +88,15 @@ spec:
           - name: internal-gateway-cilium
             namespace: network
         hostnames:
-          - "sonarra-anime.${SECRET_DOMAIN}"
+          - "sonarr-anime.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: sonarra-anime
+              - name: sonarr-anime
                 port: *port
 
     persistence:
       config:
-        existingClaim: sonarra-anime-config
+        existingClaim: sonarr-anime-config
       add-ons:
         type: emptyDir
       tmp:
