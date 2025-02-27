@@ -8,6 +8,8 @@ components:
 resources:
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
+  - ./sonarr-anime/ks.yaml
   - ./bazarr/ks.yaml
+  - ./recyclarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./aria2/ks.yaml
