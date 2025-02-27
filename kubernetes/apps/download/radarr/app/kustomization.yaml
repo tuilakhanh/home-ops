@@ -2,11 +2,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: download
-components:
-  - ../../flux/components/common
 resources:
-  - ./radarr/ks.yaml
-  - ./sonarr/ks.yaml
-  - ./qbittorrent/ks.yaml
-  - ./aria2/ks.yaml
+  - ./pvc.yaml
+  - ./helmrelease.yaml
