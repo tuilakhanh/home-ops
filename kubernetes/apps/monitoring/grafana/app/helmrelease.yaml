@@ -181,10 +181,10 @@ spec:
             isDefault: true
             jsonData:
               prometheusType: Prometheus
-          # - access: proxy
-          #   name: Loki
-          #   type: loki
-          #   url: http://loki-headless.monitoring.svc.cluster.local:3100
+          - access: proxy
+            name: Loki
+            type: loki
+            url: http://loki-headless.monitoring.svc.cluster.local:3100
           # - name: Alertmanager
           #   type: alertmanager
           #   access: proxy
@@ -194,7 +194,7 @@ spec:
 
         deleteDatasources:
           # - { name: Alertmanager, orgId: 1 }
-          # - { name: Loki, orgId: 1 }
+          - { name: Loki, orgId: 1 }
           - { name: Prometheus, orgId: 1 }
 
     imageRenderer:
