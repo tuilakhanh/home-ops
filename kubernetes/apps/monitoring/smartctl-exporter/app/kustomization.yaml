@@ -2,9 +2,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: monitoring
-components:
-  - ../../flux/components/common
 resources:
-  - ./node-exporter/ks.yaml
-  - ./smartctl-exporter/ks.yaml
+  - ./helmrelease.yaml
+  - ./prometheusrule.yaml
