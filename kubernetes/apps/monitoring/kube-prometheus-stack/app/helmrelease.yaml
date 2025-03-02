@@ -115,6 +115,7 @@ spec:
     prometheus:
       route:
         main:
+          enabled: true
           parentRefs:
             - name: internal-gateway-cilium
               namespace: network
