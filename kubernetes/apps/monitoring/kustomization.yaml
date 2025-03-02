@@ -8,3 +8,4 @@ components:
 resources:
   - ./node-exporter/ks.yaml
   - ./smartctl-exporter/ks.yaml
+  - ./kube-prometheus-stack/ks.yaml
