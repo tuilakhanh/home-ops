@@ -100,12 +100,6 @@ spec:
           revision: 3
           datasource: Prometheus
 
-        external-dns:
-          # renovate: dashboardName="External-DNS"
-          gnetId: 15038
-          revision: 3
-          datasource: Prometheus
-
         node-exporter-full:
           # renovate: dashboardName="Node Exporter Full"
           gnetId: 1860
@@ -168,6 +162,13 @@ spec:
           # renovate: dashboardName="K8s / Storage / Volumes / Cluster"
           gnetId: 11454
           revision: 14
+          datasource: Prometheus
+
+      prometheus:
+        prometheus:
+          # renovate: depName="Prometheus"
+          gnetId: 19105
+          revision: 7
           datasource: Prometheus
 
     datasources:
