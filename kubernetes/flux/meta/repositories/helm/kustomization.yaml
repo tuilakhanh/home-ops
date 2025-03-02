@@ -17,3 +17,4 @@ resources:
   - ./openebs.yaml
   - ./intel.yaml
   - ./prometheus-community.yaml
+  - ./grafana.yaml
