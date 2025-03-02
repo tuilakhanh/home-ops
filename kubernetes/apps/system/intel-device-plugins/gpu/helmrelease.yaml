@@ -18,8 +18,7 @@ spec:
   dependsOn:
     - name: intel-device-plugins-operator
       namespace: system
-    - name: node-feature-discovery
-      namespace: system
   values:
     name: intel-gpu-plugin
     sharedDevNum: 3
+    nodeFeatureRule: false

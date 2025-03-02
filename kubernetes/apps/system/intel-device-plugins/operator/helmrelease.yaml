@@ -17,11 +17,14 @@ spec:
         namespace: flux-system
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     crds: CreateReplace
-  dependsOn:
-    - name: cert-manager
-      namespace: cert-manager
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     controllerExtraArgs: |
       - --devices=gpu
