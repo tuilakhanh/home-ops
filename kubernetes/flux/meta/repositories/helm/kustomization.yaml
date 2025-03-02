@@ -16,4 +16,4 @@ resources:
   - ./stakater.yaml
   - ./openebs.yaml
   - ./intel.yaml
-  - ./kubernetes-sigs-nfd.yaml
+  - ./prometheus-community.yaml
