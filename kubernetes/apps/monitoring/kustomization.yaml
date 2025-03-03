@@ -10,5 +10,6 @@ resources:
   - ./smartctl-exporter/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./kube-state-metrics/ks.yaml
+  - ./promtail/ks.yaml
   - ./loki/ks.yaml
   - ./grafana/ks.yaml
