@@ -39,8 +39,10 @@ spec:
               # LISTEN_PORT: 8080
               # BASIC_AUTH_USERNAME: ${ARIA2_USER}
               # BASIC_AUTH_PASSWORD: ${ARIA2_PASSWORD}
-              RPC_SECRET: ${RPC_SECRET}
               RPC_PORT: &port 6800
+            envFrom:
+            - secretRef:
+                name: aria2-secret
             securityContext:
               # runAsUser: 568
               # runAsGroup: 568
