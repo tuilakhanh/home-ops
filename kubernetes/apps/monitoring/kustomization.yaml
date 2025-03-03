@@ -14,3 +14,4 @@ resources:
   - ./promtail/ks.yaml
   - ./loki/ks.yaml
   - ./grafana/ks.yaml
+  - ./kromgo/ks.yaml
