@@ -40,15 +40,11 @@ spec:
               ICON_CACHE_FOLDER: data/icon_cache
               ATTACHMENTS_FOLDER: data/attachments
               DOMAIN: "https://vaultwarden.${SECRET_DOMAIN}"
-              SMTP_HOST: ${MAIL_HOST}
-              SMTP_PORT: ${MAIL_PORT}
-              SMTP_USERNAME: ${MAIL_USERNAME}
-              SMTP_PASSWORD: ${MAIL_PASSWORD}
-              SMTP_FROM: ${MAIL_SENDER}
-              SMTP_FROM_NAME: ${MAIL_SENDER_NAME}
               SMTP_SECURITY: "force_tls"
-              ADMIN_TOKEN: ${VAULT_ADMIN_TOKEN}
               EXPERIMENTAL_CLIENT_FEATURE_FLAGS: "ssh-key-vault-item,ssh-agent"
+            envFrom:
+            - secretRef:
+                name: vaultwarden-secret
             resources:
               requests:
                 cpu: 100m
