@@ -1,0 +1,38 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": "Cilium image and chart",
+      "groupName": "cilium",
+      "matchPackageNames": [
+        "quay.io/cilium/cilium",
+        "quay.io/cilium/operator-generic",
+        "cilium"
+      ],
+      "matchDatasources": ["helm", "docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group",
+        "commitMessageSuffix": ""
+      }
+    },
+    {
+      "description": ["Flux Operator Group"],
+      "groupName": "Flux Operator",
+      "matchPackagePatterns": ["flux-operator", "flux-instance"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group",
+        "commitMessageSuffix": ""
+      }
+    },
+    {
+      "description": ["Intel Device Plugins Group"],
+      "groupName": "Intel-Device-Plugins",
+      "matchDatasources": ["helm"],
+      "matchPackageNames": ["/intel-device-plugin/"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    }
+  ]
+}
