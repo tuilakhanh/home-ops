@@ -15,20 +15,21 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
       flake = {
-        # nixosConfigurations.k3s-master = inputs.nixpkgs.lib.nixosSystem {
-        #   modules = [
-        #     disko.nixosModules.disko
-        #     ./base.nix
-        #     ./hardware-configuration.nix
-        #     ./k3s-master.nix
-        #     ./networking.nix
-        #     ./incus.nix
-        #   ];
-        #   specialArgs = {
-        #     inherit inputs;
-        #     hostName = "k3s-master";
-        #   };
-        # };
+        nixosConfigurations.k3s-master = inputs.nixpkgs.lib.nixosSystem {
+          modules = [
+            disko.nixosModules.disko
+            ./nix/base.nix
+            ./nix/host/master
+            # ./nix/module/incus.nix
+            ./nix/module/k3s-master.nix
+            ./nix/module/rclone-mount.nix
+            ./nix/module/tailscale.nix
+          ];
+          specialArgs = {
+            inherit inputs;
+            hostName = "k3s-master";
+          };
+        };
       };
       perSystem = { config, self', inputs', pkgs, system, ... }: {
         devShells.default = pkgs.mkShell {
@@ -40,13 +41,11 @@
           '';
 
           nativeBuildInputs = with pkgs; [
-            fluxctl
             kube-capacity
             nixos-rebuild
             kubefetch
             nix
             gum
-            cloudflared
             age
             sops
             go-task
@@ -59,14 +58,14 @@
             kubeconform
             kubernetes-helmPlugins.helm-diff
             cilium-cli
-            (python3.withPackages (ps: with ps; [
-              cloudflare
-              dnspython
-              email-validator
-              makejinja
-              netaddr
-              ntplib
-            ]))
+            # (python3.withPackages (ps: with ps; [
+            #   cloudflare
+            #   dnspython
+            #   email-validator
+            #   makejinja
+            #   netaddr
+            #   ntplib
+            # ]))
           ];
         };
       };
