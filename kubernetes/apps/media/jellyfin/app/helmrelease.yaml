@@ -22,19 +22,6 @@ spec:
     remediation:
       retries: 3
   values:
-    defaultPodOptions:
-      enableServiceLinks: false
-      securityContext:
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: "OnRootMismatch"
-        supplementalGroups:
-          - 44
-          - 109
-          - 100
-          - 65542
-
     controllers:
       jellyfin:
         annotations:
@@ -75,6 +62,20 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+          - 44
+          - 109
+          - 100
+          - 65542
+
     service:
       jellyfin:
         controller: *app
