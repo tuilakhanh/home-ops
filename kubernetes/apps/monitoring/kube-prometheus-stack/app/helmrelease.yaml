@@ -127,11 +127,11 @@ spec:
                 value: /
 
       prometheusSpec:
-        alertingEndpoints:
-          - namespace: monitoring
-            name: alertmanager
-            port: 9093
-            apiVersion: v2
+        # alertingEndpoints:
+        #   - namespace: monitoring
+        #     name: alertmanager
+        #     port: 9093
+        #     apiVersion: v2
         enableAdminAPI: true
         enableFeatures:
           - auto-gomaxprocs
