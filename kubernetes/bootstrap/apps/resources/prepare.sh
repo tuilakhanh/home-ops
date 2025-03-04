@@ -50,7 +50,7 @@ function apply_prometheus_crds() {
     gum "${LOG_ARGS[@]}" debug "Applying Prometheus CRDs"
 
     # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
-    local -r version=v0.80.0
+    local -r version=v0.80.1
     local resources crds
 
     # Fetch resources using kustomize build
@@ -163,7 +163,6 @@ function apply_sops_secrets() {
     gum "${LOG_ARGS[@]}" debug "Applying secrets"
 
     local -r secrets=(
-        "${KUBERNETES_DIR}/flux/components/common/cluster-settings-secrets.sops.yaml"
         "${KUBERNETES_DIR}/bootstrap/apps/resources/github-deploy-key.sops.yaml"
         "${KUBERNETES_DIR}/flux/components/common/cluster-secrets.sops.yaml"
         "${KUBERNETES_DIR}/flux/components/common/sops-age.sops.yaml"

@@ -18,12 +18,6 @@ spec:
   values:
     controllers:
       qbittorrent:
-        pod:
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
-            supplementalGroups:
-              - 65542 # gladius:external-services
         containers:
           app:
             nameOverride: qbittorrent
@@ -50,14 +44,19 @@ spec:
               limits:
                 memory: 8192Mi
             securityContext:
-              runAsUser: 568
-              runAsGroup: 568
-              runAsNonRoot: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
 
     service:
       qbittorrent:

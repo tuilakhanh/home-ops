@@ -88,7 +88,7 @@ spec:
                 value: /admin
             backendRefs:
             - name: webui
-              port: 0 # Disable access to the admin panel,
+              port: 9999 # Disable access to the admin panel,
           - matches:
             - path:
                 type: PathPrefix

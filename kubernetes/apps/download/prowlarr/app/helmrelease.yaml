@@ -64,6 +64,8 @@ spec:
               capabilities:
                 drop:
                   - ALL
+        pod:
+          restartPolicy: Never
 
     defaultPodOptions:
       securityContext:
