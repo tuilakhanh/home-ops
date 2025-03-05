@@ -81,9 +81,9 @@ spec:
           http:
             port: *port
     route:
-      internal:
+      external:
         parentRefs:
-          - name: internal-gateway-cilium
+          - name: external-gateway-cloudflare
             namespace: network
         hostnames:
           - "kromgo.${SECRET_DOMAIN}"
