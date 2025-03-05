@@ -26,11 +26,7 @@ spec:
       retries: 3
   values:
     crds:
-      enabled: true
-      upgradeJob:
-        enabled: true
-        forceConflicts: true
-    cleanPrometheusOperatorObjectNames: true
+      enabled: false
 
     ###
     ### Component values
