@@ -72,7 +72,7 @@ spec:
           - "alertmanager.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: echo-server
+              - name: app
                 port: *port
 
     persistence:
