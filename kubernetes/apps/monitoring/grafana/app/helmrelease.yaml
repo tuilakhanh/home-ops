@@ -100,6 +100,12 @@ spec:
           revision: 3
           datasource: Prometheus
 
+        node-exporter:
+          # renovate: depName="Node Exporter"
+          gnetId: 11074
+          revision: 9
+          datasource: Prometheus
+
         node-exporter-full:
           # renovate: dashboardName="Node Exporter Full"
           gnetId: 1860
