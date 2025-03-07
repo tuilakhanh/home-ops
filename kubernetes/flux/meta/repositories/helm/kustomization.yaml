@@ -18,3 +18,4 @@ resources:
   - ./intel.yaml
   - ./prometheus-community.yaml
   - ./grafana.yaml
+  - ./cloudnative-pg.yaml
