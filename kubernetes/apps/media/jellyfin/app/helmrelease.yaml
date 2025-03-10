@@ -26,8 +26,6 @@ spec:
       jellyfin:
         annotations:
           reloader.stakater.com/auto: "true"
-        type: deployment
-        strategy: RollingUpdate
         containers:
           app:
             image:
@@ -38,15 +36,6 @@ spec:
               JELLYFIN_FFmpeg__analyzeduration: "500000000"
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               TZ: ${TIMEZONE}
-            resources:
-              requests:
-                cpu: 100m
-                gpu.intel.com/i915: 1
-                memory: 512Mi
-              limits:
-                cpu: 4000m
-                gpu.intel.com/i915: 1
-                memory: 4Gi
             probes:
               liveness: &probes
                 enabled: true
@@ -62,19 +51,21 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 6Gi
 
     defaultPodOptions:
-      enableServiceLinks: false
       securityContext:
+        runAsNonRoot: true
         runAsUser: 568
         runAsGroup: 568
         fsGroup: 568
-        fsGroupChangePolicy: "OnRootMismatch"
-        supplementalGroups:
-          - 44
-          - 109
-          - 100
-          - 65542
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [44, 105, 1000, 10000]
 
     service:
       jellyfin:
