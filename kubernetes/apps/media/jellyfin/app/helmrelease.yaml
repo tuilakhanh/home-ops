@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
-              tag: "2025030305"
+              tag: "2025031005"
             env:
               JELLYFIN_FFmpeg__probesize: "50000000"
               JELLYFIN_FFmpeg__analyzeduration: "500000000"
