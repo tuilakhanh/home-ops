@@ -1,11 +1,4 @@
 ---
-bpf:
-  masquerade: true
-  # Ref: https://github.com/siderolabs/talos/issues/10002
-  hostLegacyRouting: true
-cni:
-  # Required for pairing with Multus CNI
-  exclusive: false
 cgroup:
   automount:
     enabled: false
@@ -16,19 +9,12 @@ endpointRoutes:
   enabled: true
 envoy:
   enabled: false
-  prometheus:
-    enabled: false
-    serviceMonitor:
-      enabled: false
-dashboards:
-  enabled: true
 hubble:
   enabled: false
 ipam:
   mode: kubernetes
 externalIPs:
   enabled: true
-l7Proxy: true
 gatewayAPI:
   enabled: true
 autoDirectNodeRoutes: true
@@ -58,6 +44,8 @@ prometheus:
   serviceMonitor:
     enabled: true
     trustCRDsExist: true
+dashboards:
+  enabled: true
 rollOutCiliumPods: true
 securityContext:
   capabilities:
