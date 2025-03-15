@@ -111,6 +111,8 @@ spec:
                 subPath: cache
               - path: /transcode
                 subPath: transcode
+              - path: /tmp
+                subpath: tmp
 
       library:
         type: hostPath
