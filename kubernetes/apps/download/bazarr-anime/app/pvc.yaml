@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bazarr-anime-config
+  labels:
+    app.kubernetes.io/name: bazarr-anime
+    app.kubernetes.io/instance: bazarr-anime
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1G
+  storageClassName: openebs-hostpath
