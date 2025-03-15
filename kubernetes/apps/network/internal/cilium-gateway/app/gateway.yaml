@@ -23,4 +23,3 @@ spec:
       certificateRefs:
         - kind: Secret
           name: "${SECRET_DOMAIN/./-}-production-tls"
-          namespace: cert-manager
