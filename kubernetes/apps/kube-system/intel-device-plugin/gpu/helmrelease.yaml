@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: intel-device-plugins-operator
+  name: intel-device-plugins-gpu
 spec:
   interval: 1h
   layerSelector:
@@ -10,7 +10,7 @@ spec:
     operation: copy
   ref:
     tag: 0.32.0
-  url: oci://ghcr.io/onedr0p/charts-mirror/intel-device-plugins-operator
+  url: oci://ghcr.io/onedr0p/charts-mirror/intel-device-plugins-gpu
   verify:
     provider: cosign
 ---
