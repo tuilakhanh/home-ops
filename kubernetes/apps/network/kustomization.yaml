@@ -6,7 +6,8 @@ namespace: network
 components:
   - ../../flux/components/common
 resources:
-  - ./external/ks.yaml
   - ./gateway-api/ks.yaml
-  - ./internal/ks.yaml
+  - ./cilium-gateway/ks.yaml
+  - ./cloudflare-gateway/ks.yaml
+  - ./k8s-gateway/ks.yaml
   - ./adguard-home/ks.yaml

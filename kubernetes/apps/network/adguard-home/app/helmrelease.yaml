@@ -51,6 +51,18 @@ spec:
             port: 53
             protocol: UDP
 
+    route:
+      internal:
+        parentRefs:
+          - name: internal-gateway-cilium
+            namespace: network
+        hostnames:
+          - "adguard-home.${SECRET_DOMAIN}"
+        rules:
+          -  backendRefs:
+              - name: adguard
+                port: 3000
+
     persistence:
       data:
         enabled: true

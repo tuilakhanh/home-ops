@@ -3,14 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app adguard-home
+  name: &app cilium-gateway
   namespace: &namespace network
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: gateway-api-cdrs
+      namespace: network
   interval: 30m
-  path: ./kubernetes/apps/network/adguard-home/app
+  path: ./kubernetes/apps/network/cilium-gateway/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -19,4 +22,3 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: false
-
