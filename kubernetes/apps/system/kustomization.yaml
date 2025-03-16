@@ -8,3 +8,4 @@ components:
 resources:
   - ./reloader/ks.yaml
   - ./intel-device-plugin/ks.yaml
+  - ./volsync/ks.yaml
