@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: immich-redis
+  name: immich-valkey
 spec:
   interval: 30m
   chartRef:
@@ -11,16 +11,15 @@ spec:
     namespace: flux-system
   values:
     controllers:
-      redis:
+      immich-valkey:
         containers:
           app:
             image:
-              repository: registry.hub.docker.com/library/redis
-              tag: "7.4-alpine"
-
+              repository: docker.io/valkey/valkey # https://github.com/valkey-io/valkey-container/issues/17 Need move to ghcr.io
+              tag: 8.0.2
     service:
-      redis:
-        controller: redis
+      app:
+        controller: immich-valkey
         ports:
           http:
             port: 6379

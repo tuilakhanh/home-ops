@@ -35,7 +35,7 @@ spec:
         library:
           existingClaim: immich-photos
     env:
-      REDIS_HOSTNAME: "immich-redis.media.svc.cluster.local"
+      REDIS_HOSTNAME: "immich-valkey.media.svc.cluster.local"
       LOG_LEVEL: verbose
       DB_HOSTNAME:
         valueFrom:
@@ -60,7 +60,7 @@ spec:
       resources:
         requests:
           cpu: 500m
-          memory: 1024M
+          memory: 512M
     machine-learning:
       resources:
         requests:
