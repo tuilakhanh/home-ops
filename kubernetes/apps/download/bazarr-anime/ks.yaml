@@ -9,11 +9,19 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../flux/components/volsync
   dependsOn:
-    - name: cilium-gateway
-      namespace: network
+    - name: openebs
+      namespace: openebs
+    - name: volsync
+      namespace: system
   interval: 30m
   path: ./kubernetes/apps/download/bazarr-anime/app
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: GitRepository
