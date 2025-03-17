@@ -40,7 +40,7 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 6
-      destinationPath: s3:///postgres/
+      destinationPath: s3://postgres
       endpointURL: https://81e69641b977773fe31b62d05f0b44e3.r2.cloudflarestorage.com
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
