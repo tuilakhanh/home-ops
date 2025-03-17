@@ -2,9 +2,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: media
-components:
-  - ../../flux/components/common
 resources:
-  - ./jellyfin/ks.yaml
-  - ./immich/ks.yaml
+  - ./pvc-photos.yaml
+  - ./pvc-ml-cache.yaml
+  - ./helmrelease.yaml
+  - ./route.yaml
