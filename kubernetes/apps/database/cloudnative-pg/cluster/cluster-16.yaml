@@ -23,7 +23,7 @@ spec:
     inProgress: false
     reusePVC: true
   superuserSecret:
-    name: postgres-superuser
+    name: cloudnative-pg-secret
   monitoring:
     enablePodMonitor: true
   resources:
@@ -32,3 +32,23 @@ spec:
       memory: 500Mi
     limits:
       memory: 2Gi
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2 # Will switch to zstd in v0.3.0
+      wal:
+        compression: bzip2
+        maxParallel: 6
+      destinationPath: s3:///postgres/
+      endpointURL: https://81e69641b977773fe31b62d05f0b44e3.r2.cloudflarestorage.com
+      # Note: serverName version needs to be inclemented
+      # when recovering from an existing cnpg cluster
+      serverName: postgres-homelab-db
+      s3Credentials:
+        accessKeyId:
+          name: cloudnative-pg-secret
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: cloudnative-pg-secret
+          key: AWS_SECRET_ACCESS_KEY
