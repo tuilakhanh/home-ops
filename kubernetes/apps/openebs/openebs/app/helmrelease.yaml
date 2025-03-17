@@ -20,10 +20,20 @@ kind: HelmRelease
 metadata:
   name: openebs
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: openebs
+  install:
+    disableHooks: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    disableHooks: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     localpv-provisioner:
       rbac:

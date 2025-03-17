@@ -12,7 +12,8 @@ spec:
   values:
     controllers:
       immich-db:
-        initContainers:
+        type: job
+        containers:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
