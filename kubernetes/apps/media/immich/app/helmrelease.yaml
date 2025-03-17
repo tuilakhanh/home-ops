@@ -27,7 +27,7 @@ spec:
     postgres:
       enabled: false
     redis:
-      enabled: true
+      enabled: false
     immich:
       metrics:
         enabled: true
@@ -35,6 +35,7 @@ spec:
         library:
           existingClaim: immich-photos
     env:
+      REDIS_HOSTNAME: "immich-redis.media.svc.cluster.local"
       LOG_LEVEL: verbose
       DB_HOSTNAME:
         valueFrom:
