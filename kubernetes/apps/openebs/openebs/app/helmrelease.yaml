@@ -1,12 +1,18 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrepository-source-v1.json
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
 metadata:
   name: openebs
 spec:
-  interval: 30m
-  url: https://openebs.github.io/openebs
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 4.2.0
+  url: oci://ghcr.io/home-operations/charts-mirror/openebs
+  verify:
+    provider: cosign
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -15,14 +21,9 @@ metadata:
   name: openebs
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: openebs
-      version: 4.2.0
-      interval: 30m
-      sourceRef:
-        kind: HelmRepository
-        name: openebs
+  chartRef:
+    kind: OCIRepository
+    name: openebs
   values:
     localpv-provisioner:
       rbac:
