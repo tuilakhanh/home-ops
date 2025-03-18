@@ -32,17 +32,17 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: sonarr-anime-secret
-                    key: api_key
+                    key: SONARR__AUTH__APIKEY
               SONARR_API_KEY:
                 valueFrom:
                   secretKeyRef:
                     name: sonarr-secret
-                    key: api_key
+                    key: SONARR__AUTH__APIKEY
               RADARR_API_KEY:
                 valueFrom:
                   secretKeyRef:
                     name: radarr-secret
-                    key: api_key
+                    key: RADARR__AUTH__APIKEY
             args: ["sync"]
             securityContext:
               allowPrivilegeEscalation: false
