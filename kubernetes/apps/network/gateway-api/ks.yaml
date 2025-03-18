@@ -9,9 +9,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: adguard-home
-      namespace: network
   path: ./kubernetes/apps/network/gateway-api/cdrs
   prune: true
   sourceRef:

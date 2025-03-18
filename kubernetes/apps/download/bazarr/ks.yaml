@@ -9,9 +9,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: cilium-gateway
-      namespace: network
   interval: 30m
   path: ./kubernetes/apps/download/bazarr/app
   prune: true
