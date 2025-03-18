@@ -19,9 +19,20 @@ spec:
       retries: 3
   values:
     controllers:
+
       vaultwarden:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.4
+            envFrom: &envFrom
+              - secretRef:
+                  name: vaultwarden-secret
+
+
         strategy: RollingUpdate
         containers:
           app:
