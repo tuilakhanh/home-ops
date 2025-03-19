@@ -43,6 +43,7 @@ spec:
       enabled: false
 
     kubeApiServer:
+      enable: false
       serviceMonitor:
         metricRelabelings:
           - action: drop
