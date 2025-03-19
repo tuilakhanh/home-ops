@@ -117,6 +117,6 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: vaultwarden-data
+        existingClaim: *app
         globalMounts:
           - path: /data
