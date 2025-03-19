@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: radarr
+  name: &app radarr
 spec:
   interval: 30m
   chartRef:
@@ -74,7 +74,7 @@ spec:
 
     service:
       radarr:
-        controller: radarr
+        controller: *app
         ports:
           http:
             port: *port
@@ -88,12 +88,12 @@ spec:
           - "radarr.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: radarr
+              - name: *app
                 port: *port
 
     persistence:
       config:
-        existingClaim: radarr-config
+        existingClaim: *app
       add-ons:
         type: emptyDir
       tmp:
