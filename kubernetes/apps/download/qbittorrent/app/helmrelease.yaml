@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: qbittorrent
+  name: &app qbittorrent
 spec:
   interval: 30m
   chartRef:
@@ -15,7 +15,7 @@ spec:
       qbittorrent:
         containers:
           app:
-            nameOverride: qbittorrent
+            nameOverride: *app
             image:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.0.4@sha256:2b94ecf499c4d4634e54e2d2dc2b2ffbb2b6989b5fa0ee03ab9f7823dd74fc70
@@ -55,7 +55,7 @@ spec:
 
     service:
       qbittorrent:
-        controller: qbittorrent
+        controller: *app
         ports:
           http:
             port: *port
@@ -69,13 +69,13 @@ spec:
           - "qbittorrent.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: qbittorrent
+              - name: *app
                 port: *port
 
     persistence:
       config:
         enabled: true
-        existingClaim: qbittorrent-config
+        existingClaim: *app
         advancedMounts:
           qbittorrent:
             app:
