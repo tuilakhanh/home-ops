@@ -76,7 +76,7 @@ spec:
           - "jellyfin.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: jellyfin
+              - name: *app
                 port: 8096
       internal:
         parentRefs:
@@ -86,13 +86,13 @@ spec:
           - "jellyfin.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: jellyfin
+              - name: *app
                 port: 8096
 
 
     persistence:
       config:
-        existingClaim: "jellyfin-data"
+        existingClaim: *app
         advancedMounts:
           jellyfin:
             app:

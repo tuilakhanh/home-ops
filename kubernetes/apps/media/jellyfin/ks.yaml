@@ -9,8 +9,19 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../flux/components/volsync-local
+  dependsOn:
+    - name: openebs
+      namespace: openebs
+    - name: volsync
+      namespace: system
   interval: 30m
   path: ./kubernetes/apps/media/jellyfin/app
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 25Gi
   prune: true
   sourceRef:
     kind: GitRepository
