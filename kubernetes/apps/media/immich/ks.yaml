@@ -54,18 +54,25 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../flux/components/volsync-local
   dependsOn:
-    - name: immich-db
-      namespace: media
-    - name: immich-valkey
-      namespace: media
+    - name: openebs
+      namespace: openebs
+    - name: volsync
+      namespace: system
   interval: 30m
   path: ./kubernetes/apps/media/immich/app
+  postBuild:
+    substitute:
+      APP: *app
+      VOLSYNC_CAPACITY: 80Gi
+      VOLSYNC_CACHE_CAPACITY: 10Gi
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
+  timeout: 10m
   wait: false

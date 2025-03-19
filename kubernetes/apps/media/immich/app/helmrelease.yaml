@@ -33,7 +33,7 @@ spec:
         enabled: true
       persistence:
         library:
-          existingClaim: immich-photos
+          existingClaim: immich
     env:
       REDIS_HOSTNAME: "immich-valkey.media.svc.cluster.local"
       LOG_LEVEL: verbose
