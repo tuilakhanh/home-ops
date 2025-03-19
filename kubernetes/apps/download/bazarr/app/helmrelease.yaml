@@ -81,7 +81,7 @@ spec:
       add-ons:
         type: emptyDir
       config:
-        existingClaim: bazarr-config
+        existingClaim: *app
       config-cache:
         type: emptyDir
         globalMounts:

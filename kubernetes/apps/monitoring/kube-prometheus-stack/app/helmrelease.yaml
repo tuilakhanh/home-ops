@@ -161,8 +161,7 @@ spec:
         # replicaExternalLabelName: "__replica__" # must match with thanos value `.query.replicaLabel[0]`
         resources:
           requests:
-            cpu: 512m
-            memory: 1Gi
+            cpu: 100m
           limits:
             memory: 2Gi
         retention: 14d
