@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sonarr-anime
+  name: &app sonarr-anime
 spec:
   interval: 30m
   chartRef:
@@ -74,7 +74,7 @@ spec:
 
     service:
       sonarr-anime:
-        controller: sonarr-anime
+        controller: *app
         ports:
           http:
             port: *port
@@ -88,12 +88,12 @@ spec:
           - "sonarr-anime.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: sonarr-anime
+              - name: *app
                 port: *port
 
     persistence:
       config:
-        existingClaim: sonarr-anime-config
+        existingClaim: *app
       add-ons:
         type: emptyDir
       tmp:
