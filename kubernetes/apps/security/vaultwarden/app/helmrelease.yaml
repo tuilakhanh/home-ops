@@ -49,6 +49,7 @@ spec:
               DOMAIN: "https://vaultwarden.${SECRET_DOMAIN}"
               SMTP_SECURITY: "force_tls"
               EXPERIMENTAL_CLIENT_FEATURE_FLAGS: "ssh-key-vault-item,ssh-agent"
+              ROCKET_PORT: 5834
             envFrom:
             - secretRef:
                 name: vaultwarden-secret
@@ -71,15 +72,17 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-        seccompProfile: { type: RuntimeDefault }
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+
     service:
       webui:
         controller: *app
         ports:
           http:
-            port: 80
+            port: 5834
 
     route:
       external:
@@ -102,7 +105,7 @@ spec:
                 value: /
             backendRefs:
             - name: webui
-              port: 80
+              port: 5834
       internal:
         parentRefs:
           - name: internal-gateway-cilium
@@ -112,7 +115,7 @@ spec:
         rules:
           -  backendRefs:
               - name: webui
-                port: 80
+                port: 5834
 
     persistence:
       data:
