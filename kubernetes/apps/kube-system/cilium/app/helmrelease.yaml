@@ -35,27 +35,27 @@ spec:
       name: cilium-helm-values
   values:
     hubble:
-      enabled: true
-      metrics:
-        enabled:
-          - dns:query
-          - drop
-          - tcp
-          - flow
-          - icmp
-          - http
-        serviceMonitor:
-          enabled: true
-        dashboards:
-          enabled: true
-      relay:
-        enabled: true
-        rollOutPods: true
-        prometheus:
-          serviceMonitor:
-            enabled: true
-      ui:
-        enabled: true
-        rollOutPods: true
+      enabled: false
+      # metrics:
+      #   enabled:
+      #     - dns:query
+      #     - drop
+      #     - tcp
+      #     - flow
+      #     - icmp
+      #     - http
+      #   serviceMonitor:
+      #     enabled: true
+      #   dashboards:
+      #     enabled: true
+      # relay:
+      #   enabled: true
+      #   rollOutPods: true
+      #   prometheus:
+      #     serviceMonitor:
+      #       enabled: true
+      # ui:
+      #   enabled: true
+      #   rollOutPods: true
     operator:
       tolerations: []
