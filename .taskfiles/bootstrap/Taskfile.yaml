@@ -4,13 +4,10 @@ version: '3'
 
 tasks:
   apps:
-    desc: Bootstrap apps into the K3s cluster
-    cmds:
-      - bash {{.KUBERNETES_DIR}}/bootstrap/apps/resources/prepare.sh
-      - helmfile --file {{.KUBERNETES_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+    desc: Bootstrap apps into the K8s cluster
+    cmd: bash {{.SCRIPTS_DIR}}/bootstrap-apps.sh
     preconditions:
       - test -f {{.KUBECONFIG}}
-      - test -f {{.KUBERNETES_DIR}}/bootstrap/apps/helmfile.yaml
-      - test -f {{.KUBERNETES_DIR}}/bootstrap/apps/resources/prepare.sh
+      - test -f {{.SCRIPTS_DIR}}/bootstrap-apps.sh
+      - test -f {{.ROOT_DIR}}/.sops.yaml
       - test -f {{.SOPS_AGE_KEY_FILE}}
-      - which helmfile
