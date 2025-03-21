@@ -164,7 +164,7 @@ spec:
             cpu: 100m
           limits:
             memory: 2Gi
-        retention: 14d
+        retention: 7d
         retentionSize: 30GB
         storageSpec:
           volumeClaimTemplate:
