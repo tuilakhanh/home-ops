@@ -58,6 +58,6 @@ releases:
     namespace: flux-system
     atomic: true
     chart: controlplaneio/flux-instance
-    version: 0.17.0
+    version: 0.18.0
     values: ['{{ requiredEnv "KUBERNETES_DIR" }}/apps/flux-system/flux-operator/instance/helm-values.yaml']
     needs: ['flux-system/flux-operator']
