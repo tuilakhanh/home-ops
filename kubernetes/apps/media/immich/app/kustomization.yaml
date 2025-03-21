@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./pvc-ml-cache.yaml
   - ./helmrelease.yaml
+  - ./secret.sops.yaml
