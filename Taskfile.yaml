@@ -15,8 +15,10 @@ env:
   SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
 
 includes:
-  bootstrap: .taskfiles/bootstrap
-  template: .taskfiles/template
+  k8s: .taskfiles/k8s/Taskfile.yaml
+  flux: .taskfiles/flux/Taskfile.yaml
+  bootstrap: .taskfiles/bootstrap/Taskfile.yaml
+  volsync: .taskfiles/volsync/Taskfile.yaml
 
 tasks:
 

@@ -1,0 +1,23 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: {{ ENV.APP }}-manual
+  namespace: {{ ENV.NS }}
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: {{ ENV.APP }}-restic-secret
+    destinationPVC: {{ ENV.CLAIM }}
+    copyMethod: Direct
+    # storageClassName: openebs-hostpath
+    cacheStorageClassName: openebs-hostpath
+    previous: {{ ENV.PREVIOUS }}
+    moverSecurityContext:
+      runAsUser: {{ ENV.PUID }}
+      runAsGroup: {{ ENV.PGID }}
+      fsGroup: {{ ENV.PGID }}
+    enableFileDeletion: true
+    cleanupCachePVC: true
+    cleanupTempPVC: true
