@@ -22,6 +22,7 @@ spec:
             env:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
+              QBT_TORRENTING_PORT: &torrentPort 50413
             probes:
               liveness:
                 enabled: true
@@ -55,10 +56,17 @@ spec:
 
     service:
       qbittorrent:
+        type: LoadBalancer
         controller: *app
+        annotations:
+          lbipam.cilium.io/ips: ${LB_QBITTORRENT}
         ports:
           http:
             port: *port
+          bittorrent:
+            enabled: true
+            port: *torrentPort
+            protocol: TCP
 
     route:
       internal:
