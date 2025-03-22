@@ -8,3 +8,4 @@ components:
 resources:
   - ./jellyfin/ks.yaml
   - ./immich/ks.yaml
+  - ./jellyseerr/ks.yaml
