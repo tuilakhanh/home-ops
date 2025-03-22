@@ -35,3 +35,6 @@ spec:
     name: i915
     nodeFeatureRule: false
     sharedDevNum: 4
+    resourceManager: false
+    enableMonitoring: false
+    allocationPolicy: "none"
