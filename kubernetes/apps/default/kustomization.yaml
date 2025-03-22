@@ -6,6 +6,7 @@ namespace: default
 components:
   - ../../flux/components/common
 resources:
+  - ./cyberchef/ks.yaml
   - ./echo-server/ks.yaml
   - ./it-tools/ks.yaml
   - ./wallos/ks.yaml
