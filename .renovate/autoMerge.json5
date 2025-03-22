@@ -7,7 +7,7 @@
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["digest"],
-      "matchPackageNames": ["/bjw-s/", "/onedr0p/"],
+      "matchPackageNames": ["/home-operations/"],
       "ignoreTests": true
     },
     {
@@ -17,15 +17,19 @@
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch", "digest"],
+      "minimumReleaseAge": "3 days",
       "ignoreTests": true
     },
     {
       "description": "Auto-merge Helm Releases",
-      "matchDatasources": ["helm", "docker"],
+      "matchDatasources": ["github-releases"],
       "automerge": true,
-      "automergeType": "pr",
+      "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchDepNames": ["kube-prometheus-stack"],
+      "matchPackageNames": [
+        "/gateway-api/",
+        "/prometheus-operator/",
+      ],
       "ignoreTests": false
     }
   ]
