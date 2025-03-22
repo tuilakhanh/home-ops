@@ -33,4 +33,20 @@ spec:
     metrics:
       enabled: true
     serviceMonitor:
-      enabled: false
+      enabled: true
+      metricRelabelings:
+        - action: drop
+          regex: apiserver_request_duration_seconds_bucket
+          sourceLabels: ["__name__"]
+        - action: drop
+          sourceLabels: ["__name__"]
+          regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
+        - action: drop
+          sourceLabels: ["__name__"]
+          regex: apiserver_(response|watch_events)_sizes_bucket
+        - action: drop
+          sourceLabels: ["__name__"]
+          regex: apiserver_request_body_size_bytes_bucket
+        - action: drop
+          sourceLabels: ["__name__"]
+          regex:  (work|queue)_duration_seconds_bucket
