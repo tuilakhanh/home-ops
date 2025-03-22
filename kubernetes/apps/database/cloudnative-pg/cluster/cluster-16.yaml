@@ -29,7 +29,6 @@ spec:
   resources:
     requests:
       cpu: 200m
-      memory: 500Mi
     limits:
       memory: 2Gi
   backup:
