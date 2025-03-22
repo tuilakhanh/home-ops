@@ -123,4 +123,10 @@ spec:
         globalMounts:
           - path: /mount/disk/
 
+      network:
+        type: hostPath
+        hostPath: "/mnt/network/"
+        globalMounts:
+          - path: /mount/network/
+
 

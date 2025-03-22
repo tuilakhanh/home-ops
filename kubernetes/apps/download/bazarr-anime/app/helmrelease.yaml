@@ -94,5 +94,10 @@ spec:
         hostPath: "/mnt/disk/"
         globalMounts:
           - path: /mnt/disk/
+      network:
+        type: hostPath
+        hostPath: "/mnt/network/"
+        globalMounts:
+          - path: /mount/network/
       tmp:
         type: emptyDir
