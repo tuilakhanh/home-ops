@@ -39,6 +39,7 @@ spec:
             resources:
               requests:
                 cpu: 15m
+                menory: 128Mi
               limits:
                 memory: 512Mi
             securityContext:

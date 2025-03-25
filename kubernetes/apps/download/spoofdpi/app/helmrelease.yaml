@@ -23,6 +23,7 @@ spec:
             resources:
               requests:
                 cpu: 15m
+                menory: 56Mi
               limits:
                 memory: 256Mi
 
