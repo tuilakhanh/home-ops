@@ -22,7 +22,7 @@ spec:
             env:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
-              QBT_TORRENTING_PORT: &torrentPort 50413
+              QBT_TORRENTING_PORT: &torrentPort 19132
             probes:
               liveness:
                 enabled: true
