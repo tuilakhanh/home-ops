@@ -67,6 +67,10 @@ spec:
             enabled: true
             port: *torrentPort
             protocol: TCP
+          bittorrent-utp:
+            enabled: true
+            port: *torrentPort
+            protocol: UDP
 
     route:
       internal:
