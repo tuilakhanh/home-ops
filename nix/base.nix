@@ -44,6 +44,8 @@
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJIbLDWXT1tVlvYvI9SXfEUWUBqDzQcZt5gh3x9psrc bacdau852@gmail.com"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOXhQ7MGDLP+GXi+NtVd8vsQ58PGPKWVW0ODMZipEc6R khoanguyen@DESKTOP-L9174QP"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB76ZswJdQ0PstYXG1Syg0KmkzclsIT/bVB5GZikdVOr tiendat9tc@gmail.com"
   ];
 
   users.users.nixos = {
@@ -51,6 +53,8 @@
     extraGroups = [ "wheel" "incus-admin" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJIbLDWXT1tVlvYvI9SXfEUWUBqDzQcZt5gh3x9psrc bacdau852@gmail.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOXhQ7MGDLP+GXi+NtVd8vsQ58PGPKWVW0ODMZipEc6R khoanguyen@DESKTOP-L9174QP"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB76ZswJdQ0PstYXG1Syg0KmkzclsIT/bVB5GZikdVOr tiendat9tc@gmail.com"
     ];
   };
 
@@ -75,15 +79,24 @@
     powertop
     intel-vaapi-driver
     nvtopPackages.intel
-    stress-ng
-    s-tui
     wget
     unzip
     iperf3
     iotop
+    gdu
+    speedtest-go
+    sysstat
+    pipx
+    smartmontools
+    jdk11
+    mkvtoolnix-cli
+    unrar-free
+    aria2
   ];
 
   services.openssh.enable = true;
+
+  nix.package = lib.mkDefault pkgs.nixVersions.latest;
 
   system.stateVersion = "24.11";
 }
