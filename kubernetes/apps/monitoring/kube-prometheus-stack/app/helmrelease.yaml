@@ -43,7 +43,7 @@ spec:
       enabled: false
 
     kubeApiServer:
-      enable: false
+      enable: true
       serviceMonitor:
         metricRelabelings:
           - action: drop
@@ -61,8 +61,6 @@ spec:
           - action: drop
             sourceLabels: ["__name__"]
             regex:  (work|queue)_duration_seconds_bucket
-        selector:
-          k8s-app: kube-apiserver
 
     kubeControllerManager:
       enabled: false
