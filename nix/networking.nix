@@ -8,23 +8,18 @@
 {
   networking = {
     hostName = specialArgs.hostName;
-    # nftables.enable = true;
-    # firewall = {
-    #   allowedTCPPorts = [
-    #     8443
-    #     53
-    #     67
-    #     6443
-    #   ];
-    #   allowedUDPPorts = [
-    #     53
-    #     67
-    #   ];
-    # };
-    firewall.enable = false;
-    # useDHCP = false;
+    firewall = {
+      enable = false;
+    };
+    nameservers = [
+      "1.1.1.1"
+      "2606:4700:4700::1111 "
+      "1.0.0.1"
+      "2606:4700:4700::1001"
+    ];
   };
-
+  # boot.blacklistedKernelModules = ["netfilter"];
+  boot.kernelModules = ["cls_bpf" "sch_ingress" "crypto_user"];
   # systemd.network = {
   #   enable = true;
   #   netdevs = {
