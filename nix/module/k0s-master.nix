@@ -6,8 +6,8 @@ let
   repo = pname;
   description = "k0s - The Zero Friction Kubernetes";
 
-  version = "1.32.2+k0s.0";
-  hash = "sha256-pMYqtOrjvDa/LPpDH56pkH7dMDQ+MltKmkJhCqfkPy8=";
+  version = "1.32.3+k0s.0";
+  hash = "sha256-4GVUwPvBF8d5JnPlNil8Pnku78sgRXKJ71sCiUzoWy8=";
 
   k0s = pkgs.stdenv.mkDerivation {
     name = "${pname}-${version}";
@@ -20,12 +20,12 @@ let
       install -m 555 -D -- "$src" "$out"/bin/'${pname}'
     '';
     # Metadata required for a real package
-    # meta = with lib; {
-    #   inherit description;
-    #   license = licenses.asl20;
-    #   homepage = "https://k0sproject.io";
-    #   platforms = [ "x86_64-linux" ]; # ARM 32/64 binary releases also available.
-    # };
+    meta = with lib; {
+      inherit description;
+      license = licenses.asl20;
+      homepage = "https://k0sproject.io";
+      platforms = [ "x86_64-linux" ]; # ARM 32/64 binary releases also available.
+    };
   };
 
   # Some minimal sample config
@@ -53,6 +53,17 @@ let
       storage = {
         type = "kine";
       };
+      # workerProfiles = {
+      #   name = "default";
+      #   values = {
+      #     evictionHard = {
+      #       memory.available = "<100Mi";
+      #       nodefs.available = "<1%";
+      #       nodefs.inodesFree = "<1%";
+      #       imagefs.available = "<1%";
+      #     };
+      #   };
+      # };
     };
   });
 in
@@ -80,9 +91,25 @@ in
       LimitCORE = "infinity";
       TasksMax = "infinity";
       TimeoutStartSec = 0;
-      LimitNOFILE = 999999;
+      LimitNOFILE = "infinity";
       Restart = "always";
       ExecStart = "${k0s}/bin/k0s controller --config=${k0sConfig} --data-dir=/var/lib/k0s --single=true --disable-components=metrics-server,coredns,kube-proxy";
     };
+  };
+  systemd.user.extraConfig = "DefaultLimitNOFILE=32000";
+  boot = {
+    kernel.sysctl = {
+      "fs.inotify.max_user_instances" = 8192;
+      "fs.inotify.max_user_watches" = 524288;
+    };
+    kernelModules = [
+      # IPVS for kube-vip
+      "ip_vs"
+      "ip_vs_rr"
+
+      # Wireguard for VPN
+      "tun"
+      "wireguard"
+    ];
   };
 }
