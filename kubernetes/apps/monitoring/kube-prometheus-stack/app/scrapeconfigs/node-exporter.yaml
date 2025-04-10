@@ -13,3 +13,7 @@ spec:
     - action: replace
       targetLabel: job
       replacement: *name
+    - action: replace
+      targetLabel: kubernetes_node
+      replacement: "k0s"
+
