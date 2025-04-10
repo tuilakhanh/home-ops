@@ -1,10 +1,16 @@
 ---
 autoDirectNodeRoutes: true
+bandwidthManager:
+  enabled: true
+  bbr: true
 bpf:
   datapathMode: netkit
   # masquerade: true
   preallocateMaps: true
   # tproxy: true
+bpfClockProbe: true
+cni:
+  exclusive: false
 cgroup:
   automount:
     enabled: false
@@ -16,7 +22,9 @@ devices:
   - tailscale0
 endpointRoutes:
   enabled: true
+enableIPv4BIGTCP: true
 envoy:
+  enabled: false
   rollOutPods: true
 gatewayAPI:
   enabled: true
