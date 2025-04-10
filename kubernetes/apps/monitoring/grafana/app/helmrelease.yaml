@@ -125,6 +125,14 @@ spec:
           revision: 2
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
+        
+        volsync:
+          # renovate: depName="VolSync Dashboard"
+          gnetId: 21356
+          revision: 3
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
 
         # spegel:
         #   # renovate: dashboardName="Spegel"
