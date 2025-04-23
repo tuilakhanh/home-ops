@@ -12,6 +12,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/mendhak/http-https-echo"],
       "versioning": "regex:^(?<major>\\d+)$",
-    }
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/cloudnative-pgvecto.rs/"],
+      "allowedVersions": "<=16"
+    },
   ]
 }

@@ -7,8 +7,16 @@
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["digest"],
-      "matchPackageNames": ["/home-operations/"],
+      "matchPackageNames": ["ghcr.io/home-operations"],
       "ignoreTests": true
+    },
+    {
+      "description": "Auto merge KPS minors and patches",
+      "matchDatasources": ["helm", "docker"],
+      "automerge": true,
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchDepNames": ["kube-prometheus-stack"],
+      "ignoreTests": false
     },
     {
       "description": ["Auto-merge GitHub Actions"],
