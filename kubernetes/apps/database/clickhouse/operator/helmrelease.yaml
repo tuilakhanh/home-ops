@@ -1,0 +1,35 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: clickhouse-operator
+spec:
+  interval: 30m
+  url: https://docs.altinity.com/clickhouse-operator/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: clickhouse-operator
+spec:
+  chart:
+    spec:
+      chart: altinity-clickhouse-operator
+      version: 0.24.5
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: clickhouse-operator
+  maxHistory: 3
+  interval: 30m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    dashboards:
+      enabled: true
+    serviceMonitor:
+      enabled: true
