@@ -12,8 +12,10 @@
       "customType": "regex",
       "description": ["Process Grafana dashboards"],
       "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml$"],
-      "matchStrings": ["depName=\"(?<depName>.*)\"\\n(?<indentation>\\s+)gnetId: (?<packageName>\\d+)\\n.+revision: (?<currentValue>\\d+)"],
-      "autoReplaceStringTemplate": "depName=\"{{{depName}}}\"\n{{{indentation}}}gnetId: {{{packageName}}}\n{{{indentation}}}revision: {{{newValue}}}",
+      "matchStrings": [
+        '# renovate: dashboardName="(?<depName>.*)"\\n(?<indentation>\\s+)gnetId: (?<packageName>\\d+)\\n.+revision: (?<currentValue>\\d+)',
+      ],
+      "autoReplaceStringTemplate": '# renovate: dashboardName="{{{depName}}}"\n{{{indentation}}}gnetId: {{{packageName}}}\n{{{indentation}}}revision: {{{newValue}}}',
       "datasourceTemplate": "custom.grafana-dashboards",
       "versioningTemplate": "regex:^(?<major>\\d+)$"
     }
