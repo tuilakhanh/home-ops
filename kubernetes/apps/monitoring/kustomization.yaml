@@ -16,4 +16,3 @@ resources:
   - ./loki/ks.yaml
   - ./grafana/ks.yaml
   - ./kromgo/ks.yaml
-  - ./otel/ks.yaml
