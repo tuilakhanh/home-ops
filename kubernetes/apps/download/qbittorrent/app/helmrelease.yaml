@@ -60,6 +60,7 @@ spec:
         controller: *app
         annotations:
           lbipam.cilium.io/ips: ${LB_QBITTORRENT}
+        externalTrafficPolicy: Local
         ports:
           http:
             port: *port
