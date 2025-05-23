@@ -44,7 +44,7 @@ spec:
       endpointURL: https://81e69641b977773fe31b62d05f0b44e3.r2.cloudflarestorage.com
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
-      serverName: postgres-homelab-db-1
+      serverName: postgres-homelab-db-2
       s3Credentials: &credentials
         accessKeyId:
           name: cloudnative-pg-secret
@@ -55,7 +55,7 @@ spec:
 
   bootstrap:
     recovery:
-      source: &previousCluster postgres-homelab-db
+      source: &previousCluster postgres-homelab-db-1
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
