@@ -6,8 +6,8 @@ let
   repo = pname;
   description = "k0s - The Zero Friction Kubernetes";
 
-  version = "1.32.3+k0s.0";
-  hash = "sha256-4GVUwPvBF8d5JnPlNil8Pnku78sgRXKJ71sCiUzoWy8=";
+  version = "1.32.4+k0s.0";
+  hash = "sha256-fxXYT5Ddw6F+XuW6y1M7C4iZuPSip+eP627r+Zm1ly8=";
 
   k0s = pkgs.stdenv.mkDerivation {
     name = "${pname}-${version}";
@@ -37,7 +37,7 @@ let
       api = {
         address = "192.168.1.36";
         sans = [
-          "192.168.1.35"
+          "192.168.1.36"
           "k3s-master"
           "100.85.148.46"
         ];
@@ -53,17 +53,6 @@ let
       storage = {
         type = "kine";
       };
-      # workerProfiles = {
-      #   name = "default";
-      #   values = {
-      #     evictionHard = {
-      #       memory.available = "<100Mi";
-      #       nodefs.available = "<1%";
-      #       nodefs.inodesFree = "<1%";
-      #       imagefs.available = "<1%";
-      #     };
-      #   };
-      # };
     };
   });
 in

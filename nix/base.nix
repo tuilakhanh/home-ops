@@ -35,7 +35,11 @@
       "xt_socket"
       "xt_mark"
       "xt_set"
+      "cls_bpf"
+      "sch_ingress"
+      "crypto_user"
     ];
+    blacklistedKernelModules = ["netfilter"];
   };
 
   time.timeZone = "Asia/Ho_Chi_Minh";
@@ -75,7 +79,6 @@
     kubernetes-helm
     kubernetes-helmPlugins.helm-diff
     git
-    iptables
     powertop
     intel-vaapi-driver
     nvtopPackages.intel
@@ -92,7 +95,17 @@
     mkvtoolnix-cli
     unrar-free
     aria2
+    toybox
   ];
+
+  # virtualisation.containers.enable = true;
+  # virtualisation = {
+  #   podman = {
+  #     enable = true;
+  #     defaultNetwork.settings.dns_enabled = true;
+  #   };
+  # };
+
 
   services.openssh.enable = true;
 

@@ -8,6 +8,7 @@
 {
   networking = {
     hostName = specialArgs.hostName;
+    nftables.enable  = true;
     firewall = {
       enable = false;
     };
@@ -18,8 +19,7 @@
       "2606:4700:4700::1001"
     ];
   };
-  # boot.blacklistedKernelModules = ["netfilter"];
-  boot.kernelModules = ["cls_bpf" "sch_ingress" "crypto_user"];
+  
   # systemd.network = {
   #   enable = true;
   #   netdevs = {

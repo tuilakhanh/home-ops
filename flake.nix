@@ -28,8 +28,8 @@
             ./nix/base.nix
             ./nix/host/master
             # ./nix/module/incus.nix
-            # ./nix/module/k3s-master.nix
-            ./nix/module/k0s-master.nix
+            ./nix/module/k3s-master.nix
+            # ./nix/module/k0s-master.nix
             ./nix/module/rclone-mount.nix
             ./nix/module/tailscale.nix
             ./nix/module/node-exporter.nix

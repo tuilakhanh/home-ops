@@ -7,10 +7,6 @@ config,
 }:
 
 {
-  # nixpkgs.overlays = [
-  #   k0s.overlays.default
-  # ];
-
   services.k3s = {
     enable = true;
     role = "server";
@@ -28,38 +24,22 @@ config,
       "--node-label intel.feature.node.kubernetes.io/gpu=true"
     ];
   };
+  systemd.user.extraConfig = "DefaultLimitNOFILE=32000";
+  boot = {
+    kernel.sysctl = {
+      "fs.inotify.max_user_instances" = 8192;
+      "fs.inotify.max_user_watches" = 524288;
+    };
+    kernelModules = [
+      # IPVS for kube-vip
+      "ip_vs"
+      "ip_vs_rr"
+
+      # Wireguard for VPN
+      "tun"
+      "wireguard"
+    ];
+  };
   systemd.services.k3s.serviceConfig.LimitNOFILE = lib.mkIf config.services.k3s.enable (lib.mkForce "infinity");
   systemd.services.k3s.serviceConfig.LimitNOFILESoft = lib.mkIf config.services.k3s.enable (lib.mkForce "infinity");
-
-  # services.k0s = {
-  #   enable = true;
-  #   role = "single";
-  #   isLeader = true;
-  #   spec = {
-  #     api = {
-  #       address = "192.168.1.36";
-  #       sans = [
-  #         "192.168.1.36"
-  #         "100.85.148.46"
-  #         "k3s-master"
-  #       ];
-  #     };
-  #     network = {
-  #       provider = "custom";
-  #       kubeProxy = {
-  #         disabled = true;
-  #       };
-  #     };
-  #   };
-  # };
-
-  # virtualisation.containerd = {
-  #   enable = true;
-  # };
-
-  # environment = {
-  #   systemPackages = [
-  #     k0s.packages.x86_64-linux.k0s
-  #   ];
-  # };
 }
