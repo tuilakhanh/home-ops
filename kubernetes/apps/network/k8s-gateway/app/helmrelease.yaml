@@ -34,11 +34,14 @@ spec:
     fullnameOverride: k8s-gateway
     domain: "${SECRET_DOMAIN}"
     ttl: 1
+    image:
+      repository: ghcr.io/k8s-gateway/k8s_gateway
+      tag: 1.2.1
     service:
       type: LoadBalancer
       port: 53
       annotations:
         lbipam.cilium.io/ips: ${CORE_DNS_VIP}
       externalTrafficPolicy: Cluster
-    watchedResources: ["HttpRoute", "Service"]
+    watchedResources: ["HTTPRoute", "Service"]
 
