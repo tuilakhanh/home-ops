@@ -1,0 +1,8 @@
+originRequest:
+  originServerName: external.tuilakhanh.id.vn
+ingress:
+  - hostname: tuilakhanh.id.vn
+    service: https://cilium-gateway-external-gateway-cilium.kube-system.svc.cluster.local
+  - hostname: '*.tuilakhanh.id.vn'
+    service: https://cilium-gateway-external-gateway-cilium.kube-system.svc.cluster.local
+  - service: http_status:404

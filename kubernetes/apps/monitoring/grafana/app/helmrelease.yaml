@@ -107,6 +107,20 @@ spec:
           revision: 3
           datasource: Prometheus
 
+        cloudflared:
+          # renovate: dashboardName="Cloudflare Tunnels (cloudflared)"
+          gnetId: 17457
+          revision: 6
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+
+        external-dns:
+          # renovate: dashboardName="External-DNS"
+          gnetId: 15038
+          revision: 3
+          datasource: Prometheus
+
         node-exporter:
           # renovate: depName="Node Exporter"
           gnetId: 11074
@@ -125,7 +139,7 @@ spec:
           revision: 2
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
-        
+
         volsync:
           # renovate: depName="VolSync Dashboard"
           gnetId: 21356

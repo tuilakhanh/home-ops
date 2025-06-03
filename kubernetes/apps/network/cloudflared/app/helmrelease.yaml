@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-cloudflare
+  name: cloudflared
 spec:
   interval: 30m
   chartRef:
@@ -19,56 +19,48 @@ spec:
       retries: 3
   values:
     controllers:
-      external-dns-cloudflare:
+      cloudflared:
+        replicas: 1
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: registry.k8s.io/external-dns/external-dns
-              tag: v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f
-            args:
-              - --cloudflare-dns-records-per-page=1000
-              - --domain-filter=${SECRET_DOMAIN}
-              - --events
-              - --gateway-name=external-gateway-cilium
-              - --interval=1m
-              - --log-format=text
-              - --log-level=debug
-              - --policy=sync
-              - --provider=cloudflare
-              - --registry=txt
-              - --source=gateway-httproute
-              - --txt-owner-id=k8s
-              - --txt-prefix=k8s.
-              - --zone-id-filter=$(CF_ZONE_ID)
+              repository: docker.io/cloudflare/cloudflared
+              tag: 2025.5.0@sha256:f9d5c5b94cd7337c0c939a6dbf5537db34030828c243fca6b589fd85ab25d43b
+            env:
+              NO_AUTOUPDATE: true
+              TUNNEL_METRICS: 0.0.0.0:8080
+              TUNNEL_ORIGIN_ENABLE_HTTP2: true
+              TUNNEL_POST_QUANTUM: true
+              TUNNEL_TRANSPORT_PROTOCOL: quic
             envFrom:
               - secretRef:
-                  name: external-dns-cloudflare-secret
+                  name: cloudflared-secret
+            args: ["tunnel", "run"]
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /healthz
-                    port: &port 7979
+                    path: /ready
+                    port: &port 8080
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 64Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-        serviceAccount:
-          name: *app
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -76,11 +68,20 @@ spec:
         runAsGroup: 568
     service:
       app:
+        controller: cloudflared
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: *app
+        serviceName: cloudflared
         endpoints:
           - port: http
+    persistence:
+      config-file:
+        type: configMap
+        name: cloudflared-configmap
+        globalMounts:
+          - path: /etc/cloudflared/config.yaml
+            subPath: config.yaml
+            readOnly: true
