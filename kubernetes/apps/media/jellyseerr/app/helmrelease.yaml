@@ -63,7 +63,7 @@ spec:
 
     service:
       app:
-        controller: *app
+        controller: jellyseerr
         ports:
           http:
             port: *port
@@ -77,7 +77,7 @@ spec:
           - "jellyseerr.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: *app
+              - indentifier: app
                 port: *port
       internal:
         parentRefs:
@@ -87,7 +87,7 @@ spec:
           - "jellyseerr.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: *app
+              - indentifier: app
                 port: *port
 
     persistence:

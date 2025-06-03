@@ -58,6 +58,7 @@ spec:
                     name: immich-db-secret
                     key: DB_PASSWORD
               DB_DATABASE_NAME: "immich"
+              MPLCONFIGDIR: "/cache/matplotlib"
 
       machine-learning:
         strategy: RollingUpdate
@@ -86,7 +87,7 @@ spec:
 
     service:
       server:
-        controller: *app
+        controller: server
         ports:
           http:
             port: 2283
@@ -110,7 +111,7 @@ spec:
           - "immich.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: *app
+              - identifier: server
                 port: 2283
       internal:
         parentRefs:
@@ -120,7 +121,7 @@ spec:
           - "immich.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: *app
+              - identifier: server
                 port: 2283
 
     persistence:
@@ -140,6 +141,13 @@ spec:
                 subPath: geocoding
               - path: /usr/src/app/.transformers_cache
                 subPath: transformers
+
+      matplotlib:
+        type: emptyDir
+        advancedMounts:
+          server:
+            main:
+              - path: /config/matplotlib
 
       cache:
         existingClaim: immich-ml-cache
