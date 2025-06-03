@@ -1,15 +1,28 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: externaldns
+spec:
+  interval: 5m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 1.16.1
+  url: oci://ghcr.io/home-operations/charts-mirror/external-dns
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-cloudflare
+  name: &app externaldns-cloudflare
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: externaldns
   install:
     remediation:
       retries: 3
@@ -18,72 +31,34 @@ spec:
     remediation:
       retries: 3
   values:
-    controllers:
-      external-dns-cloudflare:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          app:
-            image:
-              repository: registry.k8s.io/external-dns/external-dns
-              tag: v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f
-            args:
-              - --cloudflare-dns-records-per-page=1000
-              - --cloudflare-proxied
-              - --domain-filter=${SECRET_DOMAIN}
-              - --events
-              - --gateway-name=external-gateway-cilium
-              - --interval=1m
-              - --log-format=text
-              - --log-level=debug
-              - --policy=sync
-              - --provider=cloudflare
-              - --registry=txt
-              - --source=gateway-httproute
-              - --txt-owner-id=k8s
-              - --txt-prefix=k8s.
-              - --zone-id-filter=$(CF_ZONE_ID)
-              - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-              - --crd-source-kind=DNSEndpoint
-            envFrom:
-              - secretRef:
-                  name: external-dns-cloudflare-secret
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /healthz
-                    port: &port 7979
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 64Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
-        serviceAccount:
-          name: *app
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-    service:
-      app:
-        ports:
-          http:
-            port: *port
+    fullnameOverride: *app
+    provider:
+      name: cloudflare
+    env:
+      - name: &name CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: &secret external-dns-cloudflare-secret
+            key: *name
+      - name: &name CF_ZONE_ID
+        valueFrom:
+          secretKeyRef:
+            name: *secret
+            key: *name
+    extraArgs:
+      - --cloudflare-dns-records-per-page=1000
+      - --cloudflare-proxied
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --gateway-name=external-gateway-cilium
+      - --zone-id-filter=$(CF_ZONE_ID)
+    triggerLoopOnEvent: true
+    policy: sync
+    sources: ["crd", "gateway-httproute"]
+    txtOwnerId: k8s
+    txtPrefix: k8s.
+    domainFilters: ["${SECRET_DOMAIN}"]
     serviceMonitor:
-      app:
-        serviceName: *app
-        endpoints:
-          - port: http
+      enabled: true
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *secret
