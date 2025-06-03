@@ -75,7 +75,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
 
     service:
-      prowlarr:
+      app:
         controller: *app
         ports:
           http:
@@ -90,7 +90,7 @@ spec:
           - "prowlarr.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: *app
+              - identifier: app
                 port: *port
 
     persistence:

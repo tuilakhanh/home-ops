@@ -35,7 +35,18 @@ spec:
               HEALTH_PORT: &healthPort 8888
               SERVER_PORT: &port 8080
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /-/health
+                    port: *healthPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+                  failureThreshold: 5
+              readiness:
                 enabled: true
                 custom: true
                 spec:
@@ -43,10 +54,9 @@ spec:
                     path: /-/ready
                     port: *healthPort
                   initialDelaySeconds: 0
-                  periodSeconds: 10
+                  periodSeconds: 5
                   timeoutSeconds: 1
                   failureThreshold: 3
-              readiness: *probes
             resources:
               requests:
                 cpu: 10m
@@ -78,7 +88,7 @@ spec:
           - "kromgo.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: app
+              - identifier: app
                 port: *port
     persistence:
       config-file:

@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -19,7 +19,6 @@ spec:
       retries: 3
   values:
     controllers:
-
       vaultwarden:
         annotations:
           reloader.stakater.com/auto: "true"
@@ -31,8 +30,6 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: vaultwarden-secret
-
-
         strategy: RollingUpdate
         containers:
           app:
@@ -78,7 +75,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
 
     service:
-      webui:
+      app:
         controller: *app
         ports:
           http:
@@ -97,14 +94,14 @@ spec:
                 type: PathPrefix
                 value: /admin
             backendRefs:
-            - name: webui
+            - identifier: app
               port: 9999 # Disable access to the admin panel,
           - matches:
             - path:
                 type: PathPrefix
                 value: /
             backendRefs:
-            - name: webui
+            - identifier: app
               port: 5834
       internal:
         parentRefs:
@@ -114,7 +111,7 @@ spec:
           - "vaultwarden.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: webui
+              - identifier: app
                 port: 5834
 
     persistence:

@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -75,18 +75,7 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    # ingress:
-    #   app:
-    #     className: external
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-    #     hosts:
-    #       - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
+
     route:
       external:
         parentRefs:
@@ -96,7 +85,7 @@ spec:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
           - backendRefs:
-            - name: echo-server
+            - identifier: app
               port: 8080
       internal:
         parentRefs:
@@ -106,5 +95,5 @@ spec:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: echo-server
+              - identifier: app
                 port: 8080

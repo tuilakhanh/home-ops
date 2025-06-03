@@ -69,25 +69,16 @@ spec:
             port: *port
 
     route:
-      external:
-        parentRefs:
-          - name: external-gateway-cloudflare
-            namespace: network
+      app:
         hostnames:
-          - "jellyseerr.${SECRET_DOMAIN}"
-        rules:
-          -  backendRefs:
-              - indentifier: app
-                port: *port
-      internal:
+          - jellyseerr.${SECRET_DOMAIN}
+          - requests.${SECRET_DOMAIN}
         parentRefs:
-          - name: internal-gateway-cilium
+          - name: external-gateway-cilium
             namespace: network
-        hostnames:
-          - "jellyseerr.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
-              - indentifier: app
+          - backendRefs:
+              - identifier: app
                 port: *port
 
     persistence:

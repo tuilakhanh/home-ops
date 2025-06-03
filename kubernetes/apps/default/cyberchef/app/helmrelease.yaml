@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -19,7 +19,7 @@ spec:
       retries: 3
   values:
     controllers:
-      app:
+      cyberchef:
         strategy: RollingUpdate
         containers:
           app:
@@ -40,7 +40,7 @@ spec:
 
     service:
       app:
-        controller: app
+        controller: cyberchef
         ports:
           http:
             port: 80
@@ -54,7 +54,7 @@ spec:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
           - backendRefs:
-            - name: *app
+            - identifier: app
               port: 80
       internal:
         parentRefs:
@@ -64,5 +64,5 @@ spec:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
           -  backendRefs:
-              - name: *app
+              - identifier: app
                 port: 80

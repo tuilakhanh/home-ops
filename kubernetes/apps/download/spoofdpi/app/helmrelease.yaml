@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -12,7 +12,7 @@ spec:
     namespace: flux-system
   values:
     controllers:
-      app:
+      spoofdpi:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -29,7 +29,7 @@ spec:
 
     service:
       app:
-        controller: app
+        controller: spoofdpi
         ports:
           http:
             port: 8080
