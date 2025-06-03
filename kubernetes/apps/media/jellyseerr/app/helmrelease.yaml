@@ -71,7 +71,6 @@ spec:
     route:
       app:
         hostnames:
-          - jellyseerr.${SECRET_DOMAIN}
           - requests.${SECRET_DOMAIN}
         parentRefs:
           - name: external-gateway-cilium
