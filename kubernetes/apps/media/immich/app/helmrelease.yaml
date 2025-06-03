@@ -12,18 +12,26 @@ spec:
     namespace: flux-system
   values:
     controllers:
-      immich:
+      server:
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
         initContainers:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 17.5
+              tag: 17.5@sha256:e0c87ce7df39d06b93f27cf2cc6a056611f13faaa88cc07ab4dc8bf7a85d0b11
             envFrom: &envFrom
               - secretRef:
                   name: immich-db-secret
-
         containers:
           app:
             image:
@@ -52,6 +60,15 @@ spec:
               DB_DATABASE_NAME: "immich"
 
       machine-learning:
+        strategy: RollingUpdate
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
@@ -64,11 +81,11 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/valkey/valkey # https://github.com/valkey-io/valkey-container/issues/17 Need move to ghcr.io
-              tag: 8.1.1
+              repository: ghcr.io/valkey-io/valkey
+              tag: alpine3.21@sha256:1246226d40b9c083272fc031b22f38cfcb4ab730f72c24550d241e62bc0c3651
 
     service:
-      immich:
+      server:
         controller: *app
         ports:
           http:
@@ -110,15 +127,30 @@ spec:
       data:
         existingClaim: *app
         advancedMounts:
-          immich:
+          server:
             app:
               - path: /usr/src/app/upload
+
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          server:
+            app:
+              - path: /usr/src/app/.reverse-geocoding-dump
+                subPath: geocoding
+              - path: /usr/src/app/.transformers_cache
+                subPath: transformers
+
       cache:
         existingClaim: immich-ml-cache
         advancedMounts:
           machine-learning:
             app:
               - path: /cache
+                subPath: cache
+              - path: /.cache
+                subPath: dotCache
+
       dev:
         type: hostPath
         hostPath: /dev
