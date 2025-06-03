@@ -5,7 +5,7 @@ metadata:
   name: flux-webhook
 spec:
   parentRefs:
-  - name: external-gateway-cloudflare
+  - name: external-gateway-cilium
     namespace: network
   hostnames:
   - "flux-webhook.${SECRET_DOMAIN}"

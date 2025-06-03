@@ -46,9 +46,9 @@ spec:
             port: 80
 
     route:
-      external:
+      app:
         parentRefs:
-          - name: external-gateway-cloudflare
+          - name: external-gateway-cilium
             namespace: network
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -56,16 +56,6 @@ spec:
           - backendRefs:
             - identifier: app
               port: 80
-      internal:
-        parentRefs:
-          - name: internal-gateway-cilium
-            namespace: network
-        hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-        rules:
-          -  backendRefs:
-              - identifier: app
-                port: 80
 
     persistence:
       config:

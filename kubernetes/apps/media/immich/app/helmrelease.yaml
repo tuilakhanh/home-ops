@@ -103,19 +103,9 @@ spec:
             port: 6379
 
     route:
-      external:
+      app:
         parentRefs:
-          - name: external-gateway-cloudflare
-            namespace: network
-        hostnames:
-          - "immich.${SECRET_DOMAIN}"
-        rules:
-          -  backendRefs:
-              - identifier: server
-                port: 2283
-      internal:
-        parentRefs:
-          - name: internal-gateway-cilium
+          - name: external-gateway-cilium
             namespace: network
         hostnames:
           - "immich.${SECRET_DOMAIN}"

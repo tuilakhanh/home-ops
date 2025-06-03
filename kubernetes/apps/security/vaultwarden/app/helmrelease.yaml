@@ -47,6 +47,7 @@ spec:
               SMTP_SECURITY: "force_tls"
               EXPERIMENTAL_CLIENT_FEATURE_FLAGS: "ssh-key-vault-item,ssh-agent"
               ROCKET_PORT: 5834
+              ADMIN_TOKEN: ""
             envFrom:
             - secretRef:
                 name: vaultwarden-secret
@@ -82,30 +83,9 @@ spec:
             port: 5834
 
     route:
-      external:
+      app:
         parentRefs:
-          - name: external-gateway-cloudflare
-            namespace: network
-        hostnames:
-          - "vaultwarden.${SECRET_DOMAIN}"
-        rules:
-          - matches:
-            - path:
-                type: PathPrefix
-                value: /admin
-            backendRefs:
-            - identifier: app
-              port: 9999 # Disable access to the admin panel,
-          - matches:
-            - path:
-                type: PathPrefix
-                value: /
-            backendRefs:
-            - identifier: app
-              port: 5834
-      internal:
-        parentRefs:
-          - name: internal-gateway-cilium
+          - name: external-gateway-cilium
             namespace: network
         hostnames:
           - "vaultwarden.${SECRET_DOMAIN}"

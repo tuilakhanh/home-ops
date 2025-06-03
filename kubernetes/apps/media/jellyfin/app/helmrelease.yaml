@@ -69,19 +69,9 @@ spec:
 
 
     route:
-      external:
+      app:
         parentRefs:
-          - name: external-gateway-cloudflare
-            namespace: network
-        hostnames:
-          - "jellyfin.${SECRET_DOMAIN}"
-        rules:
-          -  backendRefs:
-              - identifier: app
-                port: 8096
-      internal:
-        parentRefs:
-          - name: internal-gateway-cilium
+          - name: external-gateway-cilium
             namespace: network
         hostnames:
           - "jellyfin.${SECRET_DOMAIN}"

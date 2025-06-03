@@ -77,9 +77,9 @@ spec:
             scrapeTimeout: 10s
 
     route:
-      external:
+      app:
         parentRefs:
-          - name: external-gateway-cloudflare
+          - name: external-gateway-cilium
             namespace: network
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -87,13 +87,3 @@ spec:
           - backendRefs:
             - identifier: app
               port: 8080
-      internal:
-        parentRefs:
-          - name: internal-gateway-cilium
-            namespace: network
-        hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
-        rules:
-          -  backendRefs:
-              - identifier: app
-                port: 8080
