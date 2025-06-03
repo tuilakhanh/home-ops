@@ -80,7 +80,7 @@ spec:
             port: *port
 
     route:
-      internal:
+      app:
         parentRefs:
           - name: internal-gateway-cilium
             namespace: network
