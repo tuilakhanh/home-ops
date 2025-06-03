@@ -1,9 +1,0 @@
----
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- github.com/pl4nty/cloudflare-kubernetes-gateway//config/default?ref=v0.8.1
-- ./gateway.yaml
-- ./gatewayclass.yaml
-- ./secrect.sops.yaml
-

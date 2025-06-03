@@ -8,7 +8,6 @@ components:
 resources:
   - ./gateway-api/ks.yaml
   - ./cilium-gateway/ks.yaml
-  - ./cloudflare-gateway/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./adguard-home/ks.yaml
   - ./external-dns/ks.yaml
