@@ -7,6 +7,7 @@ spec:
   parentRefs:
   - name: external-gateway-cilium
     namespace: network
+    sectionName: https
   hostnames:
   - "flux-webhook.${SECRET_DOMAIN}"
   rules:
@@ -16,4 +17,5 @@ spec:
         value: /hook/
     backendRefs:
     - name: webhook-receiver
+      namespace: flux-system
       port: 80
