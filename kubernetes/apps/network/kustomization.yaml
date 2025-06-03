@@ -11,3 +11,4 @@ resources:
   - ./cloudflare-gateway/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./adguard-home/ks.yaml
+  - ./external-dns/ks.yaml
