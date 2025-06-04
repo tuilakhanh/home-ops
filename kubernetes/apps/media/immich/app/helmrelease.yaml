@@ -83,7 +83,7 @@ spec:
           app:
             image:
               repository: ghcr.io/valkey-io/valkey
-              tag: alpine3.21@sha256:1246226d40b9c083272fc031b22f38cfcb4ab730f72c24550d241e62bc0c3651
+              tag: alpine3.21@sha256:6a57d58c0a37cf7acc3045ac0fd6dd91be339774106ab4d9ca088013a096a99f
 
     service:
       server:
