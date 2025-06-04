@@ -43,6 +43,10 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 100m
@@ -89,19 +93,6 @@ spec:
             app:
               - path: /config
 
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /cache
-                subPath: cache
-              - path: /transcode
-                subPath: transcode
-
-      tmp:
-        type: emptyDir
-
       library:
         type: hostPath
         hostPath: "/mnt/media/"
@@ -119,5 +110,19 @@ spec:
         hostPath: "/mnt/network/"
         globalMounts:
           - path: /mount/network/
+
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /config/log
+                subPath: log
+              - path: /tmp
+                subPath: tmp
+              - path: /transcode
+                subPath: transcode
 
 
