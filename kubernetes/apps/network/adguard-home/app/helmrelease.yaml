@@ -28,9 +28,15 @@ spec:
               tag: v0.107.62
             env:
               TZ: ${TIMEZONE}
+            probes:
+              liveness: &probe
+                type: HTTP
+                path: /login.html
+              readiness: *probe
+              startup: *probe
 
     service:
-      adguard:
+      app:
         controller: adguard
         type: LoadBalancer
         externalTrafficPolicy: Local
@@ -38,34 +44,63 @@ spec:
           lbipam.cilium.io/ips: ${ADGUARD_HOME_LB_VIP}
         ports:
           http:
-            primary: true
             port: 3000
+          https:
+            port: 443
           dns-tcp:
             port: 53
             protocol: TCP
           dns-udp:
             port: 53
             protocol: UDP
+          tls-tcp:
+            port: 853
+            protocol: TCP
+          tls-udp:
+            port: 853
+            protocol: UDP
 
     route:
-      internal:
+      app:
         parentRefs:
           - name: internal-gateway-cilium
             namespace: network
         hostnames:
-          - "adguard-home.${SECRET_DOMAIN}"
+          - "dns.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
-              - name: adguard
+          - backendRefs:
+              - identifier: app
                 port: 3000
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /dns-query
+            backendRefs:
+              - identifier: app
+                port: 443
 
     persistence:
-      data:
+      config:
         enabled: true
         existingClaim: adguard-home
         globalMounts:
-          - path: /opt/adguardhome/work
           - path: /opt/adguardhome/conf
+            subPath: conf
+
+      work:
+        enabled: true
+        existingClaim: adguard-home-work
+        globalMounts:
+          - path: /opt/adguardhome/work
+            subPath: work
+
+      tls:
+        enabled: true
+        type: secret
+        name: tls-adguard
+        globalMounts:
+          - path: /opt/adguardhome/ssl/certs/
+            readOnly: true
 
 
 
