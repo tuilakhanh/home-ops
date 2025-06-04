@@ -1,5 +1,6 @@
 originRequest:
   originServerName: external.tuilakhanh.id.vn
+  http2Origin: true
 ingress:
   - hostname: tuilakhanh.id.vn
     service: https://cilium-gateway-external-gateway-cilium.network.svc.cluster.local
