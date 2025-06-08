@@ -112,8 +112,7 @@ spec:
           gnetId: 17457
           revision: 6
           datasource:
-            - name: DS_PROMETHEUS
-              value: Prometheus
+            - {name: DS_PROMETHEUS, value: Prometheus}
 
         external-dns:
           # renovate: dashboardName="External-DNS"
@@ -131,7 +130,8 @@ spec:
           # renovate: dashboardName="Node Exporter Full"
           gnetId: 1860
           revision: 40
-          datasource: Prometheus
+          datasource:
+           - {name: DS_PROMETHEUS, value: Prometheus}
 
         smartctl-exporter:
           # renovate: depName="SMARTctl Exporter Dashboard"
