@@ -6,6 +6,8 @@ namespace: monitoring
 components:
   - ../../flux/components/common
 resources:
+  - ./exporters
+
   - ./alertmanager/ks.yaml
   - ./node-exporter/ks.yaml
   - ./smartctl-exporter/ks.yaml
