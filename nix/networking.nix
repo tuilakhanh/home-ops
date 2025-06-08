@@ -8,7 +8,10 @@
 {
   networking = {
     hostName = specialArgs.hostName;
-    nftables.enable  = true;
+    networkmanager.enable = true;
+    nat = {
+      enable = false;
+    };
     firewall = {
       enable = false;
     };
@@ -19,7 +22,7 @@
       "2606:4700:4700::1001"
     ];
   };
-  
+
   # systemd.network = {
   #   enable = true;
   #   netdevs = {

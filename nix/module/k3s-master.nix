@@ -2,7 +2,6 @@
 lib,
 specialArgs,
 config,
-# k0s,
 ...
 }:
 
@@ -24,22 +23,12 @@ config,
       "--node-label intel.feature.node.kubernetes.io/gpu=true"
     ];
   };
-  systemd.user.extraConfig = "DefaultLimitNOFILE=32000";
-  boot = {
-    kernel.sysctl = {
-      "fs.inotify.max_user_instances" = 8192;
-      "fs.inotify.max_user_watches" = 524288;
-    };
-    kernelModules = [
-      # IPVS for kube-vip
-      "ip_vs"
-      "ip_vs_rr"
+  networking.interfaces.dummy0.ipv4.addresses = [
+    { address = "169.254.169.254"; prefixLength = 32; }
+  ];
 
-      # Wireguard for VPN
-      "tun"
-      "wireguard"
-    ];
-  };
+  networking.interfaces.dummy0.ipv6.addresses = [
+    { address = "fd00:ec2::254"; prefixLength = 128; }
+  ];
   systemd.services.k3s.serviceConfig.LimitNOFILE = lib.mkIf config.services.k3s.enable (lib.mkForce "infinity");
-  systemd.services.k3s.serviceConfig.LimitNOFILESoft = lib.mkIf config.services.k3s.enable (lib.mkForce "infinity");
 }

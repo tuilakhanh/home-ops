@@ -17,30 +17,35 @@
         enable = true;
       };
     };
-
+    kernelPackages = pkgs.linuxPackages_cachyos;
     kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;
       "net.core.rmem_max" = 7500000; # Cloudflared | QUIC
       "net.core.wmem_max" = 7500000; # Cloudflared | QUIC
+      "fs.inotify.max_user_instances" = 8192;
+      "fs.inotify.max_user_watches" = 524288;
     };
     kernelModules = [
-      "ip6table_filter"
-      "iptable_raw"
-      "iptable_nat"
-      "iptable_filter"
-      "iptable_mangle"
-      "ip_set"
-      "ip_set_hash_ip"
+      # "ip6table_filter"
+      # "iptable_raw"
+      # "iptable_nat"
+      # "iptable_filter"
+      # "iptable_mangle"
+      # "ip_set"
+      # "ip_set_hash_ip"
       "xt_socket"
       "xt_mark"
       "xt_set"
       "cls_bpf"
       "sch_ingress"
       "crypto_user"
+      # "dummy"
     ];
-    blacklistedKernelModules = ["netfilter"];
+    # blacklistedKernelModules = ["netfilter"];
   };
+
+  # services.scx.enable = true;
 
   time.timeZone = "Asia/Ho_Chi_Minh";
 
@@ -73,11 +78,7 @@
   environment.systemPackages = with pkgs; [
     vim
     btop
-    dig
-    helmfile
-    fluxcd
     kubernetes-helm
-    kubernetes-helmPlugins.helm-diff
     git
     powertop
     intel-vaapi-driver
@@ -96,6 +97,9 @@
     unrar-free
     aria2
     toybox
+    fastfetch
+    qbittorrent-nox
+    byedpi
   ];
 
   # virtualisation.containers.enable = true;
@@ -111,5 +115,5 @@
 
   nix.package = lib.mkDefault pkgs.nixVersions.latest;
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }

@@ -4,18 +4,14 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
-
-    k0s = {
-      url = "github:johbo/k0s-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # IMPORTANT
   };
 
   outputs = {
     self,
     disko,
     flake-parts,
-    k0s,
+    chaotic,
     ...
   } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -24,19 +20,17 @@
         nixosConfigurations.k3s-master = inputs.nixpkgs.lib.nixosSystem {
           modules = [
             disko.nixosModules.disko
-            k0s.nixosModules.default
+            chaotic.nixosModules.default
             ./nix/base.nix
             ./nix/host/master
             # ./nix/module/incus.nix
             ./nix/module/k3s-master.nix
-            # ./nix/module/k0s-master.nix
             ./nix/module/rclone-mount.nix
             ./nix/module/tailscale.nix
             ./nix/module/node-exporter.nix
           ];
           specialArgs = {
             inherit inputs;
-            inherit k0s;
             hostName = "k3s-master";
           };
         };
