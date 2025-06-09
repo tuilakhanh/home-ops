@@ -103,5 +103,10 @@ spec:
         type: hostPath
         hostPath: "/mnt/network/"
         globalMounts:
-          - path: /mount/network/
+          - path: /mnt/network/
 
+      stuff:
+        type: hostPath
+        hostPath: "/data/"
+        globalMounts:
+          - path: /mnt/nvme/

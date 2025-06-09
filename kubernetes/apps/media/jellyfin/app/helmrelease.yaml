@@ -126,3 +126,10 @@ spec:
                 subPath: transcode
 
 
+      stuff:
+        type: hostPath
+        hostPath: "/data/"
+        globalMounts:
+          - path: /mnt/nvme/
+
+

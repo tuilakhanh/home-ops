@@ -97,3 +97,9 @@ spec:
           - path: /mnt/disk/
       tmp:
         type: emptyDir
+      stuff:
+        type: hostPath
+        hostPath: "/data/"
+        globalMounts:
+          - path: /mnt/nvme/
+
