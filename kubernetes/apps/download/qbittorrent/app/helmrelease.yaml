@@ -56,11 +56,13 @@ spec:
 
     service:
       app:
+        forceRename: qbittorrent
+        primary: true
         type: LoadBalancer
         controller: *app
         annotations:
           lbipam.cilium.io/ips: ${LB_QBITTORRENT}
-        externalTrafficPolicy: Local
+        # externalTrafficPolicy: Local
         ports:
           http:
             port: *port
@@ -68,7 +70,13 @@ spec:
             enabled: true
             port: *torrentPort
             protocol: TCP
-          bittorrentu:
+      udp:
+        type: LoadBalancer
+        controller: *app
+        annotations:
+          lbipam.cilium.io/ips: ${LB_QBITTORRENT_UDP}
+        ports:
+          bittorrentudp:
             enabled: true
             port: *torrentPort
             protocol: UDP
