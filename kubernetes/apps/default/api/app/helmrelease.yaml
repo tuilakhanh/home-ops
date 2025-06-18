@@ -1,0 +1,61 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app api
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      api:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/buiductrieu/sworkapi
+              tag: latest@sha256:a196e41fe64e8e6a9016aa8270d60cb5aa138751dec60bd8d366d9f1b8549550
+            envFrom:
+              - secretRef:
+                  name: api-secret
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 25Mi
+              limits:
+                memory: 512Mi
+
+    service:
+      app:
+        controller: api
+        ports:
+          http:
+            port: 80
+
+    route:
+      app:
+        parentRefs:
+          - name: external-gateway-cilium
+            namespace: network
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        rules:
+          - backendRefs:
+            - identifier: app
+              port: 80
