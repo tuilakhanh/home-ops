@@ -37,7 +37,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               # renovate: datasource=github-releases depName=immich-app/immich
-              tag: v1.134.0
+              tag: v1.135.0
             env: &env
               REDIS_HOSTNAME: "immich-valkey.media.svc.cluster.local"
               IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.media.svc.cluster.local:3003"
