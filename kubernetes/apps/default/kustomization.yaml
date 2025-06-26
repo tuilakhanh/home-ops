@@ -12,4 +12,3 @@ resources:
   - ./wallos/ks.yaml
   - ./rss-forwarder/ks.yaml
   - ./api/ks.yaml
-  - ./erpnext/ks.yaml
