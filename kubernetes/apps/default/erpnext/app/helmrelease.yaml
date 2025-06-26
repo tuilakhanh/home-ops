@@ -1,0 +1,38 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: erpnext
+spec:
+  interval: 30m
+  url: https://helm.erpnext.com/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: erpnext
+spec:
+  chart:
+    spec:
+      chart: erpnext
+      version: 7.0.209
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: erpnext
+  maxHistory: 3
+  interval: 30m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    persistence:
+      worker:
+        storageClass: openebs-hostpath
+    jobs:
+      migrate:
+        enabled: true
+        siteName: erpnext.${SECRET_DOMAIN}
