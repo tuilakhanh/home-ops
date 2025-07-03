@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/sworkapi
-              tag: latest@sha256:797a89b30e3bd15281fa1ea3a1f401e83e2024eca85d5f4c671931354c9c48d2
+              tag: latest@sha256:6318dd91049a351fa5f28d44ff35c4aec2992212342d68c455879b5e25d83f97
             envFrom:
               - secretRef:
                   name: api-secret
