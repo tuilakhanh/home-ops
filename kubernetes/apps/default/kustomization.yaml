@@ -9,6 +9,5 @@ resources:
   - ./cyberchef/ks.yaml
   - ./echo-server/ks.yaml
   - ./it-tools/ks.yaml
-  - ./wallos/ks.yaml
   - ./rss-forwarder/ks.yaml
   - ./api/ks.yaml

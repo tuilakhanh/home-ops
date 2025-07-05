@@ -7,4 +7,3 @@ components:
   - ../../flux/components/common
 resources:
   - ./vaultwarden/ks.yaml
-  - ./keycloakx/ks.yaml
