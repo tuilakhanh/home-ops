@@ -107,12 +107,6 @@ spec:
         globalMounts:
           - path: /mnt/disk/
 
-      network:
-        type: hostPath
-        hostPath: "/mnt/network/"
-        globalMounts:
-          - path: /mnt/network/
-
       stuff:
         type: hostPath
         hostPath: "/data/"
