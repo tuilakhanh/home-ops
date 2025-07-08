@@ -16,3 +16,22 @@ spec:
   selector:
     cnpg.io/cluster: postgres-16
     role: primary
+---
+---
+# yaml-language-server: $schema=https://kubernetesjsonschema.dev/v1.10.3-standalone/service-v1.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-dbi
+  annotations:
+    lbipam.cilium.io/ips: 192.168.1.110
+spec:
+  type: LoadBalancer
+  ports:
+    - name: postgres-dbi
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    cnpg.io/cluster: postgres-dbi
+    role: primary

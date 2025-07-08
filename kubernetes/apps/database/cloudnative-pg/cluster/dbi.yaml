@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-dbi
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:17
+  enableSuperuserAccess: true
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  storage:
+    size: 20Gi
+    storageClass: openebs-hostpath
+  postgresql:
+    parameters:
+      max_connections: "300"
+      work_mem: 64MB
+      shared_buffers: 128MB
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+  superuserSecret:
+    name: cloudnative-pg-dbi-secret
+  monitoring:
+    enablePodMonitor: true
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
