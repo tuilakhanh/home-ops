@@ -1,44 +1,36 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "packageRules": [
+  packageRules: [
     {
-      "description": ["Auto-merge container digests updates"],
-      "matchDatasources": ["docker"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["digest"],
-      "matchPackageNames": ["ghcr.io/home-operations"],
-      "ignoreTests": true
+      description: "Auto-merge trusted container digests",
+      matchDatasources: ["docker"],
+      automerge: true,
+      automergeType: "pr",
+      matchUpdateTypes: ["digest"],
+      matchPackageNames: ["/home-operations/"],
+      ignoreTests: true
     },
     {
-      "description": "Auto merge KPS minors and patches",
-      "matchDatasources": ["helm", "docker"],
-      "automerge": true,
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchDepNames": ["kube-prometheus-stack"],
-      "ignoreTests": false
+      description: "Auto-merge OCI Charts",
+      matchDatasources: ["docker"],
+      automerge: true,
+      automergeType: "pr",
+      matchUpdateTypes: ["minor", "patch"],
+      matchPackageNames: ["/kube-prometheus-stack/", "/grafana/"],
+      ignoreTests: true
     },
     {
-      "description": ["Auto-merge GitHub Actions"],
-      "matchManagers": ["github-actions"],
-      "matchDatasources": ["github-tags"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "minimumReleaseAge": "3 days",
-      "ignoreTests": true
-    },
-    {
-      "description": "Auto-merge Helm Releases",
-      "matchDatasources": ["github-releases"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": [
+      description: "Auto-merge GitHub Releases",
+      matchDatasources: ["github-releases"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch"],
+      matchPackageNames: [
+        "/external-dns/",
         "/gateway-api/",
-        "/prometheus-operator/",
+        "/prometheus-operator/"
       ],
-      "ignoreTests": false
+      ignoreTests: true
     }
   ]
 }

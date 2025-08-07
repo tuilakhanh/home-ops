@@ -30,6 +30,6 @@
     "managerFilePatterns": ["/(^|/)kubernetes/.+\\.ya?ml$/"]
   },
   "nix": {
-    "enabled": true
+    "enabled": false
   }
 }
