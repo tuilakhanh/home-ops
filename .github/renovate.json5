@@ -1,6 +1,6 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
     "config:recommended",
     "docker:enableMajor",
     ":automergeBranch",
@@ -16,20 +16,20 @@
     "github>tuilakhanh/home-ops//.renovate/packageRules.json5",
     "github>tuilakhanh/home-ops//.renovate/semanticCommits.json5"
   ],
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  "ignorePaths": ["**/*.sops.*", "**/resources/**", "**/config/**"],
-  "flux": {
-    "managerFilePatterns": ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+  dependencyDashboard: true,
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
+  ignorePaths: ["**/*.sops.*", "**/resources/**", "**/config/**"],
+  flux: {
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
   },
   "helm-values": {
-    "managerFilePatterns": ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
   },
-  "kubernetes": {
-    "managerFilePatterns": ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+  kubernetes: {
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
   },
-  "nix": {
-    "enabled": false
+  nix: {
+    enabled: false
   }
 }

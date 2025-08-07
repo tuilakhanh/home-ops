@@ -1,22 +1,16 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "packageRules": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
     {
-      "description": "Loose versioning for non-semver docker images",
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["changedetection"],
-      "versioning": "loose"
+      description: "Loose versioning for non-semver docker images",
+      matchDatasources: ["docker"],
+      matchPackagePatterns: ["changedetection"],
+      versioning: "loose"
     },
     {
-      "description": "Custom versioning for http-https-echo",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/mendhak/http-https-echo"],
-      "versioning": "regex:^(?<major>\\d+)$",
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["/cloudnative-pgvecto.rs/"],
-      "allowedVersions": "<=16"
-    },
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/cloudnative-pgvecto.rs/"],
+      allowedVersions: "<=16"
+    }
   ]
 }

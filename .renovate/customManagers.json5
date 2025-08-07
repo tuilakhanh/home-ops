@@ -1,11 +1,11 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "customManagers": [
+  schema: "https://docs.renovatebot.com/renovate-schema.json",
+  customManager: [
     {
-      "customType": "regex",
-      "description": ["Process annotated dependencies"],
-      "managerFilePatterns": ["/(^|/).+\\.ya?ml(?:\\.j2)?$/"],
-      "matchStrings": [
+      customType: "regex",
+      description: ["Process annotated dependencies"],
+      managerFilePatterns: ["/(^|/).+\\.ya?ml(?:\\.j2)?$/"],
+      matchStrings: [
         // # renovate: datasource=github-releases depName=kubernetes/kubernetes
         // version: 1.29.1
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+ (?<currentValue>[v|\\d]\\S+)",
@@ -13,7 +13,7 @@
         // https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.80.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
       ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
+      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
     }
   ]
 }
