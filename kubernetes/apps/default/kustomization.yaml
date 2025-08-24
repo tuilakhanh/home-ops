@@ -11,3 +11,4 @@ resources:
   - ./it-tools/ks.yaml
   - ./rss-forwarder/ks.yaml
   - ./api/ks.yaml
+  - ./copyparty/ks.yaml
