@@ -28,7 +28,7 @@ spec:
           app:
             image:
               repository: ghcr.io/gtsteffaniak/filebrowser
-              tag: 0.8.2-beta@sha256:690f99524dab0bd53d64ab6cf21defbed891e77835797db9095cf3db7cb07b9e
+              tag: 0.8.4-beta@sha256:f3b7261576b0f6362809f8faaea19f06586c180eff641e5093caff8bed2ceff3
             envFrom:
               - secretRef:
                   name: filebrowser-secret
