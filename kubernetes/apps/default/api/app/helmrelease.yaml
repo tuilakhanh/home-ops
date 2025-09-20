@@ -24,8 +24,8 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/buiductrieu/sworkapi
-              tag: latest@sha256:8dc62938685cb288f44b3204ffaa2faee45170646000a9dadf546b4e5e3568b1
+              repository: docker.io/buiductrieu/agrimart-identity-service
+              tag: latest@sha256:f2187d534253f0f7270c6345431861350453215e70e6668a876540989a4a83c4
             envFrom:
               - secretRef:
                   name: api-secret
@@ -43,10 +43,9 @@ spec:
 
     service:
       app:
-        controller: api
         ports:
           http:
-            port: 80
+            port: 8080
 
     route:
       app:
@@ -58,4 +57,4 @@ spec:
         rules:
           - backendRefs:
             - identifier: app
-              port: 80
+              port: 8080
