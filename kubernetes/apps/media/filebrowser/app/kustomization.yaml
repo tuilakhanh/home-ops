@@ -5,9 +5,3 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./secrets.sops.yaml
-configMapGenerator:
-  - name: filebrowser-config
-    files:
-      - ./resources/config.yaml
-generatorOptions:
-  disableNameSuffixHash: true
