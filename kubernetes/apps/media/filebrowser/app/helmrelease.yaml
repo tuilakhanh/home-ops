@@ -68,23 +68,40 @@ spec:
           - name: external-gateway-cilium-local
             namespace: network
 
-    persistence:
+    configMaps:
+      config:
+        data:
+          config.yaml: |-
+            server:
+            port: 8080
+            externalUrl: https://share.${SECRET_DOMAIN}
+            internalUrl: http://filebrowser.media.svc.cluster.local:8080
+            cacheDir: /cache
+            database: /home/filebrowser/database/filebrowser.db
+            sources:
+              - name: GSGA
+                path: /mnt/GSGA
+            auth:
+              methods:
+                noauth: false
+                password:
+                  enabled: true
+                  signup: false
 
+
+    persistence:
       database:
         existingClaim: filebrowser
         globalMounts:
           - path: /home/filebrowser/database
-
       cache:
         type: emptyDir
-
       config:
         type: configMap
-        name: filebrowser-config
+        identifier: config
         globalMounts:
           - path: /home/filebrowser/config.yaml
             subPath: config.yaml
-
       media:
         type: hostPath
         hostPath: "/mnt/disk/torrent/GSGA"

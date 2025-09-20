@@ -10,7 +10,4 @@ configMapGenerator:
     files:
       - config/recyclarr.yml
 generatorOptions:
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
-configurations:
-  - kustomizeconfig.yaml
+  disableNameSuffixHash: true
