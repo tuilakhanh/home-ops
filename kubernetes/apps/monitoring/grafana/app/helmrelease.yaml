@@ -156,6 +156,13 @@ spec:
             - name: DS_PROMETHEUS
               value: Prometheus
 
+        process:
+          gnetId: 22161
+          revision: 2
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+
         # spegel:
         #   # renovate: dashboardName="Spegel"
         #   gnetId: 18089
