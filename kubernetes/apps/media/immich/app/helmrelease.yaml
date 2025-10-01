@@ -75,7 +75,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
               # renovate: datasource=github-releases depName=immich-app/immich-machine-learning
-              tag: "v1.143.1"
+              tag: "v1.144.1"
             env: *env
 
       valkey:
