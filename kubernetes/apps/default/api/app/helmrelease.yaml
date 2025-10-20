@@ -29,6 +29,12 @@ spec:
             envFrom:
               - secretRef:
                   name: api-secret
+            env:
+              RABBITMQ__CONNECTIONSTRING: amqp://guest:guest@rabbitmq.default.svc.cluster.local:5672
+              RABBITMQ_HOST: rabbitmq.default.svc.cluster.local
+              RABBITMQ_PORT: 5672
+              RABBITMQ_USER: guest
+              RABBITMQ_PASS: guest
             probes:
               liveness:
                 enabled: false
