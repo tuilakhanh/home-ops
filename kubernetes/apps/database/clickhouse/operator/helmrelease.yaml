@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: altinity-clickhouse-operator
-      version: 0.24.5
+      version: 0.25.5
       interval: 30m
       sourceRef:
         kind: HelmRepository
