@@ -7,8 +7,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: rss-forwarder
   install:
     remediation:
       retries: 3
@@ -52,6 +51,6 @@ spec:
         type: secret
         name: rss-forwarder
         globalMounts:
-        - path: /data/config.toml
-          subPath: config.toml
-          readOnly: true
+          - path: /data/config.toml
+            subPath: config.toml
+            readOnly: true

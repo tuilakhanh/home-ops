@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: it-tools
   install:
     remediation:
       retries: 3
@@ -54,5 +53,5 @@ spec:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
           - backendRefs:
-            - identifier: app
-              port: 80
+              - identifier: app
+                port: 80

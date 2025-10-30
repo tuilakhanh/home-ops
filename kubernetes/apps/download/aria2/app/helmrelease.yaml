@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: aria2
   install:
     remediation:
       retries: 3
@@ -37,8 +36,8 @@ spec:
               # BASIC_AUTH_PASSWORD: ${ARIA2_PASSWORD}
               RPC_PORT: &port 6800
             envFrom:
-            - secretRef:
-                name: aria2-secret
+              - secretRef:
+                  name: aria2-secret
             securityContext:
               # runAsUser: 568
               # runAsGroup: 568
@@ -76,7 +75,7 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
+          - backendRefs:
               - identifier: app
                 port: *port
 
@@ -92,4 +91,3 @@ spec:
         globalMounts:
           - path: /downloads/
             subPath: download/aria2
-

@@ -6,3 +6,4 @@ resources:
   - ./pvc-ml-cache.yaml
   - ./helmrelease.yaml
   - ./secret.sops.yaml
+  - ./ocirepository.yaml

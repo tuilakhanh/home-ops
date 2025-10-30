@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: vaultwarden
   install:
     remediation:
       retries: 3
@@ -49,8 +48,8 @@ spec:
               ROCKET_PORT: 5834
               ADMIN_TOKEN: ""
             envFrom:
-            - secretRef:
-                name: vaultwarden-secret
+              - secretRef:
+                  name: vaultwarden-secret
             resources:
               requests:
                 cpu: 100m
@@ -90,7 +89,7 @@ spec:
         hostnames:
           - "vaultwarden.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
+          - backendRefs:
               - identifier: app
                 port: 5834
 

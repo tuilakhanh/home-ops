@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: bazarr
   values:
     controllers:
       bazarr:
@@ -57,7 +56,6 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
 
-
     service:
       app:
         controller: bazarr
@@ -73,7 +71,7 @@ spec:
         hostnames:
           - "bazarr.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
+          - backendRefs:
               - identifier: app
                 port: *port
 
@@ -102,4 +100,3 @@ spec:
         hostPath: "/data/"
         globalMounts:
           - path: /mnt/nvme/
-

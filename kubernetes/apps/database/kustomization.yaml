@@ -7,4 +7,3 @@ components:
   - ../../flux/components/common
 resources:
   - ./cloudnative-pg/ks.yaml
-  - ./clickhouse/ks.yaml

@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./secrets.sops.yaml
+  - ./ocirepository.yaml
 configMapGenerator:
   - name: alertmanager
     files:

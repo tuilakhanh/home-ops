@@ -36,16 +36,10 @@
         };
       };
       perSystem = { config, self', inputs', pkgs, system, ... }: {
-        devShells.default = pkgs.mkShell {
-          shellHook = ''
-            FLAKE_ROOT="$PWD"
-            export ROOT_DIR="$FLAKE_ROOT"
-            export BOOTSTRAP_DIR="$FLAKE_ROOT/bootstrap"
-            export SCRIPTS_DIR="$FLAKE_ROOT/scripts"
-            export KUBERNETES_DIR="$FLAKE_ROOT/kubernetes"
-            export KUBECONFIG="$FLAKE_ROOT/kubeconfig"
-            export SOPS_AGE_KEY_FILE="$FLAKE_ROOT/age.key"
-          '';
+        devShells.default = pkgs.mkShellNoCC {
+          # shellHook = ''
+
+          # '';
 
           nativeBuildInputs = with pkgs; [
             nixos-rebuild
@@ -65,7 +59,6 @@
             cilium-cli
             stern
             minijinja
-            k0sctl
           ];
         };
       };

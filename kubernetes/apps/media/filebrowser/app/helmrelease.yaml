@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: filebrowser
   values:
     controllers:
       filebrowser:
@@ -87,7 +86,6 @@ spec:
                 password:
                   enabled: true
                   signup: false
-
 
     persistence:
       database:

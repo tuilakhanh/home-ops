@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: immich
   values:
     controllers:
       server:
@@ -110,7 +109,7 @@ spec:
         hostnames:
           - "immich.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
+          - backendRefs:
               - identifier: server
                 port: 2283
 

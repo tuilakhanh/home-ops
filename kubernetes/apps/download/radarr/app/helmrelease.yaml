@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: radarr
   values:
     controllers:
       radarr:
@@ -87,7 +86,7 @@ spec:
         hostnames:
           - "radarr.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
+          - backendRefs:
               - identifier: app
                 port: *port
 

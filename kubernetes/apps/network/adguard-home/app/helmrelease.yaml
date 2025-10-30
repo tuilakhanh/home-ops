@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: adguard-home
   install:
     remediation:
       retries: 3
@@ -101,6 +100,3 @@ spec:
         globalMounts:
           - path: /opt/adguardhome/ssl/certs/
             readOnly: true
-
-
-

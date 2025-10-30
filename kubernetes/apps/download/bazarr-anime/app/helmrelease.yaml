@@ -8,8 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: app-template
-    namespace: flux-system
+    name: bazarr-anime
   values:
     controllers:
       bazarr-anime:
@@ -57,7 +56,6 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
 
-
     service:
       app:
         controller: bazarr-anime
@@ -73,7 +71,7 @@ spec:
         hostnames:
           - "bazarr-anime.${SECRET_DOMAIN}"
         rules:
-          -  backendRefs:
+          - backendRefs:
               - identifier: app
                 port: *port
 
