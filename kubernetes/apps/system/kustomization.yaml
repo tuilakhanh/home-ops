@@ -7,6 +7,4 @@ namespace: system
 #   - ../../flux/components/common
 resources:
   - ./namespace.yaml
-  - ./reloader/ks.yaml
-  - ./intel-device-plugin/ks.yaml
   - ./volsync/ks.yaml
