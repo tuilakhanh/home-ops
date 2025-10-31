@@ -19,8 +19,8 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/cloudflare/cloudflared
-              tag: 2025.9.1@sha256:4604b477520dc8322af5427da68b44f0bf814938e9d2e4814f2249ee4b03ffdf
+              repository: mirror.gcr.io/cloudflare/cloudflared
+              tag: 2025.10.1@sha256:21f3607baf2384c54d592b0efe76dd5f548c0dbc083e62fa22c7fac3923d077f
             env:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
@@ -73,13 +73,8 @@ spec:
         data:
           config.yaml: |-
             ingress:
-              - hostname: tuilakhanh.id.vn
-                service: https://cilium-gateway-external-gateway-cilium.network.svc.cluster.local
-                originRequest:
-                  originServerName: tuilakhanh.id.vn
-                  http2Origin: true
               - hostname: '*.tuilakhanh.id.vn'
-                service: https://cilium-gateway-external-gateway-cilium.network.svc.cluster.local
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local
                 originRequest:
                   originServerName: external.tuilakhanh.id.vn
                   http2Origin: true

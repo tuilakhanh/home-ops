@@ -2,16 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname cloudflared
-  namespace: &namespace network
+  name: cloudflared
 spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
-  interval: 30m
-  timeout: 5m
+  targetNamespace: network
+  interval: 1h
   path: "./kubernetes/apps/network/cloudflared/app"
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cloudflare-tunnel-id-secret
   prune: true
   sourceRef:
     kind: GitRepository
