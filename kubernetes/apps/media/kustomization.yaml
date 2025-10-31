@@ -11,3 +11,4 @@ resources:
   - ./immich/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./filebrowser/ks.yaml
+  - ./gpu/ks.yaml
