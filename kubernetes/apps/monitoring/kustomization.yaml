@@ -13,6 +13,6 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./kube-state-metrics/ks.yaml
   - ./promtail/ks.yaml
-  - ./loki/ks.yaml
+  - ./victoria-logs/ks.yaml
   - ./grafana/ks.yaml
   - ./kromgo/ks.yaml
