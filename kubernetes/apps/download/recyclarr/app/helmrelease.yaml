@@ -66,25 +66,12 @@ spec:
 
     persistence:
       config:
-        existingClaim: *app
-        advancedMounts:
-          recyclarr:
-            app:
-              - path: /config
+        existingClaim: "{{ .Release.Name }}"
       config-file:
         type: configMap
-        name: recyclarr
+        name: "{{ .Release.Name }}-configmap"
         globalMounts:
           - path: /config/recyclarr.yml
             subPath: recyclarr.yml
-            readOnly: true
-      config-logs:
-        type: emptyDir
-        globalMounts:
-          - path: /config/logs
-      config-repositories:
-        type: emptyDir
-        globalMounts:
-          - path: /config/repositories
       tmp:
         type: emptyDir
