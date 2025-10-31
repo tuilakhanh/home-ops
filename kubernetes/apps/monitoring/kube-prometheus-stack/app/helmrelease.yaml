@@ -103,7 +103,7 @@ spec:
       forceDeployDashboards: true
       operator:
         dashboardsConfigMapRefEnabled: true
-        folder: observability
+        folder: monitoring
         matchLabels:
           grafana.internal/instance: grafana
     ###
