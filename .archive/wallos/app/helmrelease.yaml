@@ -5,18 +5,11 @@ kind: HelmRelease
 metadata:
   name: &app wallos
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: app-template
     namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     controllers:
       wallos:
@@ -51,11 +44,11 @@ spec:
           - name: external-gateway-cilium
             namespace: network
         hostnames:
-          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}.tuilakhanh.id.vn"
         rules:
           - backendRefs:
-            - identifier: app
-              port: 80
+              - identifier: app
+                port: 80
 
     persistence:
       config:
