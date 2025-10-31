@@ -1,0 +1,117 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: alertmanager
+spec:
+  receivers:
+    - name: "null"
+    - name: "discord"
+      discordConfigs:
+        - apiURL:
+            name: alertmanager-secret
+            key: webhook
+          sendResolved: true
+          avatarURL: https://prometheus.io/opengraph-image.png
+          title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}'
+          message: |-
+            {{- $firstFingerprint := (index .Alerts 0).Fingerprint -}}
+            {{- range .Alerts }}
+
+            {{- if not (eq .Fingerprint $firstFingerprint) }}
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            {{- end }}
+
+            {{- if eq .Labels.severity "critical" }}
+            🆘 **Severity:** `CRITICAL`
+            {{- else if eq .Labels.severity "error" }}
+            🚨 **Severity:** `ERROR`
+            {{- else if eq .Labels.severity "warning" }}
+            ⚠️ **Severity:** `WARNING`
+            {{- else if eq .Labels.severity "info" }}
+            ℹ️ **Severity:** `INFO`
+            {{- else }}
+            📊 **Severity:** `{{ .Labels.severity }}`
+            {{- end }}
+
+            {{- if ne .Annotations.description "" }}
+            📝 **Description:**
+            ```
+            {{ .Annotations.description }}
+            ```
+            {{- else if ne .Annotations.summary "" }}
+            📋 **Summary:**
+            ```
+            {{ .Annotations.summary }}
+            ```
+            {{- else if ne .Annotations.message "" }}
+            💬 **Message:**
+            ```
+            {{ .Annotations.message }}
+            ```
+            {{- else }}
+            🔔 Alert has been triggered
+            {{- end -}}
+
+            **Alert Details:**
+            {{- if .Labels.node }}
+            Node: `{{ .Labels.node }}`
+            {{- end }}
+            {{- if .Labels.namespace }}
+            Namespace: `{{ .Labels.namespace }}`
+            {{- end }}
+            {{- if .Labels.pod }}
+            Pod: `{{ .Labels.pod }}`
+            {{- end }}
+            {{- if .Labels.job }}
+            Job: `{{ .Labels.job }}`
+            {{- end }}
+            {{- if .Labels.instance }}
+            Instance: `{{ .Labels.instance }}`
+            {{- end }}
+
+            ⏰ **Timeline:**
+            {{- if eq .Status "firing" }}
+            🔥 Started: <t:{{ .StartsAt.Unix }}:F> (<t:{{ .StartsAt.Unix }}:R>)
+            {{- else }}
+            ✅ Resolved: <t:{{ .EndsAt.Unix }}:F> (<t:{{ .EndsAt.Unix }}:R>)
+            🕐 Duration: {{ .StartsAt | since | humanizeDuration }}
+            {{- end }}
+
+            [Link]({{ .GeneratorURL }})
+
+            {{- end }}
+
+  route:
+    groupBy: ["alertname", "job", "cluster"]
+    groupWait: 1m
+    groupInterval: 5m
+    repeatInterval: 6h
+    receiver: discord
+    routes:
+      - receiver: "null"
+        matchers:
+          - name: alertname
+            value: Watchdog
+            matchType: =
+      - receiver: "null"
+        matchers:
+          - name: alertname
+            value: InfoInhibitor
+            matchType: =
+      - receiver: "discord"
+        matchers:
+          - name: severity
+            value: critical
+            matchType: =
+
+  inhibitRules:
+    - equal: ["alertname", "namespace"]
+      sourceMatch:
+        - name: severity
+          value: critical
+          matchType: =
+      targetMatch:
+        - name: severity
+          value: warning
+          matchType: =

@@ -16,7 +16,26 @@ spec:
     ### Component values
     ###
     alertmanager:
-      enabled: false
+      enabled: true
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - alertmanager.tuilakhanh.id.vn
+          parentRefs:
+            - name: envoy-internal
+              namespace: network
+      alertmanagerSpec:
+        alertmanagerConfiguration:
+          name: alertmanager
+        externalUrl: https://alertmanager.tuilakhanh.id.vn
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-hostpath
+              resources:
+                requests:
+                  storage: 1Gi
 
     kubeApiServer:
       enable: true
@@ -131,11 +150,6 @@ spec:
           runAsUser: 64535
           runAsGroup: 64535
           fsGroup: 64535
-        alertingEndpoints:
-          - namespace: monitoring
-            name: alertmanager
-            port: 9093
-            apiVersion: v2
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
