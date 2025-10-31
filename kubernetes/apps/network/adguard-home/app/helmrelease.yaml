@@ -29,10 +29,11 @@ spec:
 
     service:
       app:
+        controller: adguard
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          lbipam.cilium.io/ips: ${ADGUARD_HOME_LB_VIP}
+          lbipam.cilium.io/ips: 192.168.1.102
         ports:
           http:
             port: 3000
@@ -43,12 +44,6 @@ spec:
             protocol: TCP
           dns-udp:
             port: 53
-            protocol: UDP
-          tls-tcp:
-            port: 853
-            protocol: TCP
-          tls-udp:
-            port: 853
             protocol: UDP
 
     route:
