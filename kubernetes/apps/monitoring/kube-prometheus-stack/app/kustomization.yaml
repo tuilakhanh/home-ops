@@ -5,8 +5,6 @@ kind: Kustomization
 resources:
   - ./alertmanagerconfig.yaml
   - ./helmrelease.yaml
-  - ./alerts
-  - ./scrapeconfigs
   - ./ocirepository.yaml
   - ./grafanadashboard.yaml
   - ./secret.sops.yaml
