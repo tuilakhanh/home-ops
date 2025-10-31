@@ -48,9 +48,7 @@ spec:
                       name: RetryOnFailure
                   rollback:
                     cleanupOnFail: true
-                    r  dependsOn:
-                      - name: cluster-meta
-                        namespace: flux-systemecreate: true
+                    recreate: true
                   upgrade:
                     cleanupOnFail: true
                     crds: CreateReplace
