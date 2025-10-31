@@ -4,14 +4,10 @@ kind: HelmRelease
 metadata:
   name: snapshot-controller
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: snapshot-controller
-  install:
-    crds: CreateReplace
-  upgrade:
-    crds: CreateReplace
   dependsOn:
     - name: cert-manager
       namespace: cert-manager

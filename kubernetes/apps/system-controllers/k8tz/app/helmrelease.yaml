@@ -5,7 +5,7 @@ metadata:
   name: k8tz
   namespace: system-controllers
 spec:
-  interval: 30m
+  interval: 1h
   url: https://k8tz.github.io/k8tz/
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -17,11 +17,11 @@ spec:
     spec:
       chart: k8tz
       version: 0.17.1
-      interval: 30m
+      interval: 1h
       sourceRef:
         kind: HelmRepository
         name: k8tz
-  interval: 30m
+  interval: 1h
   values:
     namespace: system-controllers
 

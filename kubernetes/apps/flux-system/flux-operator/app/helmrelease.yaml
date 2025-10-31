@@ -4,18 +4,10 @@ kind: HelmRelease
 metadata:
   name: flux-operator
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: flux-operator
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
   values:
     serviceMonitor:
       create: true

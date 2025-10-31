@@ -7,14 +7,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cloudnative-pg
-  maxHistory: 3
-  interval: 30m
-  install:
-    crds: CreateReplace
-  upgrade:
-    crds: CreateReplace
-  uninstall:
-    keepHistory: false
+  interval: 1h
   values:
     crds:
       create: true

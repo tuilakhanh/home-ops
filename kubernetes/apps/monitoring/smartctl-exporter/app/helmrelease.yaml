@@ -5,18 +5,10 @@ kind: HelmRelease
 metadata:
   name: &app smartctl-exporter
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: smartctl-exporter
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
   values:
     fullnameOverride: *app
 

@@ -9,15 +9,6 @@ spec:
     kind: OCIRepository
     name: grafana
   interval: 1h
-  timeout: 20m
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
   values:
     admin:
       existingSecret: grafana-admin-secret
