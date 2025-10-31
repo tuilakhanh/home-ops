@@ -60,8 +60,8 @@ spec:
         type: LoadBalancer
         controller: *app
         annotations:
-          lbipam.cilium.io/ips: ${LB_QBITTORRENT}
-        # externalTrafficPolicy: Local
+          lbipam.cilium.io/ips: 192.168.1.104
+        externalTrafficPolicy: Local
         ports:
           http:
             port: *port
@@ -73,7 +73,8 @@ spec:
         type: LoadBalancer
         controller: *app
         annotations:
-          lbipam.cilium.io/ips: ${LB_QBITTORRENT_UDP}
+          lbipam.cilium.io/ips: 192.168.1.106
+        externalTrafficPolicy: Local
         ports:
           bittorrentudp:
             enabled: true

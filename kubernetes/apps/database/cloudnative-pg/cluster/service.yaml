@@ -5,7 +5,7 @@ kind: Service
 metadata:
   name: postgres-16
   annotations:
-    lbipam.cilium.io/ips: ${LB_POSTGRES}
+    lbipam.cilium.io/ips: 192.168.1.103
 spec:
   type: LoadBalancer
   ports:
@@ -17,6 +17,7 @@ spec:
     cnpg.io/cluster: postgres-16
     role: primary
 ---
+
 ---
 # yaml-language-server: $schema=https://kubernetesjsonschema.dev/v1.10.3-standalone/service-v1.json
 apiVersion: v1

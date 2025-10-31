@@ -23,7 +23,6 @@ spec:
               JELLYFIN_FFmpeg__probesize: "50000000"
               JELLYFIN_FFmpeg__analyzeduration: "500000000"
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              TZ: ${TIMEZONE}
             probes:
               liveness: &probes
                 enabled: true

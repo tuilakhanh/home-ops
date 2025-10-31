@@ -29,7 +29,6 @@ spec:
               repository: ghcr.io/dani-garcia/vaultwarden
               tag: 1.34.3
             env:
-              TZ: "${TIMEZONE}"
               SIGNUPS_ALLOWED: false
               WEBSOCKET_ENABLED: true
               DATA_FOLDER: "data"
