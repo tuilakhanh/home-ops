@@ -73,14 +73,10 @@ spec:
     route:
       app:
         parentRefs:
-          - name: external-gateway-cilium
+          - name: envoy-external
             namespace: network
         hostnames:
-          - "jellyfin.${SECRET_DOMAIN}"
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: 8096
+          - "{{ .Release.Name }}.tuilakhanh.id.vn"
 
     persistence:
       config:

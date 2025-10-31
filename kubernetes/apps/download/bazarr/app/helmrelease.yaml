@@ -66,10 +66,10 @@ spec:
     route:
       app:
         parentRefs:
-          - name: internal-gateway-cilium
+          - name: envoy-internal
             namespace: network
         hostnames:
-          - "bazarr.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}.tuilakhanh.id.vn"
         rules:
           - backendRefs:
               - identifier: app

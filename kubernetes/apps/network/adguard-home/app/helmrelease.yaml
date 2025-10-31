@@ -29,7 +29,6 @@ spec:
 
     service:
       app:
-        controller: adguard
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
@@ -55,10 +54,10 @@ spec:
     route:
       app:
         parentRefs:
-          - name: internal-gateway-cilium
+          - name: envoy-internal
             namespace: network
         hostnames:
-          - "dns.${SECRET_DOMAIN}"
+          - "dns.tuilakhanh.id.vn"
         rules:
           - backendRefs:
               - identifier: app

@@ -117,17 +117,13 @@ spec:
         main:
           enabled: true
           parentRefs:
-            - name: internal-gateway-cilium
+            - name: envoy-internal
               namespace: network
           hostnames:
-            - "prometheus.${SECRET_DOMAIN}"
-          matches:
-            - path:
-                type: PathPrefix
-                value: /
+            - "prometheus.tuilakhanh.id.vn"
 
       prometheusSpec:
-        externalUrl: https://prometheus.${SECRET_DOMAIN}
+        externalUrl: https://prometheus.tuilakhanh.id.vn
         alertingEndpoints:
           - namespace: monitoring
             name: alertmanager

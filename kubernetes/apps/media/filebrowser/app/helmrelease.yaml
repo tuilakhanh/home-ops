@@ -62,9 +62,9 @@ spec:
     route:
       app:
         hostnames:
-          - share.${SECRET_DOMAIN}
+          - share.tuilakhanh.id.vn
         parentRefs:
-          - name: external-gateway-cilium-local
+          - name: envoy-external-local
             namespace: network
 
     configMaps:
@@ -73,7 +73,7 @@ spec:
           config.yaml: |-
             server:
               port: 8080
-              externalUrl: https://share.${SECRET_DOMAIN}
+              externalUrl: https://share.tuilakhanh.id.vn
               internalUrl: http://filebrowser.media.svc.cluster.local:8080
               cacheDir: /cache
               database: /home/filebrowser/database/filebrowser.db

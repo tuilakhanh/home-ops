@@ -54,7 +54,6 @@ spec:
 
     service:
       app:
-        controller: jellyseerr
         ports:
           http:
             port: *port
@@ -62,14 +61,10 @@ spec:
     route:
       app:
         hostnames:
-          - requests.${SECRET_DOMAIN}
+          - requests.tuilakhanh.id.vn
         parentRefs:
-          - name: external-gateway-cilium
+          - name: envoy-external
             namespace: network
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
 
     persistence:
       config:

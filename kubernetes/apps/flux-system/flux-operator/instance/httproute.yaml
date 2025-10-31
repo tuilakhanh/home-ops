@@ -5,17 +5,17 @@ metadata:
   name: flux-webhook
 spec:
   parentRefs:
-  - name: external-gateway-cilium
-    namespace: network
-    sectionName: https
+    - name: envoy-external
+      namespace: network
+      sectionName: https
   hostnames:
-  - "flux-webhook.${SECRET_DOMAIN}"
+    - "flux-webhook.tuilakhanh.id.vn"
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /hook/
-    backendRefs:
-    - name: webhook-receiver
-      namespace: flux-system
-      port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /hook/
+      backendRefs:
+        - name: webhook-receiver
+          namespace: flux-system
+          port: 80

@@ -66,21 +66,16 @@ spec:
 
     service:
       app:
-        controller: kromgo
         ports:
           http:
             port: *port
     route:
       app:
         parentRefs:
-          - name: external-gateway-cilium
+          - name: envoy-external
             namespace: network
         hostnames:
-          - "kromgo.${SECRET_DOMAIN}"
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
+          - "{{ .Release.Name }}.tuilakhanh.id.vn"
     persistence:
       config-file:
         type: configMap

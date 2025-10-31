@@ -8,8 +8,8 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: dns.${SECRET_DOMAIN}
+  commonName: dns.tuilakhanh.id.vn
   dnsNames:
-    - dns.${SECRET_DOMAIN}
+    - dns.tuilakhanh.id.vn
   privateKey:
     rotationPolicy: Always
