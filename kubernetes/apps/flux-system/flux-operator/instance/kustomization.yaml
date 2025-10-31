@@ -10,3 +10,4 @@ resources:
   - ./ocirepository.yaml
   - ./receiver.yaml
   - ./secret.sops.yaml
+  - ./grafanadashboard.yaml

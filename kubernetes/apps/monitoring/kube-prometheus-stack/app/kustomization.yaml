@@ -8,3 +8,4 @@ resources:
   # - ./prometheusrules
   - ./scrapeconfigs
   - ./ocirepository.yaml
+  - ./grafanadashboard.yaml
