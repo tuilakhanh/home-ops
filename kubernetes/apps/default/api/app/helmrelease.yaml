@@ -38,9 +38,42 @@ spec:
                 memory: 25Mi
               limits:
                 memory: 512Mi
+      farm:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/buiductrieu/agrimart-farm-service
+              tag: latest@sha256:f81495419b2630770e59da7d76a0bbe9317a8fcb702351c2b79d2c28d12cfca7
+            envFrom:
+              - secretRef:
+                  name: api-secret
+            env:
+              RABBITMQ__CONNECTIONSTRING: amqp://guest:guest@rabbitmq.default.svc.cluster.local:5672
+              RABBITMQ_HOST: rabbitmq.default.svc.cluster.local
+              RABBITMQ_PORT: 5672
+              RABBITMQ_USER: guest
+              RABBITMQ_PASS: guest
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+            resources:
+              requests:
+                cpu: 101m
+                memory: 25Mi
+              limits:
+                memory: 512Mi
 
     service:
       app:
+        controller: api
+        ports:
+          http:
+            port: 8080
+      farm:
+        controller: farm
         ports:
           http:
             port: 8080
