@@ -42,10 +42,8 @@
       "crypto_user"
       # "dummy"
     ];
-    # blacklistedKernelModules = ["netfilter"];
+    blacklistedKernelModules = ["iwlwifi"];
   };
-
-  # services.scx.enable = true;
 
   time.timeZone = "Asia/Ho_Chi_Minh";
 
@@ -99,17 +97,29 @@
     toybox
     fastfetch
     qbittorrent-nox
-    byedpi
+    podman-compose
+    linuxPackages.cpupower
+    prometheus-process-exporter
   ];
 
   # virtualisation.containers.enable = true;
-  # virtualisation = {
-  #   podman = {
-  #     enable = true;
-  #     defaultNetwork.settings.dns_enabled = true;
-  #   };
-  # };
+  virtualisation = {
+    podman = {
+      enable = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "powersave";
+    powertop.enable = true;
+  };
+
+  services.scx = {
+    enable = true;
+    scheduler = "scx_bpfland";
+  };
 
   services.openssh.enable = true;
 

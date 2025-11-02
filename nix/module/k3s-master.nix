@@ -21,6 +21,8 @@ config,
       "--cluster-cidr=10.69.0.0/16"
       "--service-cidr=10.96.0.0/16"
       "--node-label intel.feature.node.kubernetes.io/gpu=true"
+      "--kubelet-arg=eviction-hard=memory.available<100Mi,nodefs.available<5%"
+      "--kubelet-arg=eviction-minimum-reclaim=memory.available=100Mi,nodefs.available=1Gi"
     ];
   };
   networking.interfaces.dummy0.ipv4.addresses = [

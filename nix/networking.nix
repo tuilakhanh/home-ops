@@ -15,12 +15,21 @@
     firewall = {
       enable = false;
     };
-    nameservers = [
-      "1.1.1.1"
-      "2606:4700:4700::1111 "
-      "1.0.0.1"
-      "2606:4700:4700::1001"
-    ];
+    dhcpcd.extraConfig = "nohook resolv.conf";
+    # resolvconf.useLocalResolver = true;
+    networkmanager.dns = lib.mkForce "none";
+  };
+
+  services.dnscrypt-proxy2 = {
+    enable = true;
+    settings = {
+      ipv6_servers = true;
+      require_dnssec = true;
+      server_names = [
+        "cloudflare"
+        "cloudflare-ipv6"
+      ];
+    };
   };
 
   # systemd.network = {
