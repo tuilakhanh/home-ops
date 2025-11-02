@@ -78,6 +78,11 @@ spec:
                 originRequest:
                   originServerName: external.tuilakhanh.id.vn
                   http2Origin: true
+              - hostname: '*.a-379.store'
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local
+                originRequest:
+                  originServerName: external.tuilakhanh.id.vn
+                  http2Origin: true
               - service: http_status:404
     persistence:
       config-file:

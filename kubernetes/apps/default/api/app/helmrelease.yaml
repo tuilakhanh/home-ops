@@ -84,8 +84,26 @@ spec:
           - name: envoy-external
             namespace: network
         hostnames:
-          - "{{ .Release.Name }}.tuilakhanh.id.vn"
+          - "identity.a-379.store"
         rules:
-          - backendRefs:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
               - identifier: app
+                port: 8080
+      farm:
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        hostnames:
+          - "farm.a-379.store"
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: farm
                 port: 8080
