@@ -17,7 +17,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-identity-service
-              tag: latest@sha256:07ef59770c2cb1021c2902ad16cf3ae225dcdf62e43849128ffa915ae2979111
+              tag: latest@sha256:9e58101dec2c9ca764511edcb1ac0bf3cf915febfbc0f763a9c8ebc72430ab8a
             envFrom:
               - secretRef:
                   name: api-secret
