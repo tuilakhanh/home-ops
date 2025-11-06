@@ -11,13 +11,40 @@ spec:
     name: api
   values:
     controllers:
-      api:
+      identity:
         strategy: RollingUpdate
         containers:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-identity-service
               tag: latest@sha256:9e58101dec2c9ca764511edcb1ac0bf3cf915febfbc0f763a9c8ebc72430ab8a
+            envFrom:
+              - secretRef:
+                  name: api-secret
+            env:
+              RABBITMQ__CONNECTIONSTRING: amqp://guest:guest@rabbitmq.default.svc.cluster.local:5672
+              RABBITMQ_HOST: rabbitmq.default.svc.cluster.local
+              RABBITMQ_PORT: 5672
+              RABBITMQ_USER: guest
+              RABBITMQ_PASS: guest
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+            resources:
+              requests:
+                cpu: 101m
+                memory: 25Mi
+              limits:
+                memory: 512Mi
+      auction:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/buiductrieu/agrimart-auction-service
+              tag: latest@sha256:a2ae5669f5869fe62c704ea323aa945709c20537f9bdb805ad8591850dbca29f
             envFrom:
               - secretRef:
                   name: api-secret
@@ -65,15 +92,48 @@ spec:
                 memory: 25Mi
               limits:
                 memory: 512Mi
+      gateway:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/buiductrieu/agrimart-gateway
+              tag: latest@sha256:cd54c906b3eb7f186e29b33a38cdb5f5cb7475a4c4228f15c17c055904ec3045
+            env:
+              ReverseProxy__Clusters__identity-cluster__Destinations__destination1__Address: "http://api-identity:8080"
+              ReverseProxy__Clusters__farm-cluster__Destinations__destination1__Address: "http://api-farm:8080"
+              ReverseProxy__Clusters__auction-cluster__Destinations__destination1__Address: "http://api-auction:8080"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+            resources:
+              requests:
+                cpu: 101m
+                memory: 25Mi
+              limits:
+                memory: 512Mi
+
 
     service:
-      app:
-        controller: api
+      identity:
+        controller: identity
         ports:
           http:
             port: 8080
       farm:
         controller: farm
+        ports:
+          http:
+            port: 8080
+      auction:
+        controller: auction
+        ports:
+          http:
+            port: 8080
+      gateway:
+        controller: gateway
         ports:
           http:
             port: 8080
@@ -91,7 +151,7 @@ spec:
                   type: PathPrefix
                   value: /
             backendRefs:
-              - identifier: app
+              - identifier: identity
                 port: 8080
       farm:
         parentRefs:
