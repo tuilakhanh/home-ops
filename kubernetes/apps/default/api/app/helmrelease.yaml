@@ -99,6 +99,9 @@ spec:
             image:
               repository: docker.io/buiductrieu/agrimart-gateway
               tag: latest@sha256:661eaf790cdf6612a2ae78d3170371d38e949f361fac4e8066c050b7c90eaa62
+            envFrom:
+              - secretRef:
+                  name: api-secret
             env:
               ReverseProxy__Clusters__identity-cluster__Destinations__destination1__Address: "http://api-identity:8080"
               ReverseProxy__Clusters__farm-cluster__Destinations__destination1__Address: "http://api-farm:8080"
