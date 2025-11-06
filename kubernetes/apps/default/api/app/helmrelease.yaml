@@ -144,26 +144,12 @@ spec:
           - name: envoy-external
             namespace: network
         hostnames:
-          - "identity.a-379.store"
+          - "gateway.a-379.store"
         rules:
           - matches:
               - path:
                   type: PathPrefix
                   value: /
             backendRefs:
-              - identifier: identity
-                port: 8080
-      farm:
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-        hostnames:
-          - "farm.a-379.store"
-        rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-            backendRefs:
-              - identifier: farm
+              - identifier: gateway
                 port: 8080
