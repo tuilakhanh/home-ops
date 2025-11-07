@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-gateway
-              tag: latest@sha256:5af38baaf876b7d9bd505508c1a1715988e8564ca2d80fb02e1304a025b8d668
+              tag: latest@sha256:51d1cc9f56a60ca7cdac64267081016a7938425cd3e7ce977bdb875b4fdebfaf
             envFrom:
               - secretRef:
                   name: api-secret
