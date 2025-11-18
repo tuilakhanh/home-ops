@@ -92,6 +92,36 @@ spec:
                 memory: 25Mi
               limits:
                 memory: 512Mi
+      worker:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/buiductrieu/agrimart-worker
+              tag: latest@sha256:c063ba012dc3e4aeb99bae27fcab48509f952e282c027fbfc60c6833c38d4091
+            envFrom:
+              - secretRef:
+                  name: api-secret
+            env:
+              RABBITMQ__CONNECTIONSTRING: amqp://guest:guest@rabbitmq.default.svc.cluster.local:5672
+              RABBITMQ_HOST: rabbitmq.default.svc.cluster.local
+              RABBITMQ_PORT: 5672
+              RABBITMQ_USER: guest
+              RABBITMQ_PASS: guest
+              Hangfire__WorkerCount: 5
+              Hangfire__ServerName: AgriMart-Worker-Production
+              Hangfire__UseMemoryStorage: false
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+            resources:
+              requests:
+                cpu: 101m
+                memory: 25Mi
+              limits:
+                memory: 512Mi
       gateway:
         strategy: RollingUpdate
         containers:
