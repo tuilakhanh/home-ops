@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-auction-service
-              tag: latest@sha256:8b8c59d556c1df367fda0d63d9fb17ad9f89dfef273f69d6cd3a28e4d6494327
+              tag: latest@sha256:c012693d03475621937b7fecbd7298ef9a797b1e893d7bc069ec44cb3845668b
             envFrom:
               - secretRef:
                   name: api-secret
