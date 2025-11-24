@@ -40,6 +40,9 @@ spec:
 
     service:
       app:
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 192.168.1.109
         ports:
           http:
             port: 6379
