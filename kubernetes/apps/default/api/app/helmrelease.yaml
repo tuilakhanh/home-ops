@@ -149,6 +149,33 @@ spec:
                 memory: 25Mi
               limits:
                 memory: 512Mi
+      notification:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: buiductrieu/agrimart-notification-service
+              tag: latest@sha256:da2d61d4185358521eff5b5a8a32d7c18b381c2ebc9511c201d4fb07ee92428f
+            envFrom:
+              - secretRef:
+                  name: api-secret
+            env:
+              RABBITMQ__CONNECTIONSTRING: amqp://guest:guest@rabbitmq.default.svc.cluster.local:5672
+              RABBITMQ_HOST: rabbitmq.default.svc.cluster.local
+              RABBITMQ_PORT: 5672
+              RABBITMQ_USER: guest
+              RABBITMQ_PASS: guest
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+            resources:
+              requests:
+                cpu: 101m
+                memory: 25Mi
+              limits:
+                memory: 512Mi
       gateway:
         strategy: RollingUpdate
         containers:
@@ -164,6 +191,7 @@ spec:
               ReverseProxy__Clusters__farm-cluster__Destinations__destination1__Address: "http://api-farm:8080"
               ReverseProxy__Clusters__auction-cluster__Destinations__destination1__Address: "http://api-auction:8080"
               ReverseProxy__Clusters__payment-cluster__Destinations__destination1__Address: "http://api-payment:8080"
+              ReverseProxy__Clusters__notification-cluster__Destinations__destination1__Address: "http://api-notification:8080"
             probes:
               liveness:
                 enabled: false
@@ -194,6 +222,11 @@ spec:
             port: 8080
       payment:
         controller: payment
+        ports:
+          http:
+            port: 8080
+      notification:
+        controller: notification
         ports:
           http:
             port: 8080
