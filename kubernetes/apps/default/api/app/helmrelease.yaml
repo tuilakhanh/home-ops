@@ -149,13 +149,13 @@ spec:
                 memory: 25Mi
               limits:
                 memory: 512Mi
-      notification:
+      messaging:
         strategy: RollingUpdate
         containers:
           app:
             image:
-              repository: buiductrieu/agrimart-notification-service
-              tag: latest@sha256:da2d61d4185358521eff5b5a8a32d7c18b381c2ebc9511c201d4fb07ee92428f
+              repository: buiductrieu/agrimart-messaging-service
+              tag: latest@sha256:f219bd3dc33c4260d73adabaa36019ad421d55030ad59318a56ce6b578304b5a
             envFrom:
               - secretRef:
                   name: api-secret
@@ -191,7 +191,7 @@ spec:
               ReverseProxy__Clusters__farm-cluster__Destinations__destination1__Address: "http://api-farm:8080"
               ReverseProxy__Clusters__auction-cluster__Destinations__destination1__Address: "http://api-auction:8080"
               ReverseProxy__Clusters__payment-cluster__Destinations__destination1__Address: "http://api-payment:8080"
-              ReverseProxy__Clusters__notification-cluster__Destinations__destination1__Address: "http://api-notification:8080"
+              ReverseProxy__Clusters__messaging-cluster__Destinations__destination1__Address: "http://api-messaging:8080"
             probes:
               liveness:
                 enabled: false
@@ -225,8 +225,8 @@ spec:
         ports:
           http:
             port: 8080
-      notification:
-        controller: notification
+      messaging:
+        controller: messaging
         ports:
           http:
             port: 8080
