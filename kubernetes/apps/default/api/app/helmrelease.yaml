@@ -71,7 +71,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-farm-service
-              tag: latest@sha256:1c4e14849383bc11b1ba758e7fce92af2a95cdc767bb9119b3c71b79247acb18
+              tag: latest@sha256:136d23a15e00047eb8b20493c4376d33a01e8680f9ab13380203bc6c48b67775
             envFrom:
               - secretRef:
                   name: api-secret
