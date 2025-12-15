@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-auction-service
-              tag: latest@sha256:fbd2a2bcab3e18a35d42853c2c130f50744727521c4eb7c74638c853e5493cf6
+              tag: latest@sha256:789690bf5fa4dfda213c2e1f457035a7e44f799ab7cc6c04ea5c106a974c2edc
             envFrom:
               - secretRef:
                   name: api-secret
@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-worker
-              tag: latest@sha256:b225fc8e450e57a0231c8f7fb93b2e9365627f382fd7ccf3414b75a9ef7dbb72
+              tag: latest@sha256:cd84eec8942fe9ad2f81914480735096033e6eefc33f4e3c94ba9003d58bda7d
             envFrom:
               - secretRef:
                   name: api-secret
@@ -128,7 +128,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-payment-service
-              tag: latest@sha256:32a9134f7720649cecc7a59b977aba68d6ebeef0ae06506e82c2730c1cb64aba
+              tag: latest@sha256:7a95aa457746d75876c2d2973843d1f9e6de1b94c8956d1ea965c3341a9da82f
             envFrom:
               - secretRef:
                   name: api-secret
@@ -155,7 +155,7 @@ spec:
           app:
             image:
               repository: buiductrieu/agrimart-messaging-service
-              tag: latest@sha256:ac9d2fcd64de3937f13737e7292d20cb67e7eac0755045844ae71760f48bde8f
+              tag: latest@sha256:e77e35224a96686b7b4a425d8dc2008186c5cc95d720bf5b50eb19cbe3a0f9c1
             envFrom:
               - secretRef:
                   name: api-secret
