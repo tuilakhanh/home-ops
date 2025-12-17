@@ -128,7 +128,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-payment-service
-              tag: latest@sha256:9c74506ed36acc61dbd9d9db56b1c8b427afb8f9da7f8dda290e7eed756275aa
+              tag: latest@sha256:8655f53b77e8eee36a13198d0253e6fd1bf9807ec68ca8afdc2a70a7a05976ee
             envFrom:
               - secretRef:
                   name: api-secret
