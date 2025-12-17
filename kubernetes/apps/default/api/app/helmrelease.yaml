@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-worker
-              tag: latest@sha256:cd84eec8942fe9ad2f81914480735096033e6eefc33f4e3c94ba9003d58bda7d
+              tag: latest@sha256:825a7c8e73f0674eac79a3f6a77004578a3b30eb34597647c1930714228aa2b2
             envFrom:
               - secretRef:
                   name: api-secret
