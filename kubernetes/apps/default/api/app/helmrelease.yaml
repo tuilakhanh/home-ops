@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-auction-service
-              tag: latest@sha256:e586eec8f5bc62bd4f683d6365fa704817d592eb975c23343517bfd69ffe4ce8
+              tag: latest@sha256:a2923e313641f39a47b4d9cf72dd6125bd990002d63f6b4bc7a64dd080c66698
             envFrom:
               - secretRef:
                   name: api-secret
@@ -71,7 +71,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-farm-service
-              tag: latest@sha256:136d23a15e00047eb8b20493c4376d33a01e8680f9ab13380203bc6c48b67775
+              tag: latest@sha256:beaabce6813c5faf5d6a3198d613bfeaff82d94a3edd5aa8f3890ec35b59ff00
             envFrom:
               - secretRef:
                   name: api-secret
@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-worker
-              tag: latest@sha256:cd6a36a24be0a2d5fd8294d91a6525348764d52b0922b66e4cf49efca7458e01
+              tag: latest@sha256:9c661c42c61a9bac57b95ddb5d7ac4f65c00629a6bdd398d07f5ce31e4156afc
             envFrom:
               - secretRef:
                   name: api-secret
@@ -128,7 +128,7 @@ spec:
           app:
             image:
               repository: docker.io/buiductrieu/agrimart-payment-service
-              tag: latest@sha256:5a02de31b89efb1c2d9bc252e8051c2b0f7b23a887e02967f7b6b214578a9d8e
+              tag: latest@sha256:cbc816b51c07b450cc4e2abc5ea56a0e132f36b74bf6cedc3a50d9654091e079
             envFrom:
               - secretRef:
                   name: api-secret
@@ -155,7 +155,7 @@ spec:
           app:
             image:
               repository: buiductrieu/agrimart-messaging-service
-              tag: latest@sha256:743a3d9f95f9765ca5a51d7ccb99038d9aad037293af45ab6fb7670a1bdd91af
+              tag: latest@sha256:061f73ffcf496a58f02ce055c67513cedf419659c661bfca0dad2748362c9756
             envFrom:
               - secretRef:
                   name: api-secret
