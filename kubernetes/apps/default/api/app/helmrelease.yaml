@@ -155,7 +155,7 @@ spec:
           app:
             image:
               repository: buiductrieu/agrimart-messaging-service
-              tag: latest@sha256:2cad1d7104fa4a5b88bd2e0e63e973b5a5d7cf0d72a71c59461301ae2b5a8adf
+              tag: latest@sha256:b4166d8c473277609786d954bf17d319e50c56420dbe2bff04df67c2d3a02519
             envFrom:
               - secretRef:
                   name: api-secret
