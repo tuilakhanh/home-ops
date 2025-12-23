@@ -71,7 +71,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buiductrieu/agrimart-farm-service
-              tag: latest@sha256:2b15261ce5acf3a52d08eeb6c1b855a0afdc9123882299a376b04e0c66cd61dc
+              tag: latest@sha256:ecb9cd453b416abbee2fcb8d6fd80d1e4dc4fa304abf973f9aee1b8d027b25f6
             envFrom:
               - secretRef:
                   name: api-secret
