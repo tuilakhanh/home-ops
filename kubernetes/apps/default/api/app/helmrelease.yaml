@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buiductrieu/agrimart-auction-service
-              tag: latest@sha256:ee896cea9470582a5da0d8f56479c0144e2fdbc14887308a2f316a225e4a1255
+              tag: latest@sha256:e866969f9f81f9c9c5fab0b18fcc9e0861b37344ee05e5c5949c4f22faa32c25
             envFrom:
               - secretRef:
                   name: api-secret
