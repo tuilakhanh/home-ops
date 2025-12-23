@@ -128,7 +128,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buiductrieu/agrimart-payment-service
-              tag: latest@sha256:d24e8ddf8b73208ca7754eb8b98606f5c45e493cce100c6fb7f80b6c376015f9
+              tag: latest@sha256:fabf283ee430595e9454d4d2e412135575697a53778e3549e7c4cbe40e844f8a
             envFrom:
               - secretRef:
                   name: api-secret
