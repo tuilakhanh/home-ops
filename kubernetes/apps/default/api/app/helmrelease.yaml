@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buiductrieu/agrimart-worker
-              tag: latest@77d2a99f8edcaa3704c60a52d12e4664f70a67780c76855e5ff33ce56e7d6d90
+              tag: latest@sha256:77d2a99f8edcaa3704c60a52d12e4664f70a67780c76855e5ff33ce56e7d6d90 
             envFrom:
               - secretRef:
                   name: api-secret
