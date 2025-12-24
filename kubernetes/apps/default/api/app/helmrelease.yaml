@@ -98,7 +98,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buiductrieu/agrimart-worker
-              tag: latest@sha256:77d2a99f8edcaa3704c60a52d12e4664f70a67780c76855e5ff33ce56e7d6d90 
+              tag: latest@sha256:3e01e369285e886de7c96902f45dc072f82e238c1c86b8bb1711dcced65b5645 
             envFrom:
               - secretRef:
                   name: api-secret
@@ -128,7 +128,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buiductrieu/agrimart-payment-service
-              tag: latest@sha256:0ef2cec35428fc5ac312addeab31504fc491b4ea368d957baf87cb34b2c2692b
+              tag: latest@sha256:3ca8b59aa897998e5a0f4a7a0e78631cbdf5bbea490b66665762711db018097d
             envFrom:
               - secretRef:
                   name: api-secret
