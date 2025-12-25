@@ -7,3 +7,5 @@ resources:
   - ./prometheusrule.yaml
   - ./ocirepository.yaml
   - ./grafanadashboard.yaml
+  - ./secret.sops.yaml
+  - ./clusterissuers.yaml
