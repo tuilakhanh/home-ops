@@ -35,11 +35,6 @@ spec:
     enableIPv4BIGTCP: true
     envoy:
       enabled: false
-      rollOutPods: true
-    gatewayAPI:
-      enabled: true
-      xffNumTrustedHops: 1
-      enableAlpn: true
     hubble:
       enabled: false
     ipam:
