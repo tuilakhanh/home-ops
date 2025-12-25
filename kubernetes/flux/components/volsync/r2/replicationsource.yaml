@@ -6,18 +6,19 @@ metadata:
 spec:
   sourcePVC: "${APP}"
   trigger:
-    schedule: "15 */8 * * *"
-  restic:
-    copyMethod: "${VOLSYNC_COPYMETHOD:=Direct}"
-    pruneIntervalDays: 14
-    repository: "${APP}-restic-secret"
+    schedule: "30 0 * * *"
+  kopia:
+    copyMethod: "${VOLSYNC_COPYMETHOD:=Clone}"
     cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:=2Gi}"
     cacheStorageClassName: "${VOLSYNC_CACHE_STORAGECLASS:=openebs-hostpath}"
     cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}"]
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:=568}
-      runAsGroup: ${VOLSYNC_PGID:=568}
-      fsGroup: ${VOLSYNC_PGID:=568}
+      runAsUser: ${VOLSYNC_PUID:=1000}
+      runAsGroup: ${VOLSYNC_PGID:=1000}
+      fsGroup: ${VOLSYNC_PGID:=1000}
+      fsGroupChangePolicy: ${VOLSYNC_GROUP_CHANGE_POLICY:=Always}
+    parallelism: 2
+    repository: ${APP}-volsync-secret
+    compression: zstd-best-compression
     retain:
-      hourly: 24
-      daily: 7
+      daily: 4
