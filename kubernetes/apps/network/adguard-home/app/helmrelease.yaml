@@ -13,10 +13,28 @@ spec:
     controllers:
       adguard:
         strategy: RollingUpdate
+
+        initContainers:
+          fix-permissions:
+            image:
+              repository: mirror.gcr.io/library/alpine
+              tag: 3.23.2@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62
+              pullPolicy: IfNotPresent
+            securityContext:
+              runAsUser: 0
+            command:
+              - /bin/sh
+              - -c
+              - |
+                chown -R 1000:1000 /opt/adguardhome/conf
+                chown -R 1000:1000 /opt/adguardhome/work
+                find /opt/adguardhome/work -type f -exec chmod 644 {} \;
+                find /opt/adguardhome/work -type d -exec chmod 755 {} \;
+
         containers:
           app:
             image:
-              repository: adguard/adguardhome
+              repository: mirror.gcr.io/adguard/adguardhome
               tag: v0.107.71
             probes:
               liveness: &probe
@@ -24,6 +42,20 @@ spec:
                 path: /login.html
               readiness: *probe
               startup: *probe
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              capabilities:
+                add: [NET_BIND_SERVICE]
+                drop: [ALL]
+
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
@@ -77,6 +109,11 @@ spec:
         globalMounts:
           - path: /opt/adguardhome/work
             subPath: work
+      
+      sessions:
+        type: emptyDir
+        globalMounts:
+          - path: /opt/adguardhome/data
 
       tls:
         enabled: true
