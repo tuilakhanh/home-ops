@@ -3,13 +3,9 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname kube-state-metrics
-  namespace: &namespace monitoring
+  name: kube-state-metrics
 spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
+  targetNamespace: monitoring
   interval: 30m
   timeout: 5m
   path: ./kubernetes/apps/monitoring/kube-state-metrics/app

@@ -11,6 +11,8 @@ spec:
     name: coredns
   values:
     fullnameOverride: coredns
+    image:
+      repository: mirror.gcr.io/coredns/coredns
     k8sAppLabelOverride: kube-dns
     serviceAccount:
       create: true
@@ -47,6 +49,8 @@ spec:
           - name: loop
           - name: reload
           - name: loadbalance
+          - name: autopath
+            parameters: "@kubernetes"
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

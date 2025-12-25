@@ -112,3 +112,6 @@ spec:
         hostPath: "/data/"
         globalMounts:
           - path: /mnt/nvme/
+      
+      tmp:
+        type: emptyDir
