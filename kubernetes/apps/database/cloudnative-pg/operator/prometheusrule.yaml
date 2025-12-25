@@ -1,12 +1,9 @@
 ---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/monitoring.coreos.com/prometheusrule_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: cloudnative-pg-rules
-  namespace: default
-  labels:
-    prometheus: k8s
-    role: alert-rules
 spec:
   groups:
     - name: cloudnative-pg.rules
@@ -31,20 +28,20 @@ spec:
             severity: warning
         - alert: PGDatabase
           annotations:
-            description: Over 300,000,000 transactions from frozen xid on pod {{ $labels.pod  }}
+            description: Over 150,000,000 transactions from frozen xid on pod {{ $labels.pod  }}
             summary: Number of transactions from the frozen XID to the current one
           expr: |-
-            cnpg_pg_database_xid_age > 300000000
+            cnpg_pg_database_xid_age > 150000000
           for: 1m
           labels:
             severity: warning
         - alert: PGReplication
           annotations:
-            description: Standby is lagging behind by over 300 seconds (5 minutes)
+            description: Standby is lagging behind by over 500s (8.3mins)
             summary: The standby is lagging behind the primary
           expr: |-
-            cnpg_pg_replication_lag > 300
-          for: 1m
+            cnpg_pg_replication_lag > 500
+          for: 5m
           labels:
             severity: warning
         - alert: LastFailedArchiveTime
@@ -65,3 +62,15 @@ spec:
           for: 1m
           labels:
             severity: warning
+        - alert: DatabaseFailedBackup
+          annotations:
+            description: Last database backup failed
+            summary: Checks for failed backups
+          expr: |-
+            cnpg_collector_last_failed_backup_timestamp > 0
+        # - alert: DatabaseNoBackup # seems broken with plugin-barman-cloud, only updates for manual backups, not scheduled ones
+        #   annotations:
+        #     description: No database backup within the last 48 hours
+        #     summary: Checks for recent database backups
+        #   expr: |-
+        #     (cnpg_collector_last_available_backup_timestamp != 0) and (time() - cnpg_collector_last_available_backup_timestamp > 172800)
