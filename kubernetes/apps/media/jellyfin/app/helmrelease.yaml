@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
-              tag: "10.11.1"
+              tag: "10.11.5"
             env:
               JELLYFIN_FFmpeg__probesize: "50000000"
               JELLYFIN_FFmpeg__analyzeduration: "500000000"
