@@ -11,5 +11,3 @@ spec:
   ref:
     tag: 0.27.0
   url: oci://ghcr.io/cloudnative-pg/charts/cloudnative-pg
-  verify:
-    provider: cosign
