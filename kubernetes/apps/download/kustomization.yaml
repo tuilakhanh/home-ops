@@ -17,3 +17,4 @@ resources:
   - ./qbittorrent/ks.yaml
   - ./aria2/ks.yaml
   - ./spoofdpi/ks.yaml
+  - ./qui/ks.yaml
