@@ -41,9 +41,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: {drop: ["ALL"]}
 
     defaultPodOptions:
       annotations:
@@ -51,7 +49,7 @@ spec:
           [{
             "name": "local",
             "namespace": "kube-system",
-            "ips": ["192.168.1.112/24"],
+            "ips": ["192.168.1.106/24"],
             "mac": "98:fa:9b:29:94:58"
           }]
       securityContext:
@@ -63,31 +61,9 @@ spec:
 
     service:
       app:
-        forceRename: qbittorrent
-        primary: true
-        type: LoadBalancer
-        controller: *app
-        annotations:
-          lbipam.cilium.io/ips: 192.168.1.104
-        externalTrafficPolicy: Local
         ports:
           http:
             port: *port
-          bittorrent:
-            enabled: true
-            port: *torrentPort
-            protocol: TCP
-      udp:
-        type: LoadBalancer
-        controller: *app
-        annotations:
-          lbipam.cilium.io/ips: 192.168.1.106
-        externalTrafficPolicy: Local
-        ports:
-          bittorrentudp:
-            enabled: true
-            port: *torrentPort
-            protocol: UDP
 
     route:
       app:
@@ -114,12 +90,6 @@ spec:
         hostPath: "/mnt/disk/"
         globalMounts:
           - path: /mnt/disk/
-
-      stuff:
-        type: hostPath
-        hostPath: "/data/"
-        globalMounts:
-          - path: /mnt/nvme/
       
       tmp:
         type: emptyDir
