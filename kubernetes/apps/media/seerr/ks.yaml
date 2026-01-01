@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: jellyseerr
+  name: seerr
 spec:
   components:
     - ../../../../flux/components/volsync
@@ -10,11 +10,11 @@ spec:
     - name: volsync
       namespace: volsync-system
   interval: 1h
-  path: ./kubernetes/apps/media/jellyseerr/app
+  path: ./kubernetes/apps/media/seerr/app
   postBuild:
     substitute:
-      APP: jellyseerr
-      VOLSYNC_CAPACITY: 2Gi
+      APP: seerr
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository
