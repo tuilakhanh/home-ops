@@ -46,6 +46,14 @@ spec:
                   - ALL
 
     defaultPodOptions:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |-
+          [{
+            "name": "local",
+            "namespace": "kube-system",
+            "ips": ["192.168.1.112/24"],
+            "mac": "98:fa:9b:29:94:58"
+          }]
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
