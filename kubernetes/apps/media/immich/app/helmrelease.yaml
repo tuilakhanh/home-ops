@@ -79,28 +79,49 @@ spec:
               capabilities: { drop: ["ALL"] }
 
       machine-learning:
+        type: statefulset
         containers:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              # renovate: datasource=github-releases depName=immich-app/immich-machine-learning
-              tag: "v2.4.1"
+              tag: v2.4.1@sha256:b3deefd1826f113824e9d7bc30d905e7f823535887d03f869330946b6db3b44a
             env:
+              MACHINE_LEARNING_HTTP_KEEPALIVE_TIMEOUT_S: "0"
               HF_HOME: /cache/hf
               MACHINE_LEARNING_CACHE_FOLDER: /cache
               TRANSFORMERS_CACHE: /cache
               HF_XET_CACHE: /cache/huggingface-xet
               MPLCONFIGDIR: /cache/matplotlib-config
+            probes:
+              liveness: &mlprobes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &mlport 3003
+                  initialDelaySeconds: 0
+                  periodSeconds: 30
+                  timeoutSeconds: 1
+                  failureThreshold: 10
+              readiness: *mlprobes
+              startup: *mlprobes
             resources:
-              requests:
-                cpu: 500m
-                memory: 100Mi
               limits:
-                memory: 10Gi
                 gpu.intel.com/i915: 1
             securityContext: *contSec
+        statefulset:
+          volumeClaimTemplates:
+            - name: cache
+              storageClass: openebs-hostpath
+              accessMode: ReadWriteOnce
+              size: 10Gi
+              advancedMounts:
+                app:
+                  - path: /cache
 
       valkey:
+        type: statefulset
         containers:
           app:
             image:
@@ -121,25 +142,22 @@ spec:
                       - sh
                       - -c
                       - "valkey-cli ping | grep PONG"
-                  initialDelaySeconds: 30
+                  initialDelaySeconds: 10
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 3
               readiness: *probes
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  exec:
-                    command:
-                      - sh
-                      - -c
-                      - "valkey-cli ping | grep PONG"
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 30
+              startup: *probes
             securityContext: *contSec
+        statefulset:
+          volumeClaimTemplates:
+            - name: data
+              storageClass: openebs-hostpath
+              accessMode: ReadWriteOnce
+              size: 1Gi
+              advancedMounts:
+                app:
+                  - path: /data
 
     defaultPodOptions:
       enableServiceLinks: false
@@ -160,7 +178,7 @@ spec:
         controller: machine-learning
         ports:
           http:
-            port: 3003
+            port: *mlport
       valkey:
         controller: valkey
         ports:
@@ -199,10 +217,3 @@ spec:
       
       tmp:
         type: emptyDir
-
-      cache:
-        existingClaim: immich-ml-cache
-        advancedMounts:
-          machine-learning:
-            app:
-              - path: /cache
