@@ -34,7 +34,7 @@ spec:
               SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
               SONARR__LOG__DBENABLED: "False"
               SONARR__LOG__LEVEL: info
-              SONARR__SERVER__PORT: &port 8989
+              SONARR__SERVER__PORT: &port 8080
               SONARR__UPDATE__BRANCH: develop
             envFrom: *envFrom
             probes:
@@ -46,7 +46,7 @@ spec:
                     path: /ping
                     port: *port
                   initialDelaySeconds: 0
-                  periodSeconds: 10
+                  periodSeconds: 30
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
@@ -88,8 +88,6 @@ spec:
     persistence:
       config:
         existingClaim: *app
-      add-ons:
-        type: emptyDir
       tmp:
         type: emptyDir
       media:
@@ -97,8 +95,3 @@ spec:
         hostPath: "/mnt/disk/"
         globalMounts:
           - path: /mnt/disk/
-      network:
-        type: hostPath
-        hostPath: "/mnt/network/"
-        globalMounts:
-          - path: /mount/network/

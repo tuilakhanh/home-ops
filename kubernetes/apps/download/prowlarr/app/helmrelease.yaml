@@ -35,7 +35,7 @@ spec:
               PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
               PROWLARR__LOG__DBENABLED: "False"
               PROWLARR__LOG__LEVEL: info
-              PROWLARR__SERVER__PORT: &port 9827
+              PROWLARR__SERVER__PORT: &port 8080
               PROWLARR__UPDATE__BRANCH: develop
             envFrom: *envFrom
             probes:
@@ -47,7 +47,7 @@ spec:
                     path: /ping
                     port: *port
                   initialDelaySeconds: 0
-                  periodSeconds: 10
+                  periodSeconds: 30
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
