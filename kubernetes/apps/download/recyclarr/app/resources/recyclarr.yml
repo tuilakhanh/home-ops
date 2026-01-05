@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
 sonarr:
   sonarr_anime:
-    base_url: http://sonarr-anime.download.svc.cluster.local:8989
+    base_url: http://sonarr-anime.download.svc.cluster.local:8080
     api_key: !env_var SONARR_ANIME_API_KEY
     include:
       # Comment out any of the following includes to disable them
@@ -30,7 +30,7 @@ sonarr:
             score: 0
 
   sonarr_main:
-    base_url: http://sonarr.download.svc.cluster.local:8989
+    base_url: http://sonarr.download.svc.cluster.local:8080
     api_key: !env_var SONARR_API_KEY
 
     include:
@@ -70,7 +70,7 @@ sonarr:
 
 radarr:
   radarr_main:
-    base_url: http://radarr.download.svc.cluster.local:7878
+    base_url: http://radarr.download.svc.cluster.local:8080
     api_key: !env_var RADARR_API_KEY
 
     delete_old_custom_formats: true
