@@ -6,5 +6,4 @@ resources:
   - ./cluster-16.yaml
   - ./service.yaml
   - ./scheduledbackup.yaml
-  - ./dbi.yaml
   - ./objectstore.yaml
