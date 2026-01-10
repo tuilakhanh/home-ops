@@ -19,3 +19,4 @@ resources:
   - ./aria2/ks.yaml
   - ./spoofdpi/ks.yaml
   - ./qui/ks.yaml
+  - ./slskd/ks.yaml
