@@ -41,12 +41,14 @@ spec:
         barmanObjectName: postgres-16
         serverName: postgres-16
 
-  # bootstrap:
-  #   recovery:
-  #     source: &previousCluster postgres-homelab-db-2
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       <<: *barmanObjectStore
-  #       serverName: postgres-homelab-db-2
+  bootstrap:
+    recovery:
+      source: source
+  externalClusters:
+    - name: source
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: postgres-16
+          serverName: postgres-16
 
