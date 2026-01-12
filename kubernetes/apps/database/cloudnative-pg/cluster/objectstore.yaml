@@ -24,7 +24,7 @@ kind: ObjectStore
 metadata:
   name: postgres
 spec:
-  retentionPolicy: "15d"
+  retentionPolicy: "7d"
   configuration:
     destinationPath: "s3://postgres/"
     endpointURL: https://81e69641b977773fe31b62d05f0b44e3.r2.cloudflarestorage.com
