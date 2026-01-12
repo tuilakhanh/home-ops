@@ -6,6 +6,7 @@ namespace: default
 # components:
 #   - ../../flux/components/common
 resources:
+  - ./atuin/ks.yaml
   - ./namespace.yaml
   - ./cyberchef/ks.yaml
   - ./echo-server/ks.yaml
