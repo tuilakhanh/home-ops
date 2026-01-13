@@ -17,8 +17,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/bazarr
-              tag: 1.5.4@sha256:6e2fab9cca3096714795458aec222da5e2e5cde07ed07e439f9879c9de3b5b94
+              repository: ghcr.io/tuilakhanh/bazarr
+              tag: 1.5.5-beta.4@sha256:b9f8b9f4d32fd8aeadf13e259a8ae20c99d17d02624066ddab8a4d29fb60b67a 
             env:
               BAZARR__PORT: &port 6767
             probes:
