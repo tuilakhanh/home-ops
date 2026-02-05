@@ -31,6 +31,8 @@ spec:
             envFrom:
               - secretRef:
                   name: filebrowser-secret
+            env:
+              FILEBROWSER_CONFIG: /home/filebrowser/config.yaml
             resources:
               requests:
                 cpu: 100m
@@ -84,11 +86,15 @@ spec:
               port: 8080
               externalUrl: https://share.tuilakhanh.id.vn
               internalUrl: http://filebrowser.media.svc.cluster.local:8080
-              cacheDir: /cache
+              cacheDir: /tmp
               database: /home/filebrowser/database/filebrowser.db
               sources:
                 - name: GSGA
                   path: /mnt/GSGA
+                - name: files
+                  path: /mnt/files
+                  config:
+                    defaultEnabled: false
             auth:
               methods:
                 noauth: false
@@ -101,7 +107,7 @@ spec:
         existingClaim: filebrowser
         globalMounts:
           - path: /home/filebrowser/database
-      cache:
+      tmp:
         type: emptyDir
       config:
         type: configMap
@@ -114,3 +120,8 @@ spec:
         hostPath: "/mnt/disk/torrent/GSGA"
         globalMounts:
           - path: /mnt/GSGA
+      file:
+        type: hostPath
+        hostPath: "/mnt/disk/files"
+        globalMounts:
+          - path: /mnt/files
