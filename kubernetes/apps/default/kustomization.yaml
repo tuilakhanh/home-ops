@@ -12,3 +12,4 @@ resources:
   - ./echo-server/ks.yaml
   - ./it-tools/ks.yaml
   - ./rss-forwarder/ks.yaml
+  - ./sws/ks.yaml
