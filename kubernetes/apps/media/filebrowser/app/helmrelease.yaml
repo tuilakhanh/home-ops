@@ -75,7 +75,7 @@ spec:
         hostnames:
           - share.tuilakhanh.id.vn
         parentRefs:
-          - name: envoy-external-local
+          - name: envoy-external
             namespace: network
 
     configMaps:
