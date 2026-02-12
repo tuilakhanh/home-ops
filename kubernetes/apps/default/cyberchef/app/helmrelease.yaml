@@ -17,7 +17,7 @@ spec:
           app:
             image:
               repository: ghcr.io/gchq/cyberchef
-              tag: 10.21.0
+              tag: 10.22.1
             probes:
               liveness:
                 enabled: false
