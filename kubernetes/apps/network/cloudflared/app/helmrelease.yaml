@@ -24,9 +24,6 @@ spec:
             env:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_ORIGIN_ENABLE_HTTP2: true
-              TUNNEL_POST_QUANTUM: true
-              TUNNEL_TRANSPORT_PROTOCOL: quic
             envFrom:
               - secretRef:
                   name: cloudflared-secret
@@ -78,11 +75,15 @@ spec:
                 originRequest:
                   originServerName: external.tuilakhanh.id.vn
                   http2Origin: true
+                  keepAliveTimeout: 3600s
+                  tcpKeepAlive: 7200s
               - hostname: '*.a-379.store'
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local
                 originRequest:
                   originServerName: external.tuilakhanh.id.vn
                   http2Origin: true
+                  keepAliveTimeout: 3600s
+                  tcpKeepAlive: 7200s
               - service: http_status:404
     persistence:
       config-file:
