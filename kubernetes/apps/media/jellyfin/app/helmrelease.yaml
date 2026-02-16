@@ -14,7 +14,6 @@ spec:
       jellyfin:
         annotations:
           reloader.stakater.com/auto: "true"
-        type: statefulset
         containers:
           app:
             image:
@@ -53,15 +52,6 @@ spec:
               limits:
                 gpu.intel.com/i915: 1
                 memory: 4Gi
-        statefulset:
-          volumeClaimTemplates:
-            - name: cache
-              storageClass: openebs-hostpath
-              accessMode: ReadWriteOnce
-              size: 10Gi
-              advancedMounts:
-                app:
-                  - path: /cache
 
     defaultPodOptions:
       securityContext:
@@ -100,5 +90,18 @@ spec:
         globalMounts:
           - path: /mount/disk/
 
-      tmp:
+      tmpfs:
         type: emptyDir
+        medium: Memory
+        sizeLimit: 4Gi
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /config/log
+                subPath: log
+              - path: /tmp
+                subPath: tmp
+              - path: /transcode
+                subPath: transcode
