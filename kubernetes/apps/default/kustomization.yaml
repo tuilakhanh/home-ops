@@ -9,7 +9,7 @@ resources:
   - ./atuin/ks.yaml
   - ./namespace.yaml
   - ./cyberchef/ks.yaml
-  - ./echo-server/ks.yaml
+  # - ./echo-server/ks.yaml
   - ./it-tools/ks.yaml
   - ./rss-forwarder/ks.yaml
   - ./sws/ks.yaml
