@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/adguard/adguardhome
-              tag: v0.107.71
+              tag: v0.107.72
             probes:
               liveness: &probe
                 type: HTTP
