@@ -25,7 +25,7 @@ spec:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
-              tag: 8.3.2@sha256:55afe316d3e4e4e3b9120cef7c79436b1b5311f6a18d4ef4b7653e720499c90a
+              tag: 8.5.0@sha256:5da14297a11aa910582d800f0edcb8f9e9d488642083c01dc34950f6449d9214
             env:
               SONARR_ANIME_API_KEY:
                 valueFrom:
