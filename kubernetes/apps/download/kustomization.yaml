@@ -8,6 +8,7 @@ namespace: download
 resources:
   - ./namespace.yaml
   - ./autobrr/ks.yaml
+  - ./brrpolice/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
   - ./sonarr-anime/ks.yaml
