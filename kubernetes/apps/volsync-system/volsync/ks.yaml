@@ -14,3 +14,19 @@ spec:
   targetNamespace: volsync-system
   timeout: 5m
   wait: false
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopia-maintenance
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/volsync-system/volsync/maintenance
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: volsync-system
+  timeout: 5m
+  wait: false
