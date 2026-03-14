@@ -27,7 +27,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /health
+                    path: /api/system/ping
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 30
@@ -74,18 +74,8 @@ spec:
                 port: *port
 
     persistence:
-      add-ons:
-        type: emptyDir
       config:
         existingClaim: *app
-      config-cache:
-        type: emptyDir
-        globalMounts:
-          - path: /config/cache
-      config-log:
-        type: emptyDir
-        globalMounts:
-          - path: /config/log
       media:
         type: hostPath
         hostPath: "/mnt/disk/"
