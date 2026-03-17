@@ -61,6 +61,9 @@ sonarr:
       - trash_id: c4cadd6b35b95f62c3d47a408e53e2f7 # WEB-2160p (Combined)
         reset_unmatched_scores:
           enabled: true
+      - trash_id: 72dae194fc92bf828f32cde7744e51a1  # WEB-1080p
+        reset_unmatched_scores:
+          enabled: true
     custom_format_groups:
       add:
         - trash_id: f4a0410a1df109a66d6e47dcadcce014 # [Optional] Miscellaneous
@@ -74,9 +77,10 @@ sonarr:
       - trash_ids:
           - 5d9fd1b1e06cd8a475462f40214b7df6 # FLUX
           - d34870697c9db575f17700212167be23 # NF
-          - d7c747094a7c65f4c2de083c24899e8b # Freeleech
         assign_scores_to:
           - name: WEB-2160p (Combined)
+            score: 100
+          - name: WEB-1080p
             score: 100
 
 radarr:
@@ -105,7 +109,6 @@ radarr:
 
     custom_formats:
       - trash_ids:
-         - 0d91270a7255a1e388fa85e959f359d8 # FreeLeech
          - 182fa1c42a2468f8488e6dcf75a81b81 # Internal
         assign_scores_to:
           - name: SQP-1 WEB (1080p)
