@@ -21,3 +21,4 @@ resources:
   - ./spoofdpi/ks.yaml
   - ./qui/ks.yaml
   - ./slskd/ks.yaml
+  - ./deduparr/ks.yaml
