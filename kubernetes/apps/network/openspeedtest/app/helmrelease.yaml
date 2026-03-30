@@ -15,16 +15,8 @@ spec:
         containers:
           main:
             image:
-              repository: mirror.gcr.io/openspeedtest/latest
-              tag: v2.0.6@sha256:a6a7e3b3e9e93cfe7b9b2eb49c60b2a93644149a0a600845d4df57148b193ff6
-            command: ["nginx"]
-            args:
-              - -g
-              - daemon off;
-              - -c
-              - /etc/nginx/nginx.conf
-            env:
-              DOMAIN_NAME: "{{ .Release.Name }}.tuilakhanh.id.vn"
+              repository: ghcr.io/tuilakhanh/openspeedtest
+              tag: 2.0.5
             probes:
               liveness: &probes
                 enabled: true
@@ -38,23 +30,23 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-            # securityContext:
-            #   allowPrivilegeEscalation: false
-            #   readOnlyRootFilesystem: true
-            #   capabilities: { drop: ["ALL"] }
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 25m
                 memory: 25Mi
               limits:
                 memory: 256Mi
-    # defaultPodOptions:
-    #   securityContext:
-    #     runAsNonRoot: true
-    #     runAsUser: 1000
-    #     runAsGroup: 1000
-    #     fsGroup: 1000
-    #     fsGroupChangePolicy: OnRootMismatch
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         ports:
