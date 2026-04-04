@@ -92,8 +92,6 @@ spec:
 
       tmpfs:
         type: emptyDir
-        medium: Memory
-        sizeLimit: 4Gi
         advancedMounts:
           jellyfin:
             app:
