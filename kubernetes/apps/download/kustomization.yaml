@@ -18,7 +18,6 @@ resources:
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./aria2/ks.yaml
-  - ./spoofdpi/ks.yaml
   - ./qui/ks.yaml
   - ./slskd/ks.yaml
   - ./deduparr/ks.yaml
