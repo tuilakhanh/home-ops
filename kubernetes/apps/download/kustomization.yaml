@@ -20,4 +20,5 @@ resources:
   - ./aria2/ks.yaml
   - ./qui/ks.yaml
   - ./slskd/ks.yaml
+  - ./seasonpackerr/ks.yaml
   - ./deduparr/ks.yaml
