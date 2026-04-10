@@ -51,7 +51,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.tuilakhanh.id.vn
+    external-dns.alpha.kubernetes.io/target: &hostname ip.tuilakhanh.id.vn
 spec:
   gatewayClassName: envoy
   infrastructure:
