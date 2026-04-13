@@ -27,7 +27,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               # renovate: datasource=github-releases depName=immich-app/immich
-              tag: v2.6.3@sha256:d17a6d4ac4907d03cc6ba0eda2d8b54eb5339326d774309ade8b6549c90f13a9
+              tag: v2.7.4@sha256:23ec6842fb65e636ef8d43872d16ca0609b78461c7b56f2b4f6d0c216b29d489
             env: 
               IMMICH_LOG_LEVEL: log
               REDIS_HOSTNAME: "immich-valkey.media.svc.cluster.local"
@@ -84,7 +84,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.6.3@sha256:cc65ea88767042577a4ab5d516eea1029127614e5dc910bb87c8b9293ec3fcf9
+              tag: v2.7.4@sha256:5426275a8a0007aec1cbf8737bffbd09cbe9e188ff3bbfdb3219de4e8a5edef5
             env:
               MACHINE_LEARNING_HTTP_KEEPALIVE_TIMEOUT_S: "0"
               HF_HOME: /cache/hf
