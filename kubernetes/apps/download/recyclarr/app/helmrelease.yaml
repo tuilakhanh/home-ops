@@ -42,6 +42,11 @@ spec:
                   secretKeyRef:
                     name: radarr-secret
                     key: RADARR__AUTH__APIKEY
+              RADARR_ANIME_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-anime-secret
+                    key: RADARR__AUTH__APIKEY
               RECYCLARR_DATA_DIR:
                 value: /tmp
             args:
