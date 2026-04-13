@@ -22,3 +22,4 @@ resources:
   - ./slskd/ks.yaml
   - ./seasonpackerr/ks.yaml
   - ./deduparr/ks.yaml
+  - ./radarr-anime/ks.yaml
