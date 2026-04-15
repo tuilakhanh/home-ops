@@ -1,0 +1,98 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lingarr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: lingarr
+  values:
+    controllers:
+      lingarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        # initContainers:
+        #   init-db:
+        #     image:
+        #       repository: ghcr.io/home-operations/postgres-init
+        #       tag: 17.6
+        #     envFrom: &envFrom
+        #       - secretRef:
+        #           name: lingarr-secret
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/lingarr-translate/lingarr
+              tag: 1.0.9@sha256:26b3dba8ba1d6b37bdde752418bf3f14d3fac16a3c05a64a2c840e8c507d24e5 
+            env:
+              ASPNETCORE_URLS: http://+:80
+              DB_CONNECTION: sqlite
+            # envFrom: *envFrom
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /ping
+            #         port: *port
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 30
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
+            resources:
+              requests:
+                cpu: 20m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        ports:
+          http:
+            port: &port 80
+
+    route:
+      app:
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        hostnames:
+          - "{{ .Release.Name }}.tuilakhanh.id.vn"
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /app/config
+      tmp:
+        type: emptyDir
+      media:
+        type: hostPath
+        hostPath: "/mnt/disk/"
+        globalMounts:
+          - path: /mnt/disk/
