@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/lingarr-translate/lingarr
-              tag: 1.0.9@sha256:26b3dba8ba1d6b37bdde752418bf3f14d3fac16a3c05a64a2c840e8c507d24e5 
+              tag: 1.1.0@sha256:1a7f1bc6662f08ca94f5463ab030668ecdd55afbbe9f95e65851a255b054063c 
             env:
               ASPNETCORE_URLS: http://+:80
               DB_CONNECTION: sqlite
