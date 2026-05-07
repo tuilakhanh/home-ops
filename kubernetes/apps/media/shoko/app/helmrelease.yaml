@@ -1,0 +1,80 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: shoko
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: shoko
+  values:
+    controllers:
+      shoko:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/shokoanime/server
+              tag: v5.3.3@sha256:b841f8249c9edfba102e4072e2b2a3eae4179e5dd553f29e11b9898a44f1e836 
+            command:
+              - "/usr/src/app/build/Shoko.CLI"
+            env:
+              PUID: "1000"
+              PGID: "1000"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        ports:
+          http:
+            port: 8111
+
+    route:
+      app:
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        hostnames:
+          - "{{ .Release.Name }}.tuilakhanh.id.vn"
+
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          shoko:
+            app:
+              - path: /.shoko
+
+      metadata:
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        suffix: metadata
+        storageClass: openebs-hostpath
+        globalMounts:
+          - path: /.shoko/Shoko.CLI/images
+
+      drive:
+        type: hostPath
+        hostPath: "/mnt/disk/"
+        globalMounts:
+          - path: /mount/disk/
