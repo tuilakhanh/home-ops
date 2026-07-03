@@ -11,30 +11,42 @@ spec:
     name: cyberchef
   values:
     controllers:
-      cyberchef:
+      main:
         strategy: RollingUpdate
         containers:
           app:
             image:
-              repository: ghcr.io/gchq/cyberchef
-              tag: 11.2.0
-            probes:
-              liveness:
-                enabled: false
-              readiness:
-                enabled: false
-            resources:
-              requests:
-                cpu: 100m
-                memory: 25Mi
-              limits:
-                memory: 128Mi
+              repository: ghcr.io/nginx/nginx-unprivileged
+              tag: stable-alpine
+              pullPolicy: Always
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: { drop: [ALL] }
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile: { type: RuntimeDefault }
+
+    persistence:
+      cyberchef:
+        type: image
+        image: ghcr.io/gchq/cyberchef:11.2.0@sha256:f829c2f358153b6b0ce5c226d97851e8728719d1e02e682bf7210d40663e93f9
+        globalMounts:
+          - path: /usr/share/nginx/html
+            subPath: usr/share/nginx/html
+      tmp:
+        type: emptyDir
 
     service:
       app:
         ports:
           http:
-            port: 80
+            port: 8080
 
     route:
       app:
@@ -46,4 +58,4 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: 80
+                port: 8080
