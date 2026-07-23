@@ -67,6 +67,13 @@ sonarr:
         - trash_id: d920fd959d220306888f40b6f38e1578 # [Optional] Season Packs
     custom_formats:
       - trash_ids:
+          - 93c9d1e566dca8b34d57f5efbbf85f28 # VIU
+        assign_scores_to:
+          - name: WEB-2160p (Combined)
+            score: 0
+          - name: WEB-1080p
+            score: 0
+      - trash_ids:
           - 5d9fd1b1e06cd8a475462f40214b7df6 # FLUX
           - d34870697c9db575f17700212167be23 # NF
         assign_scores_to:
