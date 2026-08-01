@@ -1,0 +1,23 @@
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: alpha
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  topology.kubernetes.io/zone: m
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: net0
+selector:
+  match: mac(link.permanent_addr) == "1c:69:7a:a4:e8:34"
+---
+apiVersion: v1alpha1
+kind: LinkConfig
+name: net0
+addresses:
+  - address: 192.168.1.80/24
+routes:
+  - gateway: 192.168.1.1

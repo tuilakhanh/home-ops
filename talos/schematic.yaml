@@ -1,0 +1,10 @@
+---
+customization:
+  extraKernelArgs:
+    - initcall_blacklist=algif_aead_init # copy.fail fix
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/drbd # Miroir DRBD9 Replication
+      - siderolabs/i915 # Intel iGPU
+      - siderolabs/intel-ucode # Intel iGPU
+      - siderolabs/thunderbolt # Thunderbolt
