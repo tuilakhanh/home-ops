@@ -55,12 +55,12 @@ releases:
     needs:
       - kube-system/cilium
 
-  # - name: flux-operator
-  #   namespace: flux-system
-  #   needs:
-  #     - external-secrets/onepassword-connect
+  - name: flux-operator
+    namespace: flux-system
+    needs:
+      - kube-system/cilium
 
-  # - name: flux-instance
-  #   namespace: flux-system
-  #   needs:
-  #     - flux-system/flux-operator
+  - name: flux-instance
+    namespace: flux-system
+    needs:
+      - flux-system/flux-operator
