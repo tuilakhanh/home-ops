@@ -6,3 +6,5 @@ resources:
   - ./helmrelease.yaml
   - ./grafanadashboard.yaml
   - ./ocirepository.yaml
+  - ./grafanafolder.yaml
+  - ./grafanadatasource.yaml
