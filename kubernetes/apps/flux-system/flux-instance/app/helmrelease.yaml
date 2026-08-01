@@ -9,14 +9,8 @@ spec:
   chartRef:
     kind: OCIRepository
     name: flux-instance
-  dependsOn:
-    - name: flux-operator
-      namespace: flux-system
   values:
     instance:
-      distribution:
-        artifact: oci://ghcr.io/controlplaneio-fluxcd/flux-operator-manifests:v0.44.0
-        version: 2.x
       cluster:
         networkPolicy: false
       components:
