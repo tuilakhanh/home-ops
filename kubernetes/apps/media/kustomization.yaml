@@ -7,8 +7,8 @@ namespace: media
 #   - ../../flux/components/common
 resources:
   - ./namespace.yaml
-  - ./jellyfin/ks.yaml
-  - ./immich/ks.yaml
-  - ./seerr/ks.yaml
-  - ./filebrowser/ks.yaml
-  - ./shoko/ks.yaml
+  # - ./jellyfin/ks.yaml
+  # - ./immich/ks.yaml
+  # - ./seerr/ks.yaml
+  # - ./filebrowser/ks.yaml
+  # - ./shoko/ks.yaml

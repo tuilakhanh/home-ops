@@ -7,4 +7,4 @@ namespace: system-controllers
 #   - ../../flux/components/common
 resources:
   - ./namespace.yaml
-  - ./k8tz/ks.yaml
+  # - ./k8tz/ks.yaml

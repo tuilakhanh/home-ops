@@ -11,5 +11,5 @@ resources:
   - ./coredns/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
-  - ./intel-device-plugin/ks.yaml
+  # - ./intel-device-plugin/ks.yaml
   - ./multus/ks.yaml
