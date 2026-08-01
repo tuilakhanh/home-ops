@@ -65,10 +65,6 @@ spec:
       parentRefs:
         - name: envoy-internal
           namespace: network
-      rules:
-        - backendRefs:
-            - name: grafana-service
-              port: 3000
   persistentVolumeClaim:
     spec:
       accessModes:
@@ -76,5 +72,5 @@ spec:
       resources:
         requests:
           storage: 10Gi
-      storageClassName: openebs-hostpath
+      storageClassName: miroir-local
   disableDefaultSecurityContext: All

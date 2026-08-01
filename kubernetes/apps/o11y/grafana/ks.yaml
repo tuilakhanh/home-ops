@@ -1,34 +1,33 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: grafana
+  name: grafana-operator
 spec:
-  targetNamespace: monitoring
-  interval: 30m
-  path: "./kubernetes/apps/monitoring/grafana/app"
+  interval: 1h
+  path: "./kubernetes/apps/o11y/grafana/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
+  targetNamespace: o11y
+  wait: true
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: grafana-instance
 spec:
   dependsOn:
-    - name: grafana
-  targetNamespace: monitoring
-  interval: 30m
-  path: "./kubernetes/apps/monitoring/grafana/instance"
+    - name: grafana-operator
+  interval: 1h
+  path: "./kubernetes/apps/o11y/grafana/instance"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
+  targetNamespace: o11y
