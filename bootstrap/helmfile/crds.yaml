@@ -25,7 +25,7 @@ releases:
     namespace: network
 
   - name: grafana
-    namespace: monitoring
+    namespace: o11y
 
   - name: kube-prometheus-stack
-    namespace: monitoring
+    namespace: o11y
