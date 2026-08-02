@@ -10,9 +10,9 @@ resources:
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./intel-gpu-resource-driver/ks.yaml
+  - ./k8tz/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
   - ./drm-exporter/ks.yaml
-  # - ./intel-device-plugin/ks.yaml
   - ./multus/ks.yaml
   - ./snapshot-controller/ks.yaml
