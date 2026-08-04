@@ -7,15 +7,15 @@ metadata:
 spec:
   commonName: postgres
   dnsNames:
-    - postgres-rw
-    - postgres-ro
-    - postgres-r
-    - postgres-rw.postgres.svc
-    - postgres-ro.postgres.svc
-    - postgres-r.postgres.svc
-    - postgres-rw.postgres.svc.cluster.local
-    - postgres-ro.postgres.svc.cluster.local
-    - postgres-r.postgres.svc.cluster.local
+    - postgres-cluster-rw
+    - postgres-cluster-rw.database.svc
+    - postgres-cluster-rw.database.svc.cluster.local
+    - postgres-cluster-r
+    - postgres-cluster-r.database.svc
+    - postgres-cluster-r.database.svc.cluster.local
+    - postgres-cluster-ro
+    - postgres-cluster-ro.database.svc
+    - postgres-cluster-ro.database.svc.cluster.local
   subject:
     countries:
       - VN
@@ -28,7 +28,7 @@ spec:
     algorithm: ECDSA
     size: 384
     encoding: PKCS8
-    rotationPolicy: Always
+    rotationPolicy: Never
   secretTemplate:
     labels:
       cnpg.io/reload: ""

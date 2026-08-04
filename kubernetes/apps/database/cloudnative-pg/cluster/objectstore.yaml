@@ -17,6 +17,6 @@ spec:
         key: AWS_SECRET_ACCESS_KEY
     wal:
       compression: zstd
+      maxParallel: 8
     data:
       compression: bzip2
-      maxParallel: 8
