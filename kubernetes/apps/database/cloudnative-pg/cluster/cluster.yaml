@@ -6,7 +6,7 @@ metadata:
   name: postgres-cluster
 spec:
   instances: 1
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:18.4-1.1.1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-trixie@sha256:f0cc49632b5cc1e51f65ba03658c89bd31d64ea2672b14843a808a8d281417e1
 
   certificates:
     serverTLSSecret: postgres-server-cert
@@ -28,6 +28,14 @@ spec:
       - hostssl   all all all               cert clientcert=verify-full
     shared_preload_libraries:
       - vchord.so
+    extensions:
+      - name: vchord
+        image:
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.1@sha256:bdea43bed2a414e21bbf71767bf6f0739747ac480b267b51772dc214ac28dcb3
+        dynamic_library_path:
+          - /usr/lib/postgresql/18/lib
+        extension_control_path:
+          - /usr/share/postgresql/18/
   
   monitoring:
     enablePodMonitor: false
