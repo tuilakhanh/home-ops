@@ -1,47 +1,61 @@
 ---
-# yaml-language-server: $schema=https://crd.movishell.pl/postgresql.cnpg.io/cluster_v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
+  name: postgres-cluster
 spec:
   instances: 1
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.7-1.0.0
-  enableSuperuserAccess: true
+
+  certificates:
+    serverTLSSecret: postgres-server-cert
+    serverCASecret: postgres-server-ca
+    clientCASecret: postgres-client-ca
+    replicationTLSSecret: postgres-client-cert
+
   storage:
-    size: 20Gi
-    storageClass: openebs-hostpath
+    size: 10Gi
+    storageClass: miroir-local
+    
   postgresql:
-    shared_preload_libraries: ["vchord.so"]
     parameters:
       max_connections: "300"
-      work_mem: 64MB
-      shared_buffers: 128MB
-  superuserSecret:
-    name: cloudnative-pg-secret
+      shared_buffers: 256MB
+    pg_hba:
+      - hostnossl all all 10.69.0.0/16      scram-sha-256
+      - hostnossl all all fc69::/16         scram-sha-256
+      - hostssl   all all all               cert clientcert=verify-full
+    shared_preload_libraries:
+      - vchord.so
+  
   monitoring:
     enablePodMonitor: false
+  
   resources:
     requests:
       cpu: 200m
       memory: 512Mi
     limits:
+      hugepages-2Mi: 1Gi
       memory: 2Gi
+
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
-        barmanObjectName: postgres
-        serverName: postgres
+        barmanObjectName: postgres-cluster
+        serverName: postgres-cluster
 
   bootstrap:
     recovery:
       source: source
+
   externalClusters:
     - name: source
       plugin:
         name: barman-cloud.cloudnative-pg.io
         parameters:
-          barmanObjectName: postgres
-          serverName: postgres-16
+          barmanObjectName: postgres-cluster
+          serverName: postgres
 

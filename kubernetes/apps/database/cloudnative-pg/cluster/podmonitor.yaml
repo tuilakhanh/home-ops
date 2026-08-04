@@ -9,5 +9,5 @@ spec:
     - port: metrics
   selector:
     matchLabels:
-      cnpg.io/cluster: postgres-16
+      cnpg.io/cluster: postgres-cluster
       cnpg.io/podRole: instance
