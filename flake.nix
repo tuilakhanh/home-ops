@@ -4,43 +4,38 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # IMPORTANT
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = {
-    self,
+  outputs = inputs@{
     disko,
     flake-parts,
-    chaotic,
+    nixpkgs,
+    sops-nix,
     ...
-  } @ inputs:
+  }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
-      flake = {
-        nixosConfigurations.k3s-master = inputs.nixpkgs.lib.nixosSystem {
-          modules = [
-            disko.nixosModules.disko
-            chaotic.nixosModules.default
-            ./nix/base.nix
-            ./nix/host/master
-            # ./nix/module/incus.nix
-            ./nix/module/k3s-master.nix
-            ./nix/module/rclone-mount.nix
-            ./nix/module/tailscale.nix
-            ./nix/module/node-exporter.nix
-          ];
-          specialArgs = {
-            inherit inputs;
-            hostName = "k3s-master";
-          };
+      flake.nixosConfigurations.k3s-master = nixpkgs.lib.nixosSystem {
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          ./nix/base.nix
+          ./nix/host/master
+          ./nix/module/garage.nix
+          ./nix/module/k3s-master.nix
+          ./nix/module/storage.nix
+          ./nix/module/tailscale.nix
+          ./nix/module/node-exporter.nix
+        ];
+        specialArgs = {
+          hostName = "k3s-master";
         };
       };
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
+
+      perSystem = { pkgs, ... }: {
         devShells.default = pkgs.mkShellNoCC {
-          # shellHook = ''
-
-          # '';
-
           nativeBuildInputs = with pkgs; [
             nixos-rebuild
             kubefetch
