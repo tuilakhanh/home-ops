@@ -14,7 +14,7 @@ spec:
       enabled: true
       authorizedSecrets:
         - root-ca
-        - postgres-client-ca
+        - postgres-client-root-ca
     app:
       webhook:
         tls:

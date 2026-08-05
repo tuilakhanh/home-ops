@@ -11,7 +11,7 @@ spec:
   certificates:
     serverTLSSecret: postgres-server-cert
     serverCASecret: postgres-server-ca
-    clientCASecret: postgres-client-ca
+    clientCASecret: postgres-client-root-ca
     replicationTLSSecret: postgres-client-cert
 
   storage:
@@ -66,4 +66,3 @@ spec:
         parameters:
           barmanObjectName: postgres-cluster
           serverName: postgres
-
