@@ -6,21 +6,18 @@ metadata:
   name: immich
 spec:
   components:
-    - ../../../../flux/components/volsync-local
+    - ../../../../components/gpu
+    - ../../../../components/cnpg/app-template
   dependsOn:
+    - name: kopiur
+      namespace: kopiur-system
     - name: postgres-cluster
       namespace: database
-    - name: openebs
-      namespace: openebs
-    - name: volsync
-      namespace: volsync-system
   interval: 30m
   path: ./kubernetes/apps/media/immich/app
   postBuild:
     substitute:
       APP: immich
-      VOLSYNC_CAPACITY: 80Gi
-      VOLSYNC_CACHE_CAPACITY: 10Gi
   prune: true
   sourceRef:
     kind: GitRepository

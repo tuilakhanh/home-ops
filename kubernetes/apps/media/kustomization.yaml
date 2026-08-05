@@ -10,7 +10,7 @@ components:
 resources:
   - ./namespace.yaml
   - ./jellyfin/ks.yaml
-  # - ./immich/ks.yaml
+  - ./immich/ks.yaml
   - ./seerr/ks.yaml
   # - ./filebrowser/ks.yaml
   - ./shoko/ks.yaml

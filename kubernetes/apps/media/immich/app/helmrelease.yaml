@@ -12,16 +12,10 @@ spec:
   values:
     controllers:
       server:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 17.6@sha256:86a1992d46273c58fd4ad95b626081dfaabfe16bd56944675169e406d1a660dd
-            envFrom:
-              - secretRef:
-                  name: immich-db-secret
+        pod:
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: immich-gpu
         containers:
           app:
             image:
@@ -32,21 +26,11 @@ spec:
               IMMICH_LOG_LEVEL: log
               REDIS_HOSTNAME: "immich-valkey.media.svc.cluster.local"
               IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.media.svc.cluster.local:3003"
-              DB_HOSTNAME:
+              DB_URL:
                 valueFrom:
                   secretKeyRef:
-                    name: immich-db-secret
-                    key: DB_HOSTNAME
-              DB_USERNAME:
-                valueFrom:
-                  secretKeyRef:
-                    name: immich-db-secret
-                    key: DB_USERNAME
-              DB_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: immich-db-secret
-                    key: DB_PASSWORD
+                    name: '{{ .Release.Name }}-postgres'
+                    key: url
               DB_DATABASE_NAME: "immich"
             probes:
               liveness: &probes
@@ -67,12 +51,13 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             resources:
+              claims:
+                - name: gpu
               requests:
-                cpu: 10m
+                cpu: 100m
                 memory: 128Mi
               limits:
                 memory: 4096Mi
-                gpu.intel.com/i915: 1
             securityContext: &contSec
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -106,14 +91,11 @@ spec:
                   failureThreshold: 10
               readiness: *mlprobes
               startup: *mlprobes
-            resources:
-              limits:
-                gpu.intel.com/i915: 1
             securityContext: *contSec
         statefulset:
           volumeClaimTemplates:
             - name: cache
-              storageClass: openebs-hostpath
+              storageClass: miroir-local
               accessMode: ReadWriteOnce
               size: 10Gi
               advancedMounts:
@@ -151,8 +133,8 @@ spec:
             securityContext: *contSec
         statefulset:
           volumeClaimTemplates:
-            - name: data
-              storageClass: openebs-hostpath
+            - name: valkey
+              storageClass: miroir-local
               accessMode: ReadWriteOnce
               size: 1Gi
               advancedMounts:
@@ -167,7 +149,6 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [44]
     service:
       server:
         controller: server
@@ -198,8 +179,10 @@ spec:
                 port: 2283
 
     persistence:
-      data:
-        existingClaim: *app
+      photo:
+        type: nfs
+        server: 192.168.1.36
+        path: /mnt/disk/immich_data
         advancedMounts:
           server:
             app:
