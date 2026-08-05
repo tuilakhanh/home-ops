@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -12,8 +12,6 @@ spec:
   values:
     controllers:
       shoko:
-        annotations:
-          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
@@ -69,12 +67,13 @@ spec:
         accessMode: ReadWriteOnce
         size: 20Gi
         suffix: metadata
-        storageClass: openebs-hostpath
+        storageClass: miroir-local
         globalMounts:
           - path: /.shoko/Shoko.CLI/images
 
       drive:
-        type: hostPath
-        hostPath: "/mnt/disk/"
+        type: nfs
+        server: 192.168.1.36
+        path: /mnt/disk
         globalMounts:
           - path: /mount/disk/

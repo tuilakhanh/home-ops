@@ -13,4 +13,4 @@ resources:
   # - ./immich/ks.yaml
   # - ./seerr/ks.yaml
   # - ./filebrowser/ks.yaml
-  # - ./shoko/ks.yaml
+  - ./shoko/ks.yaml
