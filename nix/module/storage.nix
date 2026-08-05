@@ -5,10 +5,6 @@
     mergerfs
   ];
 
-  systemd.tmpfiles.rules = [
-    "d /mnt/disk/share 0755 root root -"
-  ];
-
   fileSystems = {
     "/mnt/wd16tb1" = {
       device = "/dev/disk/by-uuid/7ca15b8e-9bcc-437a-b33c-f425a8e26036";
@@ -47,7 +43,7 @@
   services.nfs.server = {
     enable = true;
     exports = ''
-      /mnt/disk/share 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash) 100.64.0.0/10(rw,sync,no_subtree_check,no_root_squash)
+      /mnt/disk 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash) 100.64.0.0/10(rw,sync,no_subtree_check,no_root_squash)
     '';
   };
 }
