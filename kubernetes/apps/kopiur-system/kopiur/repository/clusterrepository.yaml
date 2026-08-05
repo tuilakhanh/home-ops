@@ -40,7 +40,9 @@ spec:
           namespace: kopiur-system
       bucket: kopiur
       endpoint: 192.168.1.36:3900
-      region: auto
+      region: garage
+      tls:
+        disableTls: true
   encryption:
     passwordSecretRef:
       name: nas-repository-secret
