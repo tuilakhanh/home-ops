@@ -5,16 +5,16 @@ metadata:
   name: seerr
 spec:
   components:
-    - ../../../../flux/components/volsync
+    - ../../../../components/kopiur/backup
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/media/seerr/app
   postBuild:
     substitute:
       APP: seerr
-      VOLSYNC_CAPACITY: 5Gi
+      KOPIUR_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository
