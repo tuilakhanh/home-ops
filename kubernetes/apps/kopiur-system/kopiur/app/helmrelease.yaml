@@ -9,6 +9,26 @@ spec:
     kind: OCIRepository
     name: kopiur
   interval: 1h
+  postRenderers:
+    - kustomize:
+        patches:
+          # Kopiur 0.9.2 reads status.resolved from the parent Restore before
+          # patching its status, but the chart only grants restores/status.
+          - patch: |-
+              - op: add
+                path: /rules/-
+                value:
+                  apiGroups:
+                    - kopiur.home-operations.com
+                  resources:
+                    - restores
+                  verbs:
+                    - get
+            target:
+              group: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: kopiur-mover
+              version: v1
   values:
     monitoring:
       dashboards:
