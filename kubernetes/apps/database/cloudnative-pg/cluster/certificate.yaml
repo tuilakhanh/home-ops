@@ -48,6 +48,11 @@ spec:
   secretTemplate:
     labels:
       cnpg.io/reload: ""
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Always
   usages:
     - client auth
   commonName: streaming_replica

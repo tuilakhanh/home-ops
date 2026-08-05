@@ -7,6 +7,9 @@ metadata:
 spec:
   sources:
     - secret:
+        name: postgres-client-ca
+        key: tls.crt
+    - secret:
         name: cluster-ca-cert
         key: tls.crt
   target:
