@@ -3,14 +3,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: download
-# components:
-#   - ../../flux/components/common
+
+components:
+  - ../../components/kopiur/secret
+  
 resources:
   - ./namespace.yaml
   # - ./autobrr/ks.yaml
   # - ./brrpolice/ks.yaml
   # - ./radarr/ks.yaml
-  # - ./sonarr/ks.yaml
+  - ./sonarr/ks.yaml
   # - ./sonarr-anime/ks.yaml
   # - ./bazarr/ks.yaml
   # - ./bazarr-anime/ks.yaml
@@ -20,7 +22,6 @@ resources:
   # - ./aria2/ks.yaml
   # - ./qui/ks.yaml
   # - ./slskd/ks.yaml
-  # - ./seasonpackerr/ks.yaml
   # - ./deduparr/ks.yaml
   # - ./radarr-anime/ks.yaml
   # - ./lingarr/ks.yaml
