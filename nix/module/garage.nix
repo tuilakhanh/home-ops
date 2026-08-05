@@ -19,12 +19,15 @@ in
       };
       garage-admin-token = {
         key = "data/garage_admin_token";
-        group = "garage-webui";
-        mode = "0440";
-        restartUnits = [
-          "garage.service"
-          "garage-webui.service"
-        ];
+        owner = "garage";
+        mode = "0400";
+        restartUnits = [ "garage.service" ];
+      };
+      garage-webui-admin-token = {
+        key = "data/garage_admin_token";
+        owner = "garage-webui";
+        mode = "0400";
+        restartUnits = [ "garage-webui.service" ];
       };
       garage-metrics-token = {
         key = "data/garage_metrics_token";
@@ -48,7 +51,6 @@ in
       garage = {
         isSystemUser = true;
         group = "garage";
-        extraGroups = [ "garage-webui" ];
       };
       garage-webui = {
         isSystemUser = true;
@@ -124,7 +126,7 @@ in
         S3_REGION = "garage";
       };
       script = ''
-        admin_key="$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.garage-admin-token.path})"
+        admin_key="$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.garage-webui-admin-token.path})"
         password="$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.garage-webui-password.path})"
         password_hash="$(printf '%s\n' "$password" | ${lib.getExe' pkgs.apacheHttpd "htpasswd"} -niBC 12 admin | ${pkgs.coreutils}/bin/cut -d: -f2)"
         unset password
@@ -139,7 +141,10 @@ in
         Restart = "on-failure";
         RestartSec = 5;
 
-        IPAddressAllow = [ "localhost" ];
+        IPAddressAllow = [
+          "localhost"
+          "192.168.1.0/24"
+        ];
         IPAddressDeny = "any";
         LockPersonality = true;
         NoNewPrivileges = true;

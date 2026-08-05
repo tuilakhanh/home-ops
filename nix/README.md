@@ -22,8 +22,11 @@ sudo garage-manage layout assign --zone home --capacity <capacity> <node-id>
 sudo garage-manage layout apply --version 1
 ```
 
-Garage WebUI listens on port 3909 and is restricted to local connections.
-Retrieve its generated password with SOPS, then connect through an SSH tunnel:
+Garage WebUI listens on port 3909 and accepts connections from localhost and
+the `192.168.1.0/24` LAN. Retrieve its generated password with SOPS, then open
+`http://<garage-lan-ip>:3909`.
+
+Alternatively, connect through an SSH tunnel:
 
 ```shell
 sops decrypt --extract '["data"]["garage_webui_password"]' nix/secrets/garage.sops.yaml
