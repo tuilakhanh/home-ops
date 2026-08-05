@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ${APP}-db
+spec:
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: database
+  interval: 1h
+  path: ./kubernetes/components/cnpg/app/database
+  postBuild:
+    substitute:
+      APP: ${APP}
+      OWNER: ${DATABASE_OWNER:=${APP}}
+      EXTENSIONS: ${q:='}${DATABASE_EXTENSIONS:=}${q:='}
+      emptyArray: '[]'
+  healthChecks:
+    - name: postgres-${APP}
+      namespace: database
+      kind: Database
+      apiVersion: postgresql.cnpg.io/v1
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: database
+  timeout: 5m
+  wait: false

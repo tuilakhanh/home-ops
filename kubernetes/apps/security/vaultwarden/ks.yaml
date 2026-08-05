@@ -1,17 +1,18 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: vaultwarden
 spec:
   components:
-    - ../../../../flux/components/volsync
+    - ../../../../components/kopiur/backup
+    - ../../../../components/cnpg/app-template
   dependsOn:
-    - name: openebs
-      namespace: openebs
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: kopiur-system
+    - name: postgres-cluster
+      namespace: database
   interval: 30m
   path: ./kubernetes/apps/security/vaultwarden/app
   postBuild:

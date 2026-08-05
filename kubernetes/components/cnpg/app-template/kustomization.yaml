@@ -1,0 +1,36 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../app
+patches:
+  - target:
+      kind: HelmRelease
+      group: helm.toolkit.fluxcd.io
+      version: v2
+    patch: |-
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: not-used
+      spec:
+        values:
+          persistence:
+            postgres-certs:
+              type: custom
+              globalMounts:
+                - path: /var/run/secrets/postgresql
+              volumeSpec:
+                csi:
+                  driver: csi.cert-manager.io
+                  readOnly: true
+                  volumeAttributes:
+                    csi.cert-manager.io/issuer-name: postgres-client-ca
+                    csi.cert-manager.io/issuer-kind: ClusterIssuer
+                    csi.cert-manager.io/key-algorithm: ECDSA
+                    csi.cert-manager.io/key-size: "384"
+                    csi.cert-manager.io/key-encoding: PKCS8
+                    csi.cert-manager.io/key-usages: client auth
+                    csi.cert-manager.io/common-name: ${DATABASE_OWNER:=${APP}}
+                    csi.cert-manager.io/dns-names: $${POD_NAME}.$${POD_NAMESPACE}.svc.cluster.local

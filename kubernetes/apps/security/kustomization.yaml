@@ -7,4 +7,4 @@ namespace: security
 #   - ../../flux/components/common
 resources:
   - ./namespace.yaml
-  # - ./vaultwarden/ks.yaml
+  - ./vaultwarden/ks.yaml
