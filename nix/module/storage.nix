@@ -32,6 +32,8 @@
       options = [
         "allow_other"
         "use_ino"
+        "never-forget-nodes=true"
+        "inodecalc=path-hash"
         "cache.files=partial"
         "dropcacheonclose=true"
         "category.create=mfs"
@@ -43,7 +45,7 @@
   services.nfs.server = {
     enable = true;
     exports = ''
-      /mnt/disk 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash) 100.64.0.0/10(rw,sync,no_subtree_check,no_root_squash)
+      /mnt/disk 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash,fsid=9e10f305-2828-4915-9497-0263e63a36c0) 100.64.0.0/10(rw,sync,no_subtree_check,no_root_squash,fsid=9e10f305-2828-4915-9497-0263e63a36c0)
     '';
   };
 }
