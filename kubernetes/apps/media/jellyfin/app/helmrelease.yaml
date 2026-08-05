@@ -12,8 +12,10 @@ spec:
   values:
     controllers:
       jellyfin:
-        annotations:
-          reloader.stakater.com/auto: "true"
+        pod:
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: jellyfin-gpu
         containers:
           app:
             image:
