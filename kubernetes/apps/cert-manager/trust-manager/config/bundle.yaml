@@ -8,7 +8,7 @@ spec:
   sources:
     - secret:
         name: postgres-client-ca
-        key: tls.crt
+        key: ca.crt
   target:
     namespaceSelector:
       matchLabels:

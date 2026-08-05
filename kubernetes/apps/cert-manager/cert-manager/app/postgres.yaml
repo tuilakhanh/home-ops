@@ -30,7 +30,7 @@ spec:
     encoding: PKCS8
     rotationPolicy: Never
   issuerRef:
-    name: selfsigned
+    name: cluster-ca
     kind: ClusterIssuer
     group: cert-manager.io
   secretTemplate:
