@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/kopiur.home-operations.com/snapshotpolicy_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: ${APP}
+  annotations:
+    kopiur.home-operations.com/allow-identity-change: "true"
+spec:
+  compression:
+    compressor: ${COMPRESSOR:=zstd-best-compression}
+  mover:
+    cache:
+      capacity: ${KOPIUR_CAPACITY:=5Gi}
+      mode: Ephemeral
+      storageClassName: miroir-local
+    securityContext:
+      runAsUser: ${KOPIUR_PUID:=1000}
+      runAsGroup: ${KOPIUR_PGID:=1000}
+  repository:
+    kind: ClusterRepository
+    name: ${REPOSITORY:=cloudflare}
+  retention:
+    keepLatest: 3
+    keepDaily: 7
+    keepWeekly: 4
+  sources:
+    - pvc:
+        name: ${APP}
+  volumeSnapshotClassName: ${KOPIUR_SNAPSHOTCLASS:=miroir}
