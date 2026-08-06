@@ -5,7 +5,7 @@ kind: Kustomization
 metadata:
   name: kromgo
 spec:
-  targetNamespace: monitoring
+  targetNamespace: o11y
   interval: 30m
   timeout: 5m
   path: ./kubernetes/apps/o11y/kromgo/app
