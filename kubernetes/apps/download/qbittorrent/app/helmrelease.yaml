@@ -86,8 +86,9 @@ spec:
             app:
               - path: /config
       media:
-        type: hostPath
-        hostPath: "/mnt/disk/"
+        type: nfs
+        server: 192.168.1.36
+        path: /mnt/disk
         globalMounts:
           - path: /mnt/disk/
       

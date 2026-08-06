@@ -6,18 +6,16 @@ metadata:
   name: qbittorrent
 spec:
   components:
-    - ../../../../flux/components/volsync
+    - ../../../../components/kopiur/backup
   dependsOn:
-    - name: openebs
-      namespace: openebs
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: kopiur-system
   interval: 30m
   path: ./kubernetes/apps/download/qbittorrent/app
   postBuild:
     substitute:
       APP: qbittorrent
-      VOLSYNC_CAPACITY: 1Gi
+      KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: GitRepository

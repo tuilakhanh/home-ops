@@ -12,4 +12,4 @@ resources:
   - ./kube-state-metrics/ks.yaml
   - ./victoria-logs/ks.yaml
   - ./grafana/ks.yaml
-  # - ./kromgo/ks.yaml
+  - ./kromgo/ks.yaml

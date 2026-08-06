@@ -6,13 +6,13 @@ metadata:
   name: thelounge
 spec:
   components:
-    - ../../../../flux/components/volsync
+    - ../../../../components/kopiur/backup
   interval: 30m
   path: ./kubernetes/apps/default/thelounge/app
   postBuild:
     substitute:
       APP: thelounge
-      VOLSYNC_CAPACITY: 1Gi
+      KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: GitRepository

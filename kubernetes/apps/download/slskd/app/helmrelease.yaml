@@ -57,7 +57,7 @@ spec:
         statefulset:
           volumeClaimTemplates:
             - name: config
-              storageClass: openebs-hostpath
+              storageClass: miroir-local
               accessMode: ReadWriteOnce
               size: 5Gi
     defaultPodOptions:
@@ -119,8 +119,9 @@ spec:
           - path: /config/slskd.yml
             subPath: slskd.yml
       media:
-        type: hostPath
-        hostPath: /mnt/disk/
+        type: nfs
+        server: 192.168.1.36
+        path: /mnt/disk
         globalMounts:
           - path: /mnt/disk/download/soulseek
             subPath: download/soulseek

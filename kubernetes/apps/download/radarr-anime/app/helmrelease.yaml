@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: radarr-anime
+  name: &app radarr-anime
 spec:
   interval: 1h
   chartRef:
@@ -14,15 +14,6 @@ spec:
       radarr-anime:
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 17.6
-            envFrom: &envFrom
-              - secretRef:
-                  name: radarr-anime-secret
-
         containers:
           app:
             image:
@@ -36,7 +27,18 @@ spec:
               radarr__LOG__LEVEL: info
               radarr__SERVER__PORT: &port 8080
               radarr__UPDATE__BRANCH: develop
-            envFrom: *envFrom
+
+              RADARR__POSTGRES__HOST: postgres-cluster-rw.database.svc.cluster.local
+              RADARR__POSTGRES__USER: *app
+              RADARR__POSTGRES__MAINDB: *app
+              RADARR__POSTGRES__PASSWORD: *app
+              PGSSLROOTCERT: /var/run/secrets/root-ca/ca.crt
+              PGSSLCERT: /var/run/secrets/postgresql/tls.crt
+              PGSSLKEY: /var/run/secrets/postgresql/tls.key
+              PGSSLMODE: verify-full
+            envFrom:
+              - secretRef:
+                  name: radarr-anime-secret
             probes:
               liveness: &probes
                 enabled: true
@@ -95,7 +97,8 @@ spec:
       tmp:
         type: emptyDir
       media:
-        type: hostPath
-        hostPath: "/mnt/disk/"
+        type: nfs
+        server: 192.168.1.36
+        path: /mnt/disk
         globalMounts:
           - path: /mnt/disk/

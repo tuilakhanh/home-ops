@@ -6,22 +6,22 @@ namespace: download
 
 components:
   - ../../components/kopiur/secret
-  
+
 resources:
   - ./namespace.yaml
-  # - ./autobrr/ks.yaml
-  # - ./brrpolice/ks.yaml
-  # - ./radarr/ks.yaml
+  - ./autobrr/ks.yaml
+  - ./brrpolice/ks.yaml
+  - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
-  # - ./sonarr-anime/ks.yaml
-  # - ./bazarr/ks.yaml
-  # - ./bazarr-anime/ks.yaml
-  # - ./recyclarr/ks.yaml
-  # - ./prowlarr/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./sonarr-anime/ks.yaml
+  - ./bazarr/ks.yaml
+  - ./bazarr-anime/ks.yaml
+  - ./recyclarr/ks.yaml
+  - ./prowlarr/ks.yaml
+  - ./qbittorrent/ks.yaml
   # - ./aria2/ks.yaml
-  # - ./qui/ks.yaml
-  # - ./slskd/ks.yaml
-  # - ./deduparr/ks.yaml
-  # - ./radarr-anime/ks.yaml
+  - ./qui/ks.yaml
+  - ./slskd/ks.yaml
+  - ./deduparr/ks.yaml
+  - ./radarr-anime/ks.yaml
   # - ./lingarr/ks.yaml

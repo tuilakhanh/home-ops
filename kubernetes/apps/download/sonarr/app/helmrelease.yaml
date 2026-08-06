@@ -28,7 +28,7 @@ spec:
               SONARR__SERVER__PORT: &port 8080
               SONARR__UPDATE__BRANCH: develop
 
-              SONARR__POSTGRES__HOST: postgres-cluster.svc.cluster.local
+              SONARR__POSTGRES__HOST: postgres-cluster-rw.database.svc.cluster.local
               SONARR__POSTGRES__USER: *app
               SONARR__POSTGRES__MAINDB: *app
               SONARR__POSTGRES__PASSWORD: *app
