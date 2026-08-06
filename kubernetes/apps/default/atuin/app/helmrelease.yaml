@@ -28,9 +28,6 @@ spec:
                   secretKeyRef:
                     name: ${APP}-postgres
                     key: url
-            envFrom:
-              -  secretRef:
-                   name: "{{ .Release.Name }}-secret"
             command:
               - atuin
               - server
