@@ -6,7 +6,7 @@ namespace: download
 
 components:
   - ../../components/kopiur/secret
-  
+
 resources:
   - ./namespace.yaml
   # - ./autobrr/ks.yaml
@@ -17,10 +17,10 @@ resources:
   # - ./bazarr/ks.yaml
   # - ./bazarr-anime/ks.yaml
   # - ./recyclarr/ks.yaml
-  # - ./prowlarr/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./prowlarr/ks.yaml
+  - ./qbittorrent/ks.yaml
   # - ./aria2/ks.yaml
-  # - ./qui/ks.yaml
+  - ./qui/ks.yaml
   # - ./slskd/ks.yaml
   # - ./deduparr/ks.yaml
   # - ./radarr-anime/ks.yaml

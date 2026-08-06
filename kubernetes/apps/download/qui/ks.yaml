@@ -6,16 +6,16 @@ metadata:
   name: qui
 spec:
   components:
-    - ../../../../flux/components/volsync
+    - ../../../../components/kopiur/backup
   dependsOn:
-    - name: openebs
-      namespace: openebs
+    - name: kopiur
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/download/qui/app
   postBuild:
     substitute:
       APP: qui
-      VOLSYNC_CAPACITY: 2Gi
+      KOPIUR_CAPACITY: 2Gi
   prune: true
   sourceRef:
     kind: GitRepository
