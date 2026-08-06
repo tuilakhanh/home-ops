@@ -16,7 +16,6 @@ spec:
           resourceClaims:
             - name: gpu
               resourceClaimTemplateName: immich-gpu
-            - name: gpu2
         containers:
           app:
             image:
@@ -66,6 +65,10 @@ spec:
 
       machine-learning:
         type: statefulset
+        pod:
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: immich-gpu
         containers:
           app:
             image:
@@ -94,7 +97,7 @@ spec:
               startup: *mlprobes
             resources:
               claims:
-                - name: gpu2
+                - name: gpu
               requests:
                 cpu: 100m
                 memory: 256Mi
