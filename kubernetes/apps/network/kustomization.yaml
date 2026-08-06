@@ -6,6 +6,7 @@ namespace: network
 
 components:
   - ../../components/kopiur/secret
+  - ../../components/alerts
   
 resources:
   - ./namespace.yaml
