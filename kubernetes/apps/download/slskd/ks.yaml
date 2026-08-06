@@ -5,8 +5,14 @@ kind: Kustomization
 metadata:
   name: slskd
 spec:
+  components:
+    - ../../../../components/zeroscaler
   interval: 30m
   path: ./kubernetes/apps/download/slskd/app
+  postBuild:
+    substitute:
+      CONTROLLER: StatefulSet
+      ZEROSCALER_TARGET: slskd
   prune: true
   sourceRef:
     kind: GitRepository

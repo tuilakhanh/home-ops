@@ -5,8 +5,13 @@ kind: Kustomization
 metadata:
   name: sws
 spec:
+  components:
+    - ../../../../components/zeroscaler
   interval: 30m
   path: ./kubernetes/apps/default/sws/app
+  postBuild:
+    substitute:
+      ZEROSCALER_TARGET: sws
   prune: true
   sourceRef:
     kind: GitRepository

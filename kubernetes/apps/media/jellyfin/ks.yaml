@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/gpu
     - ../../../../components/kopiur/backup
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: intel-gpu-resource-driver
       namespace: kube-system
@@ -21,6 +22,7 @@ spec:
       KOPIUR_CAPACITY: 25Gi
       REPOSITORY: nas
       COMPRESSOR: zstd-fastest
+      ZEROSCALER_TARGET: jellyfin
   prune: true
   sourceRef:
     kind: GitRepository

@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/cnpg/app-template
     - ../../../../components/kopiur/backup
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: kopiur
       namespace: kopiur-system
@@ -17,6 +18,7 @@ spec:
     substitute:
       APP: radarr
       KOPIUR_CAPACITY: 1Gi
+      ZEROSCALER_TARGET: radarr
   prune: true
   sourceRef:
     kind: GitRepository

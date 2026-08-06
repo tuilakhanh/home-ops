@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/gpu
     - ../../../../components/cnpg/app-template
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: kopiur
       namespace: kopiur-system
@@ -18,6 +19,7 @@ spec:
   postBuild:
     substitute:
       APP: immich
+      ZEROSCALER_TARGET: immich-server
   prune: true
   sourceRef:
     kind: GitRepository
