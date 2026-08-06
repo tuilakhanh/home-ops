@@ -8,7 +8,7 @@ spec:
   targetNamespace: monitoring
   interval: 30m
   timeout: 5m
-  path: "./kubernetes/apps/monitoring/kromgo/app"
+  path: ./kubernetes/apps/o11y/kromgo/app
   prune: true
   sourceRef:
     kind: GitRepository
