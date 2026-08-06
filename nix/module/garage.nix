@@ -98,8 +98,16 @@ in
 
   systemd.services = {
     garage = {
-      after = [ "mnt-disk.mount" ];
-      requires = [ "mnt-disk.mount" ];
+      after = [
+        "mnt-wd14tb1.mount"
+        "mnt-wd16tb1.mount"
+        "mnt-disk.mount"
+      ];
+      requires = [
+        "mnt-wd14tb1.mount"
+        "mnt-wd16tb1.mount"
+        "mnt-disk.mount"
+      ];
       serviceConfig = {
         DynamicUser = lib.mkForce false;
         User = "garage";

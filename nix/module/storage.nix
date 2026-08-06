@@ -29,6 +29,10 @@
     "/mnt/disk" = {
       device = "/mnt/wd14tb1:/mnt/wd16tb1";
       fsType = "fuse.mergerfs";
+      depends = [
+        "/mnt/wd14tb1"
+        "/mnt/wd16tb1"
+      ];
       options = [
         "allow_other"
         "use_ino"
