@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/library/mysql
-              tag: "8.0"
+              tag: "26.7"
             args:
               - --character-set-server=utf8mb4
               - --collation-server=utf8mb4_unicode_ci
