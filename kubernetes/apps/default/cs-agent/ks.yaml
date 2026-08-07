@@ -1,31 +1,23 @@
-# ---
-# # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: cs-agent
-# spec:
-#   components:
-#     - ../../../../components/kopiur/backup
-#   dependsOn:
-#     - name: kopiur
-#       namespace: kopiur-system
-#     - name: cs-agent-mysql
-#       namespace: default
-#   interval: 30m
-#   path: ./kubernetes/apps/default/cs-agent/app
-#   postBuild:
-#     substitute:
-#       APP: cs-agent
-#       KOPIUR_CAPACITY: 80Gi
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-#     namespace: flux-system
-#   targetNamespace: default
-#   timeout: 10m
-#   wait: false
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cs-agent
+spec:
+  dependsOn:
+    - name: cs-agent-mysql
+      namespace: default
+  interval: 30m
+  path: ./kubernetes/apps/default/cs-agent/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: default
+  timeout: 10m
+  wait: false
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1

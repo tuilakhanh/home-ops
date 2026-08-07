@@ -1,0 +1,202 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app cs-agent
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: cs-agent
+  interval: 1h
+  values:
+    controllers:
+      cs2:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/tuilakhanh/cs2
+              tag: 1.0.0
+            command:
+              - /bin/bash
+              - /home/steam/scripts/start.sh
+            env:
+              CS2_SERVERNAME: DXCSAGENT
+              CS2_CHEATS: "0"
+              CS2_SERVER_HIBERNATE: "0"
+              CS2_IP: 0.0.0.0
+              CS2_PORT: &gamePort 27015
+              CS2_LAN: "0"
+              CS2_MAXPLAYERS: "10"
+              CS2_GAMEALIAS: competitive
+              CS2_MAPGROUP: mg_active
+              CS2_STARTMAP: de_inferno
+              CS2_LOG: "off"
+              TV_ENABLE: "1"
+              TV_PORT: &tvPort 27020
+              METAMOD_VERSION: 2.0.0.1403
+              COUNTERSTRIKESHARP_VERSION: 1.0.371
+              WEAPONPAINTS_REFRESH_COOLDOWN_SECONDS: "60"
+              WEAPONPAINTS_WEBSITE_URL: https://cs2.tuilakhanh.id.vn
+              WEAPONPAINTS_DB_HOST: cs-agent-mysql
+              WEAPONPAINTS_DB_PORT: "3306"
+              WEAPONPAINTS_DB_NAME: cs2
+              WEAPONPAINTS_DB_USER: cs2
+              SRCDS_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: SRCDS_TOKEN
+              CS2_RCONPW:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: CS2_RCONPW
+              CS2_PW:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: CS2_PW
+              WEAPONPAINTS_DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: cs-agent-mysql
+                    key: MYSQL_PASSWORD
+            resources:
+              requests:
+                cpu: 2
+                memory: 2Gi
+              limits:
+                memory: 4Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              capabilities: {drop: ["ALL"]}
+            terminationMessagePolicy: FallbackToLogsOnError
+
+      web:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/tuilakhanh/cs2-web
+              tag: 1.0.0
+            env:
+              WPWEB_DB_HOST: cs-agent-mysql
+              WPWEB_DB_PORT: "3306"
+              WPWEB_DB_NAME: cs2
+              WPWEB_DB_USER: cs2
+              WPWEB_SITE_URL: &siteUrl https://cs2.tuilakhanh.id.vn
+              WPWEB_STEAM_LOGIN_PAGE: *siteUrl
+              WPWEB_STEAM_LOGOUT_PAGE: *siteUrl
+              WPWEB_STEAM_DOMAIN_NAME: *siteUrl
+              WPWEB_SKIN_LANGUAGE: skins_en
+              WPWEB_WEB_STYLE_DARK: "true"
+              WPWEB_DB_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: cs-agent-mysql
+                    key: MYSQL_PASSWORD
+              WPWEB_STEAM_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: WPWEB_STEAM_API_KEY
+            probes:
+              liveness: &webProbes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &webPort 8080
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: *webProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *webPort
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              capabilities: {drop: ["ALL"]}
+
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      game:
+        controller: cs2
+        type: LoadBalancer
+        forceRename: cs-agent-game
+        annotations:
+          lbipam.cilium.io/ips: 192.168.1.108
+        externalTrafficPolicy: Local
+        ports:
+          game-tcp:
+            port: 30555
+            targetPort: *gamePort
+            protocol: TCP
+          game-udp:
+            port: 30555
+            targetPort: *gamePort
+            protocol: UDP
+          # cstv-udp:
+          #   port: 30520
+          #   targetPort: *tvPort
+          #   protocol: UDP
+      web:
+        controller: web
+        forceRename: cs-agent-web
+        ports:
+          http:
+            port: *webPort
+
+    route:
+      web:
+        hostnames:
+          - cs2.tuilakhanh.id.vn
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: web
+                port: *webPort
+
+    persistence:
+      game:
+        size: 80Gi
+        accessMode: ReadWriteOnce
+        storageClass: miroir-local
+        advancedMounts:
+          cs2:
+            app:
+              - path: /home/steam/cs2-dedicated
