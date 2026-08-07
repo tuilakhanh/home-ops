@@ -10,6 +10,7 @@ components:
 
 resources:
   - ./atuin/ks.yaml
+  - ./cs-agent/ks.yaml
   - ./namespace.yaml
   - ./cyberchef/ks.yaml
   - ./it-tools/ks.yaml

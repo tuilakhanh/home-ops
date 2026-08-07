@@ -1,0 +1,82 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app cs-agent-mysql
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  interval: 1h
+  values:
+    controllers:
+      mysql:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: mirror.gcr.io/library/mysql
+              tag: "8.0"
+            args:
+              - --character-set-server=utf8mb4
+              - --collation-server=utf8mb4_unicode_ci
+            env:
+              MYSQL_DATABASE: cs2
+              MYSQL_USER: cs2
+              MYSQL_ROOT_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: MYSQL_ROOT_PASSWORD
+              MYSQL_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: MYSQL_PASSWORD
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 999
+              runAsGroup: 999
+              capabilities: {drop: ["ALL"]}
+
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        fsGroup: 999
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        controller: mysql
+        forceRename: *app
+        ports:
+          mysql:
+            port: 3306
+
+    persistence:
+      data:
+        existingClaim: *app
+        advancedMounts:
+          mysql:
+            app:
+              - path: /var/lib/mysql
+      init:
+        type: secret
+        name: cs-agent-db-init
+        advancedMounts:
+          mysql:
+            app:
+              - path: /docker-entrypoint-initdb.d/10-weaponpaints.sql.gz
+                subPath: init.sql.gz
+                readOnly: true
