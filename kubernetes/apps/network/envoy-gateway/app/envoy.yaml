@@ -75,6 +75,18 @@ spec:
         certificateRefs:
           - kind: Secret
             name: tuilakhanh-id-vn-tls
+    - name: cs2-tcp
+      protocol: TCP
+      port: 30555
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: cs2-udp
+      protocol: UDP
+      port: 30555
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1

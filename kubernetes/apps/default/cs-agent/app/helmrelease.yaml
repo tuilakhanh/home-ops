@@ -152,26 +152,22 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
 
     service:
-      game:
+      game-tcp:
         controller: cs2
-        type: LoadBalancer
-        forceRename: cs-agent-game
-        annotations:
-          lbipam.cilium.io/ips: 192.168.1.108
-        externalTrafficPolicy: Local
+        forceRename: cs-agent-game-tcp
         ports:
-          game-tcp:
-            port: 30555
+          game:
+            port: *gamePort
             targetPort: *gamePort
             protocol: TCP
-          game-udp:
-            port: 30555
+      game-udp:
+        controller: cs2
+        forceRename: cs-agent-game-udp
+        ports:
+          game:
+            port: *gamePort
             targetPort: *gamePort
             protocol: UDP
-          # cstv-udp:
-          #   port: 30520
-          #   targetPort: *tvPort
-          #   protocol: UDP
       web:
         controller: web
         forceRename: cs-agent-web
