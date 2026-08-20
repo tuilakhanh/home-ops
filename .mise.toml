@@ -22,7 +22,7 @@ oxfmt = "0.61.0"
 shellcheck = "0.11.0"
 talos = "1.14.0-beta.1"
 yq = "4.53.3"
-gum = "0.17.0"
+gum = "2.0.0"
 helmfile = "1.7.2"
 
 [hooks]
