@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/sonarr
-              tag: 4.0.19.2997@sha256:01db3e6a923f6e0f3a217baa94b4660cf2f9b45d4166b2fc8c20c67c5221cb78
+              tag: 4.0.19.3011@sha256:47d56de90c81eb2a8f0d36771328a95e7299609579b88db82b1473c314f26a47
             env:
               SONARR__APP__INSTANCENAME: Sonarr-anime
               SONARR__AUTH__METHOD: External
