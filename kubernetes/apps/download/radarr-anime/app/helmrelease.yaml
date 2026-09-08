@@ -22,7 +22,7 @@ spec:
             env:
               radarr__APP__INSTANCENAME: radarr-anime
               radarr__AUTH__METHOD: External
-              radarr__AUTH__REQUIRED: DisabledForLocalAddresses
+              radarr__AUTH__REQUIRED: Enabled
               radarr__LOG__DBENABLED: "False"
               radarr__LOG__LEVEL: info
               radarr__SERVER__PORT: &port 8080
