@@ -13,6 +13,7 @@ resources:
   - ./cs-agent/ks.yaml
   - ./namespace.yaml
   - ./cyberchef/ks.yaml
+  - ./forgejo/ks.yaml
   - ./it-tools/ks.yaml
   - ./rss-forwarder/ks.yaml
   - ./sws/ks.yaml
