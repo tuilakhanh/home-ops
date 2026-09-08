@@ -8,7 +8,6 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folder: Kubernetes
   instanceSelector:
     matchLabels:
       grafana.internal/instance: grafana
@@ -23,7 +22,6 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folder: Kubernetes
   instanceSelector:
     matchLabels:
       grafana.internal/instance: grafana
@@ -38,7 +36,6 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folder: Kubernetes
   instanceSelector:
     matchLabels:
       grafana.internal/instance: grafana
@@ -53,7 +50,6 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folder: Kubernetes
   instanceSelector:
     matchLabels:
       grafana.internal/instance: grafana
@@ -68,7 +64,6 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folder: Kubernetes
   instanceSelector:
     matchLabels:
       grafana.internal/instance: grafana
@@ -83,8 +78,35 @@ spec:
   datasources:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
-  folder: Kubernetes
   instanceSelector:
     matchLabels:
       grafana.internal/instance: grafana
   url: https://grafana.com/api/dashboards/15762/revisions/22/download
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kubernetes-volumes
+spec:
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  url: https://grafana.com/api/dashboards/11454/revisions/14/download
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: prometheus
+spec:
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  url: https://grafana.com/api/dashboards/19105/revisions/9/download
