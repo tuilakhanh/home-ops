@@ -23,6 +23,6 @@ resources:
   # - ./aria2/ks.yaml
   - ./qui/ks.yaml
   - ./slskd/ks.yaml
-  - ./deduparr/ks.yaml
+  - ./cleanrr/ks.yaml
   - ./radarr-anime/ks.yaml
   # - ./lingarr/ks.yaml

@@ -3,40 +3,39 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: deduparr
+  name: cleanrr
 spec:
   chartRef:
     kind: OCIRepository
-    name: deduparr
+    name: cleanrr
   interval: 1h
   values:
     controllers:
-      deduparr:
+      cleanrr:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: quay.io/kernald/deduparr
-              tag: 1.2.1@sha256:f7f5770664b53f7198b86a741afafdcae720eb89d339b3b4597b3960bbd59dea
+              repository: ghcr.io/zariel/cleanrr
+              tag: v0.1.7@sha256:b5a7a2ac327327daf4fb7ed6fb89997b8aa5527867684b29de381c58ebabad26
             env:
-              DEDUPARR_LOG_LEVEL: info
-              DEDUPARR_RADARR_MOVIES_ENABLED: true
-              DEDUPARR_RADARR_MOVIES_URL: http://radarr.download.svc.cluster.local:8080
-              DEDUPARR_REMOVE_FROM_CLIENT: true
-              DEDUPARR_SCHEDULE: service
-              DEDUPARR_SERVICE__INTERVAL: 2m
-              DEDUPARR_SERVICE__PORT: &port 80
-              DEDUPARR_SONARR_SERIES_ENABLED: true
-              DEDUPARR_SONARR_SERIES_URL: http://sonarr.download.svc.cluster.local:8080
+              CLEANRR_LISTEN_ADDR: 0.0.0.0:80
+              CLEANRR_MINIMUM_AGE: 5m
+              CLEANRR_SERVERS__RADARR__URL: http://radarr.download.svc.cluster.local:8080
+              CLEANRR_SERVERS__SONARR__URL: http://sonarr.download.svc.cluster.local:8080
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
             probes:
               liveness:
                 enabled: true
+                custom: true
                 spec:
+                  httpGet:
+                    path: /health/live
+                    port: &port 80
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 5
@@ -47,12 +46,16 @@ spec:
                   httpGet:
                     path: /health/ready
                     port: *port
-                  periodSeconds: 30
+                  periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 5
               startup:
                 enabled: true
+                custom: true
                 spec:
+                  httpGet:
+                    path: /health/startup
+                    port: *port
                   failureThreshold: 30
                   periodSeconds: 10
             securityContext:
@@ -67,9 +70,9 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
