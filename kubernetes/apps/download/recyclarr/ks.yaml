@@ -15,7 +15,7 @@ spec:
   postBuild:
     substitute:
       APP: recyclarr
-      KOPIUR_CAPACITY: 200Mi
+      KOPIUR_CAPACITY: 512Mi
   prune: true
   sourceRef:
     kind: GitRepository
