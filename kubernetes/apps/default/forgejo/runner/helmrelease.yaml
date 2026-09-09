@@ -43,7 +43,7 @@ spec:
           options:
             namespace: default
             poll_timeout: 10m
-            labels: "app.kubernetes.io/name=forgejo-runner-instance,app.kubernetes.io/instance=env-${ENV_ID},egress.policy.home.arpa/block-all=true"
+            labels: "app.kubernetes.io/name=forgejo-runner-instance,app.kubernetes.io/instance=env-${ENV_ID}"
             resources: |
               requests:
                 cpu: 100m
@@ -57,6 +57,7 @@ spec:
           - ubuntu-24.04:k8spod:/config/podspec-default.yaml
           - default:k8s:/config/podspec-default.yaml
           - docker:k8s:/config/podspec-dind.yaml
+          - dind-arm64:k8s:/config/podspec-dind-arm64.yaml
         timeout: 3h
         shutdown_timeout: 3m
     podSpecs:
@@ -132,5 +133,86 @@ spec:
           - name: docker-storage
             emptyDir: {}
           - name: docker-certs
+            emptyDir: {}
+        restartPolicy: Never
+      podspec-dind-arm64.yaml: |-
+        initContainers:
+          - name: buildkit-qemu
+            image: moby/buildkit:v0.30.0
+            command:
+              - /bin/cp
+            args:
+              - /usr/bin/buildkit-qemu-aarch64
+              - /buildkit-qemu/buildkit-qemu-aarch64
+            resources:
+              requests:
+                cpu: 10m
+                memory: 16Mi
+              limits:
+                memory: 64Mi
+            volumeMounts:
+              - name: buildkit-qemu
+                mountPath: /buildkit-qemu
+          - name: dind
+            image: docker:29-dind
+            securityContext:
+              privileged: true
+            restartPolicy: Always
+            env:
+              - name: DOCKER_TLS_CERTDIR
+                value: /certs
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 4Gi
+            volumeMounts:
+              - name: docker-storage
+                mountPath: /var/lib/docker
+              - name: docker-certs
+                mountPath: /certs
+              - name: buildkit-qemu
+                mountPath: /usr/local/bin/buildkit-qemu-aarch64
+                subPath: buildkit-qemu-aarch64
+                readOnly: true
+            startupProbe:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - docker --tlsverify --tlscacert=/certs/client/ca.pem --tlscert=/certs/client/cert.pem --tlskey=/certs/client/key.pem -H tcp://localhost:2376 info
+              initialDelaySeconds: 5
+              periodSeconds: 1
+              failureThreshold: 30
+        containers:
+          - env:
+              - name: DEBIAN_FRONTEND
+                value: noninteractive
+              - name: DOCKER_HOST
+                value: tcp://localhost:2376
+              - name: DOCKER_TLS_VERIFY
+                value: "1"
+              - name: DOCKER_CERT_PATH
+                value: /certs/client
+            image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:d3f142f768c72e6f54443a07275889ee5b6c1e6560613be12a903744d6835c53
+            imagePullPolicy: IfNotPresent
+            name: main
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 100m
+                memory: 256Mi
+            volumeMounts:
+              - name: docker-certs
+                mountPath: /certs
+                readOnly: true
+        volumes:
+          - name: docker-storage
+            emptyDir: {}
+          - name: docker-certs
+            emptyDir: {}
+          - name: buildkit-qemu
             emptyDir: {}
         restartPolicy: Never
