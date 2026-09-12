@@ -16,7 +16,7 @@ spec:
   postBuild:
     substitute:
       APP: bazarr-anime
-      KOPIUR_CAPACITY: 1Gi
+      KOPIUR_CAPACITY: 5Gi
       ZEROSCALER_TARGET: bazarr-anime
   prune: true
   sourceRef:
