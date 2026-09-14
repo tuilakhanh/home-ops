@@ -52,16 +52,12 @@ spec:
   allowedNamespaces:
     all: true
   backend:
-    s3:
-      auth:
-        secretRef:
-          name: nas-repository-secret
-          namespace: kopiur-system
-      bucket: kopiur
-      endpoint: 192.168.1.36:3900
-      region: garage
-      tls:
-        disableTls: true
+    filesystem:
+      path: /repo
+      volume:
+        nfs:
+          path: /mnt/disk/backup/kopiur
+          server: 192.168.1.36
   encryption:
     passwordSecretRef:
       name: nas-repository-secret
