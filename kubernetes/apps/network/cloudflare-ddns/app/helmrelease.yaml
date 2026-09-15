@@ -1,0 +1,52 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudflare-ddns
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: cloudflare-ddns
+  values:
+    controllers:
+      cloudflare-ddns:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: mirror.gcr.io/favonia/cloudflare-ddns
+              tag: 1.17.0@sha256:61013368c8f95981c0bb8bf56d962078d8b4e95724a554fa2dabb20d6e478097
+            env:
+              CLOUDFLARE_API_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: external-dns-cloudflare-secret
+                    key: CF_API_TOKEN
+              DOMAINS: ip.tuilakhanh.id.vn
+              IP6_PROVIDER: none
+              PROXIED: "false"
+              UPDATE_CRON: "@every 5m"
+            probes:
+              liveness: &disabled
+                enabled: false
+              readiness: *disabled
+              startup: *disabled
+            resources:
+              requests:
+                cpu: 5m
+                memory: 16Mi
+              limits:
+                memory: 64Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
