@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jellyfin/jellyfin
-              tag: 12.0@sha256:74f4d87d9cf262c52d62be6be265c0355c6a7e21d0477ab6c654a49a4f8b1fd4
+              tag: 12.1@sha256:c0166b09f7068e7738d006d86a71ad58b981e4ecf1bf0a24fbba2498ecfe8715
             env:
               JELLYFIN_FFmpeg__probesize: "50000000"
               JELLYFIN_FFmpeg__analyzeduration: "500000000"
