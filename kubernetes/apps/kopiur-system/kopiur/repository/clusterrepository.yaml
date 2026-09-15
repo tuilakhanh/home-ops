@@ -56,8 +56,10 @@ spec:
       path: /repo
       volume:
         nfs:
-          path: /mnt/disk/backup/kopiur
+          path: /mnt/wd16tb1/backup/kopiur
           server: 192.168.1.36
+  create:
+    enabled: true
   encryption:
     passwordSecretRef:
       name: nas-repository-secret
