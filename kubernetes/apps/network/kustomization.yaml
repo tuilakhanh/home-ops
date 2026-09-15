@@ -17,4 +17,5 @@ resources:
   - ./cloudflare-ddns/ks.yaml
   - ./external-dns/ks.yaml
   # - ./cloudflared/ks.yaml
+  - ./librespeed/ks.yaml
   - ./openspeedtest/ks.yaml
