@@ -14,6 +14,28 @@ spec:
       bazarr-anime:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          patch-upload-limits:
+            image:
+              repository: ghcr.io/lavx/bazarr
+              tag: 2.6.2
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -eu
+                sed 's/app = web.Application()/app = web.Application(client_max_size=32 * 1024 * 1024)/' \
+                  /app/bazarr/docker/supervisor.py > /patch/supervisor.py
+                sed 's/MAXIMUM_SUBTITLE_SIZE = 1 \* 1024 \* 1024/MAXIMUM_SUBTITLE_SIZE = 32 * 1024 * 1024/' \
+                  /app/bazarr/bazarr/constants.py > /patch/constants.py
+                grep -F 'client_max_size=32 * 1024 * 1024' /patch/supervisor.py
+                grep -F 'MAXIMUM_SUBTITLE_SIZE = 32 * 1024 * 1024' /patch/constants.py
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
         containers:
           app:
             image:
@@ -90,6 +112,19 @@ spec:
                 port: *port
 
     persistence:
+      upload-limit-patch:
+        type: emptyDir
+        advancedMounts:
+          bazarr-anime:
+            patch-upload-limits:
+              - path: /patch
+            app:
+              - path: /app/bazarr/docker/supervisor.py
+                subPath: supervisor.py
+                readOnly: true
+              - path: /app/bazarr/bazarr/constants.py
+                subPath: constants.py
+                readOnly: true
       config:
         existingClaim: *app
       media:
