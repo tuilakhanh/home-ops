@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: ghcr.io/static-web-server/static-web-server
-              tag: 2.44.0-alpine@sha256:e36186455d3b78704c8ceeeab625e40edd1e7b0dd1b15fb042cbba298c452366
+              tag: 2.44.1-alpine@sha256:40a63df84ab29401354968ff482178acc48ed20f2ac6b8b80dea1a4119d1f076
             env:
               SERVER_ROOT: /data
               SERVER_PORT: &port 8080
