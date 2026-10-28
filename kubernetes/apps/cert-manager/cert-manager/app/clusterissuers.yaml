@@ -18,7 +18,6 @@ spec:
         selector:
           dnsZones:
             - "tuilakhanh.id.vn"
-            - "sunsilk.id.vn"
             - "a-379.store"
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cert-manager.io/clusterissuer_v1.json
