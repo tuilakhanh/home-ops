@@ -145,13 +145,11 @@ spec:
     - type: Gzip
       gzip: {}
   retry:
-    numRetries: 2
     retryOn:
       triggers:
-        - reset
+        - reset-before-request
   targetSelectors:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
+    - kind: Gateway
   tcpKeepalive: {}
   timeout:
     http:
@@ -169,7 +167,6 @@ spec:
         - 10.69.0.0/16
   http2:
     onInvalidMessage: TerminateStream
-  http3: {}
   targetSelectors:
     - group: gateway.networking.k8s.io
       kind: Gateway
