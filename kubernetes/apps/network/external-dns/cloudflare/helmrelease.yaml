@@ -35,7 +35,7 @@ spec:
     sources: ["crd", "gateway-httproute"]
     txtOwnerId: k8s
     txtPrefix: k8s.
-    domainFilters: ["tuilakhanh.id.vn"]
+    domainFilters: ["tuilakhanh.id.vn", "sunsilk.id.vn"]
     serviceMonitor:
       enabled: true
     podAnnotations:

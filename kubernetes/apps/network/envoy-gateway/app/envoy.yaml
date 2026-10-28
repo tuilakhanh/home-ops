@@ -75,6 +75,8 @@ spec:
         certificateRefs:
           - kind: Secret
             name: tuilakhanh-id-vn-tls
+          - kind: Secret
+            name: sunsilk-id-vn-tls
     - name: cs2-tcp
       protocol: TCP
       port: 30555

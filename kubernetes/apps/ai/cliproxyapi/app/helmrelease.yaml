@@ -62,6 +62,13 @@ spec:
         ports:
           http:
             port: *port
+    route:
+      app:
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        hostnames:
+          - cliproxyapi.sunsilk.id.vn
     persistence:
       config:
         type: secret
