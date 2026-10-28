@@ -24,7 +24,7 @@ spec:
               - -c
               - |
                 set -eu
-                sed 's/app = web.Application()/app = web.Application(client_max_size=32 * 1024 * 1024)/' \
+                sed 's/app = web.Application(middlewares=\[host_check\])/app = web.Application(middlewares=[host_check], client_max_size=32 * 1024 * 1024)/' \
                   /app/bazarr/docker/supervisor.py > /patch/supervisor.py
                 sed 's/MAXIMUM_SUBTITLE_SIZE = 1 \* 1024 \* 1024/MAXIMUM_SUBTITLE_SIZE = 32 * 1024 * 1024/' \
                   /app/bazarr/bazarr/constants.py > /patch/constants.py
