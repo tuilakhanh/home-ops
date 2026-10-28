@@ -66,6 +66,7 @@ spec:
         namespaces:
           from: Same
     - name: https
+      hostname: "*.tuilakhanh.id.vn"
       protocol: HTTPS
       port: 443
       allowedRoutes:
@@ -75,6 +76,15 @@ spec:
         certificateRefs:
           - kind: Secret
             name: tuilakhanh-id-vn-tls
+    - name: https-sunsilk
+      hostname: "*.sunsilk.id.vn"
+      protocol: HTTPS
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
           - kind: Secret
             name: sunsilk-id-vn-tls
     - name: cs2-tcp
