@@ -31,8 +31,6 @@ spec:
               - /CLIProxyAPI/CLIProxyAPI
               - -config
               - /config/config.yaml
-            env:
-              TZ: Asia/Bangkok
             probes:
               liveness: &probes
                 enabled: true
