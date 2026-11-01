@@ -69,15 +69,9 @@ spec:
           - cliproxy.sunsilk.id.vn
     persistence:
       config:
-        type: secret
-        name: cliproxyapi-config
+        existingClaim: cliproxyapi-config
         globalMounts:
           - path: /config
-            readOnly: true
-      static:
-        type: emptyDir
-        globalMounts:
-          - path: /config/static
       data:
         existingClaim: *app
         globalMounts:

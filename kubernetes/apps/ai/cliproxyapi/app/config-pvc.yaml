@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cliproxyapi-config
+  labels:
+    app.kubernetes.io/name: cliproxyapi
+    app.kubernetes.io/instance: cliproxyapi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: miroir-local
