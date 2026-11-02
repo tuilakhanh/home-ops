@@ -90,6 +90,9 @@ spec:
               - path:
                   type: Exact
                   value: /install
+            backendRefs:
+              - identifier: app
+                port: http
     persistence:
       file:
         type: nfs
