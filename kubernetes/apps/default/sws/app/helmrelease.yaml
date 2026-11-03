@@ -107,6 +107,43 @@ spec:
             backendRefs:
               - identifier: app
                 port: http
+      install:
+        hostnames:
+          - cliproxy.sunsilk.id.vn
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: Exact
+                  value: /install
+                headers:
+                  - name: User-Agent
+                    type: RegularExpression
+                    value: '(?i)(powershell|windowspowershell)'
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /install.ps1
+            backendRefs:
+              - identifier: app
+                port: http
+          - matches:
+              - path:
+                  type: Exact
+                  value: /install
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /install.sh
+            backendRefs:
+              - identifier: app
+                port: http
     persistence:
       file:
         type: nfs
