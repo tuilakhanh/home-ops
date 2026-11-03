@@ -121,7 +121,7 @@ spec:
                 headers:
                   - name: User-Agent
                     type: RegularExpression
-                    value: '(?i)(powershell|windowspowershell)'
+                    value: '.*PowerShell.*'
             filters:
               - type: URLRewrite
                 urlRewrite:
