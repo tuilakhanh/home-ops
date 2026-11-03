@@ -79,7 +79,7 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
-      install:
+      install-sh:
         hostnames:
           - cliproxy.sunsilk.id.vn
         parentRefs:
@@ -89,7 +89,21 @@ spec:
           - matches:
               - path:
                   type: Exact
-                  value: /install
+                  value: /install.sh
+            backendRefs:
+              - identifier: app
+                port: http
+      install-ps1:
+        hostnames:
+          - cliproxy.sunsilk.id.vn
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: Exact
+                  value: /install.ps1
             backendRefs:
               - identifier: app
                 port: http
@@ -100,9 +114,15 @@ spec:
         path: /mnt/disk/files
         globalMounts:
           - path: /data
-      install:
+      install-sh:
         type: configMap
         name: sws-install
         globalMounts:
-          - path: /data/install
-            subPath: install
+          - path: /data/install.sh
+            subPath: script.sh
+      install-ps1:
+        type: configMap
+        name: sws-install
+        globalMounts:
+          - path: /data/install.ps1
+            subPath: script.ps1

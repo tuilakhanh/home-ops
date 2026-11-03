@@ -8,7 +8,8 @@ resources:
 configMapGenerator:
   - name: sws-install
     files:
-      - install=./resources/script.sh
+      - script.sh=./resources/script.sh
+      - script.ps1=./resources/script.ps1
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

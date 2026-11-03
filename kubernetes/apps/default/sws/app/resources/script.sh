@@ -198,6 +198,9 @@ provider_block = (
     f"supports_websockets = {ws}\n"
 )
 
+# Cách cũ chỉ thêm openai_base_url ở đầu file: xóa hẳn dòng đó (mọi vị trí).
+text = re.sub(r"(?m)^openai_base_url\s*=.*\n?", "", text)
+
 m = re.search(r"(?m)^\[", text)
 head, rest = (text[:m.start()], text[m.start():]) if m else (text, "")
 
@@ -209,24 +212,56 @@ def set_kv(block: str, key: str, raw_value: str) -> str:
 head = set_kv(head, "model_provider", '"cliproxy"')
 if model:
     head = set_kv(head, "model", f'"{model}"')
-text = head.rstrip() + "\n\n" + rest.lstrip() if rest.strip() else head.rstrip() + "\n"
 
+# Block cliproxy luôn nằm ngay đầu file, ngay sau các key top-level,
+# trước mọi section khác ([tui], [projects.*], ...). Block cũ ở bất cứ đâu đều bị gỡ.
 pat_block = re.compile(r"(?ms)^\[model_providers\.cliproxy\]\n.*?(?=^\[|\Z)")
-if pat_block.search(text):
-    text = pat_block.sub(provider_block, text, count=1)
-else:
-    text = text.rstrip() + "\n\n" + provider_block
+rest = pat_block.sub("", rest).strip()
+text = head.rstrip() + "\n\n" + provider_block
+if rest:
+    text += "\n" + rest + "\n"
 
 p.write_text(text.rstrip() + "\n", encoding="utf-8")
 print(p.read_text(encoding="utf-8"))
 PY
 else
-  echo "⚠️  Không có python3: ghi đè config.toml tối thiểu (sẽ mất config cũ ngoài block này, đã backup ở trên)." >&2
-  {
-    printf 'model_provider = "cliproxy"\n\n'
-    [[ -n "$MODEL" ]] && printf 'model = "%s"\n\n' "$MODEL"
-    printf '[model_providers.cliproxy]\nname = "CLIProxy"\nbase_url = "%s"\nwire_api = "responses"\nrequires_openai_auth = true\nsupports_websockets = %s\n' "$BASE_URL" "$WEBSOCKETS"
-  } > "$CONFIG_FILE"
+  # Không có python3: làm cùng việc bằng awk (giữ nguyên phần config còn lại).
+  echo "⚠️  Không có python3: dùng awk để cập nhật config.toml." >&2
+  _tmp_config="$(mktemp "${TMPDIR:-/tmp}/codex-config.XXXXXX")"
+  MODEL="$MODEL" BASE_URL="$BASE_URL" WEBSOCKETS="$WEBSOCKETS" awk '
+    /^openai_base_url[[:space:]]*=/ { next }
+    /^\[model_providers\.cliproxy\][[:space:]]*$/ { inprov = 1; next }
+    /^\[/ { inprov = 0 }
+    inprov { next }
+    /^\[/ { inrest = 1 }
+    {
+      if (!inrest) {
+        if ($0 ~ /^model_provider[[:space:]]*=/) { head[++hn] = "model_provider = \"cliproxy\""; seen_mp = 1 }
+        else if (ENVIRON["MODEL"] != "" && $0 ~ /^model[[:space:]]*=/) { head[++hn] = "model = \"" ENVIRON["MODEL"] "\""; seen_m = 1 }
+        else head[++hn] = $0
+      } else {
+        rest[++rn] = $0
+      }
+    }
+    END {
+      if (!seen_mp) head[++hn] = "model_provider = \"cliproxy\""
+      if (ENVIRON["MODEL"] != "" && !seen_m) head[++hn] = "model = \"" ENVIRON["MODEL"] "\""
+      for (i = 1; i <= hn; i++) print head[i]
+      print ""
+      print "[model_providers.cliproxy]"
+      print "name = \"CLIProxy\""
+      print "base_url = \"" ENVIRON["BASE_URL"] "\""
+      print "wire_api = \"responses\""
+      print "requires_openai_auth = true"
+      print "supports_websockets = " ENVIRON["WEBSOCKETS"]
+      if (rn) {
+        print ""
+        for (i = 1; i <= rn; i++) print rest[i]
+      }
+    }
+  ' "$CONFIG_FILE" > "$_tmp_config"
+  cat "$_tmp_config" > "$CONFIG_FILE"
+  rm -f "$_tmp_config"
   cat "$CONFIG_FILE"
 fi
 chmod 600 "$CONFIG_FILE" 2>/dev/null || true
