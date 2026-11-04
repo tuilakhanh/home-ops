@@ -49,9 +49,8 @@ spec:
               accessMode: ReadWriteOnce
               size: 1Gi
               advancedMounts:
-                valkey:
-                  app:
-                    - path: /data
+                app:
+                  - path: /data
     defaultPodOptions:
       enableServiceLinks: false
       securityContext:
