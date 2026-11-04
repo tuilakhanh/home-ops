@@ -32,7 +32,7 @@ metadata:
   name: valkey
 spec:
   interval: 30m
-  path: ./kubernetes/apps/dev/forgejo/valkey/app
+  path: ./kubernetes/apps/dev/forgejo/valkey
   prune: true
   sourceRef:
     kind: GitRepository

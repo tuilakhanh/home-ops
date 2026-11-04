@@ -9,4 +9,4 @@ resources:
   - ./kanidmoauth2client.yaml
   - ./ocirepository.yaml
   - ./helmrelease.yaml
-  - ./signing-secret.sops.yaml
+  - ./secret.sops.yaml
