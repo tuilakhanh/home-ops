@@ -1,0 +1,24 @@
+---
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmOAuth2Client
+metadata:
+  name: forgejo
+spec:
+  kanidmRef:
+    name: sso
+    namespace: security
+  displayname: Forgejo
+  origin: https://git.tuilakhanh.id.vn/
+  redirectUrl:
+    - https://git.tuilakhanh.id.vn/user/oauth2/kanidm/callback
+  scopeMap:
+    - group: forgejo_admins@idm.tuilakhanh.id.vn
+      scopes: [openid, profile, email, groups]
+    - group: forgejo_users@idm.tuilakhanh.id.vn
+      scopes: [openid, profile, email, groups]
+  strictRedirectUrl: true
+  preferShortUsername: true
+  secretKeyAliases:
+    clientId: [key]
+    clientSecret: [secret]
+  disableConsentPrompt: true

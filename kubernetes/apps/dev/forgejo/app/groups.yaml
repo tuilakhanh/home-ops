@@ -1,0 +1,22 @@
+---
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: forgejo-users
+spec:
+  kanidmName: forgejo_users
+  kanidmRef:
+    name: sso
+    namespace: security
+  description: Forgejo users
+---
+apiVersion: kaniop.rs/v1beta1
+kind: KanidmGroup
+metadata:
+  name: forgejo-admins
+spec:
+  kanidmName: forgejo_admins
+  kanidmRef:
+    name: sso
+    namespace: security
+  description: Forgejo administrators

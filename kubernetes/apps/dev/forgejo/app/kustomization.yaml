@@ -4,7 +4,9 @@ kind: Kustomization
 resources:
   - ./backendtrafficpolicy.yaml
   - ./ciliumnetworkpolicy.yaml
+  - ./groups.yaml
   - ./httproute.yaml
+  - ./kanidmoauth2client.yaml
   - ./ocirepository.yaml
   - ./helmrelease.yaml
   - ./signing-secret.sops.yaml
