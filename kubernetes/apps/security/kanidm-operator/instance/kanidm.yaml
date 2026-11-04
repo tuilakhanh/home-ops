@@ -1,0 +1,41 @@
+apiVersion: kaniop.rs/v1beta1
+kind: Kanidm
+metadata:
+  name: sso
+spec:
+  domain: idm.tuilakhanh.id.vn
+  origin: https://idm.tuilakhanh.id.vn
+  replicaGroups:
+    - name: default
+      replicas: 1
+      primaryNode: true
+      resources:
+        requests:
+          cpu: 10m
+        limits:
+          memory: 512Mi
+  image: kanidm/server:1.11.2
+  logLevel: info
+  groupNamespaceSelector: {}
+  oauth2ClientNamespaceSelector: {}
+  serviceAccountNamespaceSelector: {}
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: miroir-local
+  tlsSecretName: idm-tuilakhanh-id-vn-tls
+  gateway:
+    parentRefs:
+      - name: envoy-external
+        namespace: network
+    hostnames:
+      - idm.tuilakhanh.id.vn
+    backendTlsPolicy:
+      validation:
+        hostname: idm.tuilakhanh.id.vn
+        wellKnownCaCertificates: System
