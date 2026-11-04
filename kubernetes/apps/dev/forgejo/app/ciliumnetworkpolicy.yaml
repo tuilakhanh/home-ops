@@ -25,6 +25,12 @@ spec:
               protocol: TCP
   egress:
     - toEntities:
+        - all
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
+    - toEntities:
         - cluster
       toPorts:
         - ports:
