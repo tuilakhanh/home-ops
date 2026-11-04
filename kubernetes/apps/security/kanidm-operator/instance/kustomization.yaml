@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - ./admin-secret.sops.yaml
   - ./backup-secret.sops.yaml
+  - ./git-auth.sops.yaml
+  - ./gitrepo-provision.yaml
   - ./backup-repository.yaml
   - ./backup-schedule.yaml
   - ./certificate.yaml
