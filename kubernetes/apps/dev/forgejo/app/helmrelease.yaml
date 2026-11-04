@@ -104,3 +104,12 @@ spec:
     service:
       ssh:
         port: *sshPort
+    tcpRoute:
+      enabled: true
+      parentRefs:
+        - name: envoy-external
+          namespace: network
+          sectionName: ssh
+        - name: envoy-external
+          namespace: network
+          sectionName: ssh-proxy
