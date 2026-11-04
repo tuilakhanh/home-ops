@@ -9,6 +9,10 @@ spec:
       app.kubernetes.io/name: forgejo
       app.kubernetes.io/instance: forgejo
   ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: security
+            app.kubernetes.io/name: kanidm
     - fromEntities:
         - all
       toPorts:
