@@ -15,7 +15,7 @@ spec:
       # Cluster DNS resolves the public record, which is not reachable from pods.
       # Keep the public hostname/SNI while routing internally to Kanidm.
       hostAliases:
-        - ip: 10.96.74.6
+        - ip: 10.96.74.7
           hostnames:
             - idm.tuilakhanh.id.vn
     gitea:
@@ -88,12 +88,7 @@ spec:
       oauth:
         - name: kanidm
           adminGroup: forgejo_admins@idm.tuilakhanh.id.vn
-          autoDiscoverUrl: https://idm.tuilakhanh.id.vn:8443/oauth2/openid/forgejo/.well-known/openid-configuration
-          useCustomUrls: true
-          customAuthUrl: https://idm.tuilakhanh.id.vn/ui/oauth2
-          customTokenUrl: https://idm.tuilakhanh.id.vn:8443/oauth2/token
-          customProfileUrl: https://idm.tuilakhanh.id.vn:8443/oauth2/openid/forgejo/userinfo
-          customEmailUrl: https://idm.tuilakhanh.id.vn:8443/oauth2/openid/forgejo/userinfo
+          autoDiscoverUrl: https://idm.tuilakhanh.id.vn/oauth2/openid/forgejo/.well-known/openid-configuration
           existingSecret: forgejo-kanidm-oauth2-credentials
           groupClaimName: groups
           provider: openidConnect

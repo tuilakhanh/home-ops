@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sso-oidc
+spec:
+  clusterIP: 10.96.74.7
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app.kubernetes.io/instance: sso
+    app.kubernetes.io/managed-by: kaniop-kanidm
+    app.kubernetes.io/name: kanidm
+    kanidm.kaniop.rs/cluster: sso
