@@ -24,6 +24,12 @@ spec:
             - port: "2222"
               protocol: TCP
   egress:
+    - toEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: security
