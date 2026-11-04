@@ -26,7 +26,7 @@ spec:
           *app:
             image:
               repository: docker.io/eceasy/cli-proxy-api
-              tag: v8.0.46@sha256:72b7b6d8348205e1ae36bfdebb63df1b7da0316f583739760e6fcfca312c83f9
+              tag: v8.0.53
             command:
               - /CLIProxyAPI/CLIProxyAPI
               - -config
