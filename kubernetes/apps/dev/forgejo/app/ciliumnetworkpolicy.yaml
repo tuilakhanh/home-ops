@@ -13,12 +13,6 @@ spec:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
             k8s:k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-            - port: "53"
-              protocol: TCP
     - fromEntities:
         - cluster
       toPorts:
@@ -34,10 +28,6 @@ spec:
             k8s:io.kubernetes.pod.namespace: dev
             app.kubernetes.io/instance: valkey
             app.kubernetes.io/name: valkey
-      toPorts:
-        - ports:
-            - port: "6379"
-              protocol: TCP
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: security
