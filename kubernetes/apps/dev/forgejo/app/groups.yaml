@@ -20,5 +20,3 @@ spec:
     name: sso
     namespace: security
   description: Forgejo administrators
-  members:
-    - idm_admin
