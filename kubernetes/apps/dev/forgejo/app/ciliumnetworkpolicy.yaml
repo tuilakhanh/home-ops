@@ -24,6 +24,14 @@ spec:
             - port: "2222"
               protocol: TCP
   egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: security
+            app.kubernetes.io/name: kanidm
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
     - toServices:
         - k8sService:
             namespace: security
