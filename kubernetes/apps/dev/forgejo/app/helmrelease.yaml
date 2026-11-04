@@ -56,7 +56,7 @@ spec:
           MERGES: pubkey
         security:
           LOGIN_REMEMBER_DAYS: 14
-          REVERSE_PROXY_TRUSTED_PROXIES: 10.42.0.0/16
+          REVERSE_PROXY_TRUSTED_PROXIES: 10.69.0.0/16
         server:
           APP_DATA_PATH: /data/gitea
           ROOT_URL: https://git.tuilakhanh.id.vn
