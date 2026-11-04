@@ -88,6 +88,7 @@ spec:
       oauth:
         - name: kanidm
           adminGroup: forgejo_admins@idm.tuilakhanh.id.vn
+          autoDiscoverUrl: https://idm.tuilakhanh.id.vn/oauth2/openid/forgejo/.well-known/openid-configuration
           useCustomUrls: true
           customAuthUrl: https://idm.tuilakhanh.id.vn/ui/oauth2
           customTokenUrl: https://idm.tuilakhanh.id.vn/oauth2/token
