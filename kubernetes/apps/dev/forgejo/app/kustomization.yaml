@@ -10,3 +10,4 @@ resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
   - ./secret.sops.yaml
+  - ./nas-repository-secret.sops.yaml
