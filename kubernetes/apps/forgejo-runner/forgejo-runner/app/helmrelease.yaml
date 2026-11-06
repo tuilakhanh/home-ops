@@ -117,7 +117,7 @@ spec:
                     cpu: 100m
                     memory: 256Mi
                   limits:
-                    memory: 4Gi
+                    memory: 10Gi
                 volumeMounts:
                   - name: docker-storage
                     mountPath: /var/lib/docker
@@ -151,7 +151,7 @@ spec:
                 name: main
                 resources:
                   limits:
-                    memory: 4Gi
+                    memory: 10Gi
                   requests:
                     cpu: 100m
                     memory: 256Mi
