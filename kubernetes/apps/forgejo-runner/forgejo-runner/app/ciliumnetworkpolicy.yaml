@@ -11,20 +11,6 @@ spec:
   enableDefaultDeny:
     ingress: true
   egress:
-    - # Cluster DNS
-      toEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - protocol: UDP
-              port: "53"
-            - protocol: TCP
-              port: "53"
-          rules:
-            dns:
-              - matchPattern: "*"
     - # Forgejo server
       toEndpoints:
         - matchLabels:
