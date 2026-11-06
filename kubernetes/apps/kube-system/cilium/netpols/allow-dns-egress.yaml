@@ -5,7 +5,7 @@ kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: allow-dns-egress
 spec:
-  endpointSelector: {}
+  endpointSelector: {} # matches all endpoints
   egress:
     - toEndpoints:
         - matchLabels:
