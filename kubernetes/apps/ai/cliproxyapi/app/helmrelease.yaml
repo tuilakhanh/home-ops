@@ -25,8 +25,8 @@ spec:
         containers:
           *app:
             image:
-              repository: docker.io/eceasy/cli-proxy-api
-              tag: v8.0.53
+              repository: mirror.gcr.io/eceasy/cli-proxy-api
+              tag: v8.0.61
             command:
               - /CLIProxyAPI/CLIProxyAPI
               - -config
