@@ -18,7 +18,7 @@ spec:
           fix-permissions:
             image:
               repository: mirror.gcr.io/library/alpine
-              tag: 3.23.2@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62
+              tag: 3.24.4@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
               pullPolicy: IfNotPresent
             securityContext:
               runAsUser: 0
