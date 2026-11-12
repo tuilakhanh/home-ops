@@ -21,7 +21,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               # renovate: datasource=github-releases depName=immich-app/immich
-              tag: v3.3.6@sha256:c0a8e008ad9befe8af0e3a515e3b3661e98d38c37eadb6efee18a6d5098136c1
+              tag: v3.4.1@sha256:4351dd621899ecc8ed317ae87cdcaeb968ec8ba4f9d8053d913a73eb6f6dd7c2
             env: 
               IMMICH_LOG_LEVEL: log
               REDIS_HOSTNAME: "immich-valkey.media.svc.cluster.local"
