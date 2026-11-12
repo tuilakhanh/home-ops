@@ -73,7 +73,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v3.3.6-openvino@sha256:c1679860a2b4672da0138d19ae578f1d6b34fb1d25ac0038587c0d64b0069502
+              tag: v3.4.1-openvino@sha256:7e4cf37c46c0dd48d240d5b972296b9baa94b48358f068156f219dbaf0d2a843
             env:
               MACHINE_LEARNING_HTTP_KEEPALIVE_TIMEOUT_S: "0"
               HF_HOME: /cache/hf
