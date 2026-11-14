@@ -89,7 +89,7 @@ spec:
               # BuildKit uses this helper for linux/arm64 image builds on the
               # AMD64 node. The runner itself remains an AMD64 job container.
               - name: buildkit-qemu
-                image: moby/buildkit:v0.34.2
+                image: moby/buildkit:v0.35.0
                 command:
                   - /bin/cp
                 args:
