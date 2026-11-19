@@ -12,16 +12,32 @@ spec:
   values:
     controllers:
       shoko:
+        initContainers:
+          # v6 writes plugin thumbnails next to the plugin DLLs.
+          plugins:
+            image:
+              repository: ghcr.io/shokoanime/server
+              tag: daily@sha256:dc1afa89e0063cc32aaf0c31ded6ebdad9f75e63747eb5dd511e2f89934ef8c2
+            command:
+              - "cp"
+              - "-r"
+              - "/usr/src/app/build/plugins/."
+              - "/plugins/"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
         containers:
           app:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: v5.3.3@sha256:b841f8249c9edfba102e4072e2b2a3eae4179e5dd553f29e11b9898a44f1e836 
+              tag: daily@sha256:dc1afa89e0063cc32aaf0c31ded6ebdad9f75e63747eb5dd511e2f89934ef8c2
             command:
               - "/usr/src/app/build/Shoko.CLI"
             env:
               PUID: "1000"
               PGID: "1000"
+              SHOKO_HOME: /.shoko/Shoko.CLI
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
@@ -29,9 +45,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 128Mi
+                memory: 700Mi
               limits:
-                memory: 1Gi
+                memory: 2Gi
 
     defaultPodOptions:
       securityContext:
@@ -70,6 +86,15 @@ spec:
         storageClass: miroir-local
         globalMounts:
           - path: /.shoko/Shoko.CLI/images
+
+      plugins:
+        type: emptyDir
+        advancedMounts:
+          shoko:
+            plugins:
+              - path: /plugins
+            app:
+              - path: /usr/src/app/build/plugins
 
       drive:
         type: nfs
