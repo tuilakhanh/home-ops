@@ -17,7 +17,7 @@ spec:
           plugins:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: daily@sha256:dc1afa89e0063cc32aaf0c31ded6ebdad9f75e63747eb5dd511e2f89934ef8c2
+              tag: daily@sha256:bac87336609a7ef31aceb45356e6bce0923a568e46dced5caee4e15d54ab3d14
             command:
               - "cp"
               - "-r"
@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: daily@sha256:dc1afa89e0063cc32aaf0c31ded6ebdad9f75e63747eb5dd511e2f89934ef8c2
+              tag: daily@sha256:bac87336609a7ef31aceb45356e6bce0923a568e46dced5caee4e15d54ab3d14
             command:
               - "/usr/src/app/build/Shoko.CLI"
             env:
