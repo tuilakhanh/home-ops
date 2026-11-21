@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/cloudflare/cloudflared
-              tag: 2026.3.0@sha256:6b599ca3e974349ead3286d178da61d291961182ec3fe9c505e1dd02c8ac31b0
+              tag: 2026.11.1@sha256:e613aadbc2d9511785d2e67a86b0c8ac18dd63a3f9af0d06faf04cbfdcb35f2d
             env:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
