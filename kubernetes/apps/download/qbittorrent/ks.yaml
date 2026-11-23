@@ -20,8 +20,8 @@ spec:
       ZEROSCALER_TARGET: qbittorrent
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: qbittorrent
     namespace: flux-system
   targetNamespace: download
   timeout: 5m

@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/network/external-dns/cloudflare
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: external-dns
     namespace: flux-system
   targetNamespace: network
   timeout: 5m

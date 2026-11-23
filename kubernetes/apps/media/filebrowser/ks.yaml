@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/media/filebrowser/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: filebrowser
     namespace: flux-system
   components:
     - ../../../../flux/components/volsync

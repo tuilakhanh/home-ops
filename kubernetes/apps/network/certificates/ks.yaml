@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/network/certificates/tuilakhanh
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: certificates
     namespace: flux-system
   targetNamespace: network
   wait: true

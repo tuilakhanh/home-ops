@@ -20,8 +20,8 @@ spec:
       ZEROSCALER_TARGET: qui
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: qui
     namespace: flux-system
   targetNamespace: download
   wait: false

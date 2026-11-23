@@ -20,8 +20,8 @@ spec:
       ZEROSCALER_TARGET: bazarr-anime
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: bazarr-anime
     namespace: flux-system
   targetNamespace: download
   timeout: 5m

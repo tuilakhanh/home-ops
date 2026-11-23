@@ -18,8 +18,8 @@ spec:
       KOPIUR_CAPACITY: 5Gi
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: autobrr
     namespace: flux-system
   targetNamespace: download
   timeout: 5m

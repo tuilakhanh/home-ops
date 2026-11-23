@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/default/cyberchef/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cyberchef
     namespace: flux-system
   targetNamespace: default
   timeout: 5m

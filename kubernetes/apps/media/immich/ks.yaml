@@ -22,8 +22,8 @@ spec:
       ZEROSCALER_TARGET: immich-server
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: immich
     namespace: flux-system
   targetNamespace: media
   timeout: 10m

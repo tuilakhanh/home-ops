@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/operator
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cloudnative-pg
     namespace: flux-system
   targetNamespace: database
   wait: false
@@ -25,8 +25,8 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/barman-cloud
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cloudnative-pg
     namespace: flux-system
   targetNamespace: database
   wait: true
@@ -51,8 +51,8 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cloudnative-pg
     namespace: flux-system
   targetNamespace: &namespace database
   healthChecks:

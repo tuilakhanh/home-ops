@@ -14,8 +14,8 @@ spec:
   path: ./kubernetes/apps/cert-manager/trust-manager/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: trust-manager
     namespace: flux-system
   timeout: 5m
   targetNamespace: cert-manager
@@ -32,8 +32,8 @@ spec:
   path: ./kubernetes/apps/cert-manager/trust-manager/config
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: trust-manager
     namespace: flux-system
   timeout: 5m
   targetNamespace: cert-manager

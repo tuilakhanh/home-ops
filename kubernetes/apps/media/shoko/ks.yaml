@@ -20,8 +20,8 @@ spec:
       ZEROSCALER_TARGET: shoko
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: shoko
     namespace: flux-system
   targetNamespace: media
   timeout: 5m

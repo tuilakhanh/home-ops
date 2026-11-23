@@ -23,8 +23,8 @@ spec:
       KOPIUR_PGID: "1000"
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: sub2api
     namespace: flux-system
   targetNamespace: ai
   timeout: 10m

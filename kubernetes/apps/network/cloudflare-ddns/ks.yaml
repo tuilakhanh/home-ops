@@ -11,8 +11,8 @@ spec:
   path: ./kubernetes/apps/network/cloudflare-ddns/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: cloudflare-ddns
     namespace: flux-system
   targetNamespace: network
   timeout: 5m

@@ -21,8 +21,8 @@ spec:
       ZEROSCALER_TARGET: sonarr
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: sonarr
     namespace: flux-system
   targetNamespace: download
   timeout: 5m

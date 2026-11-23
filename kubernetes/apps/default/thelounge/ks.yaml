@@ -15,8 +15,8 @@ spec:
       KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: thelounge
     namespace: flux-system
   targetNamespace: default
   timeout: 5m

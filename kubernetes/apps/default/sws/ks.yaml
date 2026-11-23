@@ -14,8 +14,8 @@ spec:
       ZEROSCALER_TARGET: sws
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system 
+    kind: ExternalArtifact
+    name: sws
     namespace: flux-system
   targetNamespace: default
   timeout: 5m

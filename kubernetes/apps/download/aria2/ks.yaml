@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/download/aria2/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: aria2
     namespace: flux-system
   targetNamespace: download
   timeout: 5m

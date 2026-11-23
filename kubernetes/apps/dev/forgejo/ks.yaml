@@ -21,8 +21,8 @@ spec:
       REPOSITORY: nas
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: forgejo
     namespace: flux-system
   targetNamespace: dev
 ---
@@ -35,7 +35,7 @@ spec:
   path: ./kubernetes/apps/dev/forgejo/valkey
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: forgejo
     namespace: flux-system
   targetNamespace: dev

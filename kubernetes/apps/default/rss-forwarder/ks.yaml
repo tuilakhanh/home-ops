@@ -9,8 +9,8 @@ spec:
   path: ./kubernetes/apps/default/rss-forwarder/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: rss-forwarder
     namespace: flux-system
   targetNamespace: default
   timeout: 5m

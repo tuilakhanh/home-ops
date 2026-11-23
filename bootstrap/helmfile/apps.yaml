@@ -64,3 +64,36 @@ releases:
     namespace: flux-system
     needs:
       - flux-system/flux-operator
+    hooks:
+      - # FluxInstance creates source-watcher asynchronously through the operator.
+        command: kubectl
+        args:
+          - --namespace={{ .Release.Namespace }}
+          - wait
+          - --for=create
+          - deployment/source-watcher
+          - --timeout=5m
+        events:
+          - postsync
+        showlogs: true
+      - command: kubectl
+        args:
+          - --namespace={{ .Release.Namespace }}
+          - rollout
+          - status
+          - deployment/source-watcher
+          - --timeout=5m
+        events:
+          - postsync
+        showlogs: true
+      - # Artifact generation requires both CRDs to be registered.
+        command: kubectl
+        args:
+          - wait
+          - --for=condition=Established
+          - crd/artifactgenerators.source.extensions.fluxcd.io
+          - crd/externalartifacts.source.toolkit.fluxcd.io
+          - --timeout=5m
+        events:
+          - postsync
+        showlogs: true

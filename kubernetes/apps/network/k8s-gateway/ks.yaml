@@ -10,8 +10,8 @@ spec:
   path: ./kubernetes/apps/network/k8s-gateway/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: ExternalArtifact
+    name: k8s-gateway
     namespace: flux-system
   targetNamespace: network
   timeout: 5m
