@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: network
 
 components:
-  - ../../components/kopiur/secret
   - ../../components/alerts
   
 resources:

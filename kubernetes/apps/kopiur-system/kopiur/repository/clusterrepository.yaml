@@ -21,6 +21,8 @@ spec:
       name: cloudflare-repository-secret
       namespace: kopiur-system
       key: KOPIA_PASSWORD
+  execution:
+    mode: Central
   maintenance:
     schedule:
       quick:
@@ -65,6 +67,8 @@ spec:
       name: nas-repository-secret
       namespace: kopiur-system
       key: KOPIA_PASSWORD
+  execution:
+    mode: Central
   maintenance:
     schedule:
       quick:
