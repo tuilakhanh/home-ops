@@ -9,6 +9,36 @@ spec:
     kind: OCIRepository
     name: miroir
   interval: 1h
+  postRenderers:
+    - kustomize:
+        patches:
+          # Central Kopiur movers restore snapshots across namespaces.
+          - patch: |-
+              - op: add
+                path: /spec/template/spec/containers/1/args/-
+                value: --feature-gates=CrossNamespaceVolumeDataSource=true
+            target:
+              group: apps
+              kind: Deployment
+              name: miroir-controller
+              version: v1
+          - patch: |-
+              - op: add
+                path: /rules/-
+                value:
+                  apiGroups:
+                    - gateway.networking.k8s.io
+                  resources:
+                    - referencegrants
+                  verbs:
+                    - get
+                    - list
+                    - watch
+            target:
+              group: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: miroir-controller
+              version: v1
   values:
     autoTieBreaker: false
     monitoring:
