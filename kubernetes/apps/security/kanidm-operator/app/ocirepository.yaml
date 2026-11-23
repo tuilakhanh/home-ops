@@ -3,7 +3,7 @@ kind: OCIRepository
 metadata:
   name: kaniop
 spec:
-  interval: 15m
+  interval: 1h
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
