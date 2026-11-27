@@ -6,7 +6,8 @@ metadata:
   name: vaultwarden
 spec:
   components:
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
     - ../../../../components/cnpg/app-template
   dependsOn:
     - name: kopiur
@@ -18,6 +19,8 @@ spec:
   postBuild:
     substitute:
       APP: vaultwarden
+      KOPIUR_CLAIM: data
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 5Gi
   prune: true
   sourceRef:
