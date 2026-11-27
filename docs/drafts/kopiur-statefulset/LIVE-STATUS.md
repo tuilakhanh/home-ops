@@ -1,6 +1,6 @@
 # Live migration status
 
-Updated 2026-11-27T17:17:12.317375+00:00. 23/23 apps deployed; 23/23 post-cutover backups verified. Old PVCs and Restores are retained.
+Updated 2026-11-27T17:17:12.317375+00:00. 23/23 apps deployed; 23/23 post-cutover backups verified. Old PVCs and Restores were retained at the migration audit; the approved cleanup below subsequently removed the old PVCs.
 
 Shared components: [877b1a65](https://github.com/tuilakhanh/home-ops/commit/877b1a65e5e752c3fcb3667e85da067b43fb8ae6).
 
@@ -62,10 +62,22 @@ The claiming PVC must resolve to the exact final snapshot below. The verificatio
 
 ## Final audit and application checks
 
-All 23 apps passed the current-cluster fleet audit. Each new claim has `Populated` / `RestoreSucceeded` with its exact final snapshot ID, and both retained Snapshot objects report success with no failed files. Helm and Flux are Ready at their current generations, reconciliation and backup schedules are resumed, StatefulSets mount the new primary claims, and autoscalers target StatefulSets. Old PVCs and original Restore objects remain protected from pruning. Detailed results: [verification.json](./verification.json).
+All 23 apps passed the current-cluster fleet audit. Each new claim has `Populated` / `RestoreSucceeded` with its exact final snapshot ID, and both retained Snapshot objects report success with no failed files. Helm and Flux are Ready at their current generations, reconciliation and backup schedules are resumed, StatefulSets mount the new primary claims, and autoscalers target StatefulSets. At the migration audit, old PVCs and original Restore objects were protected from pruning. Detailed results: [verification.json](./verification.json).
 
 - MySQL: the stopped StatefulSet was recreated to add its claim template. The restored schema is byte-for-byte identical and contains the same six application tables. The web client successfully queried the database with its own credentials. Original client replicas are restored: `cs-agent-cs2=0`, `cs-agent-web=1`.
 - AdGuard Home: the restored configuration checksum matches the original, the separate work PVC is unchanged, and DNS queries to `192.168.1.102` succeed over UDP and TCP. A workstation DNS failure interrupted its first push while AdGuard was stopped; a command-scoped public-DNS address resolved the retry. Normal workstation DNS works again after rollout.
 - Recyclarr: its built-in `supercronic` scheduler retains `0 0 * * *` in `Asia/Ho_Chi_Minh`, as verified during cutover.
 
-No old claims, PVs, or original Restore objects were deleted. Keep the legacy-pvc components for the rollback window; removing or deleting old data is separate follow-up work. Only the current cluster (`kubeconfig`) was used for these same-cluster cutovers.
+No old claims, PVs, or original Restore objects were deleted during the cutovers. The user subsequently approved old-PVC cleanup; see below. Only the current cluster (`kubeconfig`) was used for these same-cluster cutovers.
+
+## Approved cleanup
+
+Completed and audited 2026-11-27T17:28:37.176823+00:00. GitOps refactor: [e4e40964](https://github.com/tuilakhanh/home-ops/commit/e4e40964a780da982458d4ccd2429fb1d7a4d741).
+
+- Deleted all 23 old PVCs, their 23 PVs, and their 23 Miroir volumes, retiring 88.5 GiB of provisioned capacity. This is the requested storage cleanup; physical space recovery depends on storage allocation and retained snapshots.
+- Removed the unused backup and temporary legacy-pvc components, following upstream [abf63ec](https://github.com/onedr0p/home-ops/commit/abf63ec5e58187deb1c87d791990196d606d8485). The current StatefulSet Restore objects and backup policies remain active; original Restore objects are retained.
+- Changed zeroscaler’s default to StatefulSet and removed redundant per-app overrides. SWS and Immich explicitly retain Deployment targets. All 13 live autoscaler targets are unchanged.
+- Switched the manually managed Sonarr–Shoko CronJob from `sonarr-anime` to `config-sonarr-anime-0` and verified a successful run on the new claim. Its existing local manifest was updated and remains untracked. Completed job history referencing the old claim was removed.
+- Verified all 23 applications and Flux remain Ready, all 41 other Bound PVCs retain their original identities, and AdGuard DNS still answers.
+
+The old claims are no longer available for direct rollback. Migration snapshot evidence remains in [verification.json](./verification.json); the final cleanup audit is [cleanup.json](./cleanup.json).
