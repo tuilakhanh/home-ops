@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       qui:
+        type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -52,6 +53,20 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: config
+            accessMode: ReadWriteOnce
+            size: 2Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -72,8 +87,6 @@ spec:
           - name: envoy-internal
             namespace: network
     persistence:
-      config:
-        existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
         server: 192.168.1.36

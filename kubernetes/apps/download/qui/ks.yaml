@@ -6,7 +6,8 @@ metadata:
   name: qui
 spec:
   components:
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: kopiur
@@ -16,7 +17,9 @@ spec:
   postBuild:
     substitute:
       APP: qui
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 2Gi
+      CONTROLLER: StatefulSet
       ZEROSCALER_TARGET: qui
   prune: true
   sourceRef:
