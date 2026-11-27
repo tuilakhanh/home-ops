@@ -8,7 +8,6 @@ spec:
   components:
     - ../../../../components/gpu
     - ../../../../components/kopiur/statefulset
-    - ../../../../components/kopiur/legacy-pvc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: intel-gpu-resource-driver
@@ -24,7 +23,6 @@ spec:
       KOPIUR_CAPACITY: 25Gi
       REPOSITORY: nas
       COMPRESSOR: zstd-fastest
-      CONTROLLER: StatefulSet
       ZEROSCALER_TARGET: jellyfin
   prune: true
   sourceRef:

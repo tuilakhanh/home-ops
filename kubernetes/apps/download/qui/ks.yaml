@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/statefulset
-    - ../../../../components/kopiur/legacy-pvc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: kopiur
@@ -19,7 +18,6 @@ spec:
       APP: qui
       KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 2Gi
-      CONTROLLER: StatefulSet
       ZEROSCALER_TARGET: qui
   prune: true
   sourceRef:

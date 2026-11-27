@@ -8,7 +8,7 @@ spec:
   maxReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
-    kind: ${CONTROLLER:=Deployment}
+    kind: ${CONTROLLER:=StatefulSet}
     name: ${ZEROSCALER_TARGET}
   metrics:
     - type: External

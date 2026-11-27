@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/statefulset
-    - ../../../../components/kopiur/legacy-pvc
   interval: 30m
   path: ./kubernetes/apps/default/thelounge/app
   postBuild:

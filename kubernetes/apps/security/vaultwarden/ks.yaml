@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/statefulset
-    - ../../../../components/kopiur/legacy-pvc
     - ../../../../components/cnpg/app-template
   dependsOn:
     - name: kopiur

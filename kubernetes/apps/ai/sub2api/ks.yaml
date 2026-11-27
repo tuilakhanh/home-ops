@@ -8,7 +8,6 @@ spec:
   components:
     - ../../../../components/cnpg/app-template
     - ../../../../components/kopiur/statefulset
-    - ../../../../components/kopiur/legacy-pvc
   dependsOn:
     - name: postgres-cluster
       namespace: database

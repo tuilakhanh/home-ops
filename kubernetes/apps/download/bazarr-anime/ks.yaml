@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/statefulset
-    - ../../../../components/kopiur/legacy-pvc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: kopiur
@@ -19,7 +18,6 @@ spec:
       APP: bazarr-anime
       KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 5Gi
-      CONTROLLER: StatefulSet
       ZEROSCALER_TARGET: bazarr-anime
   prune: true
   sourceRef:

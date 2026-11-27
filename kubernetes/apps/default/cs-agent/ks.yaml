@@ -27,7 +27,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur/statefulset
-    - ../../../../components/kopiur/legacy-pvc
   dependsOn:
     - name: kopiur
       namespace: kopiur-system

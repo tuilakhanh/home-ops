@@ -18,6 +18,7 @@ spec:
   path: ./kubernetes/apps/media/immich/app
   postBuild:
     substitute:
+      CONTROLLER: Deployment
       APP: immich
       ZEROSCALER_TARGET: immich-server
   prune: true

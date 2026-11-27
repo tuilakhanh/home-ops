@@ -11,6 +11,7 @@ spec:
   path: ./kubernetes/apps/default/sws/app
   postBuild:
     substitute:
+      CONTROLLER: Deployment
       ZEROSCALER_TARGET: sws
   prune: true
   sourceRef:
