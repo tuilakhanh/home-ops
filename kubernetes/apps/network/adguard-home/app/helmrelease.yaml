@@ -12,7 +12,7 @@ spec:
   values:
     controllers:
       adguard:
-        strategy: RollingUpdate
+        type: statefulset
 
         initContainers:
           fix-permissions:
@@ -52,6 +52,23 @@ spec:
                 add: [NET_BIND_SERVICE]
                 drop: [ALL]
 
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: config
+            accessMode: ReadWriteOnce
+            size: 1Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
+            globalMounts:
+            - path: /opt/adguardhome/conf
+              subPath: conf
     defaultPodOptions:
       securityContext:
         fsGroup: 1000
@@ -96,13 +113,6 @@ spec:
                 port: 443
 
     persistence:
-      config:
-        enabled: true
-        existingClaim: adguard-home
-        globalMounts:
-          - path: /opt/adguardhome/conf
-            subPath: conf
-
       work:
         enabled: true
         existingClaim: adguard-home-work
