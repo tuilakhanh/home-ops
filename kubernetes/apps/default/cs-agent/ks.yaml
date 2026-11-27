@@ -26,7 +26,8 @@ metadata:
   name: cs-agent-mysql
 spec:
   components:
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
   dependsOn:
     - name: kopiur
       namespace: kopiur-system
@@ -35,6 +36,8 @@ spec:
   postBuild:
     substitute:
       APP: cs-agent-mysql
+      KOPIUR_CLAIM: data
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 5Gi
       KOPIUR_PUID: "999"
       KOPIUR_PGID: "999"

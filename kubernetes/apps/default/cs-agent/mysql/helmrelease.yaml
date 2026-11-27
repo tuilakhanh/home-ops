@@ -50,6 +50,23 @@ spec:
               runAsGroup: 999
               capabilities: {drop: ["ALL"]}
 
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: data
+            accessMode: ReadWriteOnce
+            size: 5Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
+            advancedMounts:
+              app:
+              - path: /var/lib/mysql
     defaultPodOptions:
       enableServiceLinks: false
       securityContext:
@@ -65,12 +82,6 @@ spec:
             port: 3306
 
     persistence:
-      data:
-        existingClaim: *app
-        advancedMounts:
-          mysql:
-            app:
-              - path: /var/lib/mysql
       init:
         type: secret
         name: cs-agent-db-init
