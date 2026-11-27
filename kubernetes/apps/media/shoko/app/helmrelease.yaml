@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       shoko:
+        type: statefulset
         initContainers:
           # v6 writes plugin thumbnails next to the plugin DLLs.
           plugins:
@@ -49,6 +50,23 @@ spec:
               limits:
                 memory: 2Gi
 
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: config
+            accessMode: ReadWriteOnce
+            size: 1Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
+            advancedMounts:
+              app:
+              - path: /.shoko
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -72,13 +90,6 @@ spec:
           - "{{ .Release.Name }}.tuilakhanh.id.vn"
 
     persistence:
-      config:
-        existingClaim: "{{ .Release.Name }}"
-        advancedMounts:
-          shoko:
-            app:
-              - path: /.shoko
-
       metadata:
         accessMode: ReadWriteOnce
         size: 20Gi
