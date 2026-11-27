@@ -4,6 +4,8 @@ apiVersion: kopiur.home-operations.com/v1alpha1
 kind: Restore
 metadata:
   name: ${APP}
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   mover:
     securityContext:
