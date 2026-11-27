@@ -6,7 +6,8 @@ metadata:
   name: brrpolice
 spec:
   components:
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
   dependsOn:
     - name: kopiur
       namespace: kopiur-system
@@ -15,6 +16,8 @@ spec:
   postBuild:
     substitute:
       APP: brrpolice
+      KOPIUR_CLAIM: data
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:

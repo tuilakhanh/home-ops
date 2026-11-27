@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       brrpolice:
+        type: statefulset
         containers:
           app:
             image:
@@ -48,6 +49,20 @@ spec:
                 cpu: 10m
               limits:
                 memory: 128Mi
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: data
+            accessMode: ReadWriteOnce
+            size: 1Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -64,6 +79,3 @@ spec:
       app:
         endpoints:
           - port: http
-    persistence:
-      data:
-        existingClaim: "{{ .Release.Name }}"
