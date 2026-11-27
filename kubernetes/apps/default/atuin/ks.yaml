@@ -7,12 +7,14 @@ metadata:
 spec:
   components:
     - ../../../../components/cnpg/app-template
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
   interval: 30m
   path: ./kubernetes/apps/default/atuin/app
   postBuild:
     substitute:
       APP: atuin
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:
