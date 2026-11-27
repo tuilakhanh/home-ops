@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       qbittorrent:
+        type: statefulset
         containers:
           app:
             nameOverride: *app
@@ -55,6 +56,23 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
 
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: config
+            accessMode: ReadWriteOnce
+            size: 1Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
+            advancedMounts:
+              app:
+              - path: /config
     defaultPodOptions:
       # annotations:
       #   k8s.v1.cni.cncf.io/networks: |-
@@ -101,13 +119,6 @@ spec:
                 port: *port
 
     persistence:
-      config:
-        enabled: true
-        existingClaim: *app
-        advancedMounts:
-          qbittorrent:
-            app:
-              - path: /config
       media:
         type: nfs
         server: 192.168.1.36
