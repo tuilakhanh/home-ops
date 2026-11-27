@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: &app immich
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: immich
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       server:
@@ -22,7 +25,7 @@ spec:
               repository: ghcr.io/immich-app/immich-server
               # renovate: datasource=github-releases depName=immich-app/immich
               tag: v3.4.2@sha256:17eee2e51be12fe7c2d0bc0b5a851c5ffbdf62fca97b975373df7c5d62a13b4b
-            env: 
+            env:
               IMMICH_LOG_LEVEL: log
               REDIS_HOSTNAME: "immich-valkey.media.svc.cluster.local"
               IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning.media.svc.cluster.local:3003"
@@ -61,7 +64,7 @@ spec:
             securityContext: &contSec
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
 
       machine-learning:
         type: statefulset
@@ -127,7 +130,7 @@ spec:
               limits:
                 memory: 200Mi
             probes:
-              liveness: &probes
+              liveness: &valkeyProbes
                 enabled: true
                 custom: true
                 spec:
@@ -140,8 +143,8 @@ spec:
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 3
-              readiness: *probes
-              startup: *probes
+              readiness: *valkeyProbes
+              startup: *valkeyProbes
             securityContext: *contSec
         statefulset:
           volumeClaimTemplates:
@@ -209,6 +212,6 @@ spec:
                 subPath: geocoding
               - path: /usr/src/app/.transformers_cache
                 subPath: transformers
-      
+
       tmp:
         type: emptyDir

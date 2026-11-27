@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: cloudflare-ddns
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: cloudflare-ddns
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       cloudflare-ddns:
@@ -43,10 +46,10 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}

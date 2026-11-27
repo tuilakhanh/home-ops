@@ -4,10 +4,13 @@ kind: HelmRelease
 metadata:
   name: cert-manager
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: cert-manager
+    spec:
+      url: oci://quay.io/jetstack/charts/cert-manager
+      ref:
+        tag: v1.21.3
+  interval: 1h
   values:
     crds:
       enabled: true

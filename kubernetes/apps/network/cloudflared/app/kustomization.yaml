@@ -6,5 +6,4 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./dnsendpoint.yaml
-  - ./ocirepository.yaml
   - ./grafanadashboard.yaml

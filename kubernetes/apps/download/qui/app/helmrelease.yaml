@@ -5,9 +5,12 @@ kind: HelmRelease
 metadata:
   name: qui
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: qui
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
   interval: 1h
   values:
     controllers:
@@ -59,14 +62,14 @@ spec:
             whenDeleted: Retain
             whenScaled: Retain
           volumeClaimTemplates:
-          - name: config
-            accessMode: ReadWriteOnce
-            size: 2Gi
-            storageClass: miroir-local
-            dataSourceRef:
-              apiGroup: kopiur.home-operations.com
-              kind: Restore
-              name: '{{ .Release.Name }}-statefulset'
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 2Gi
+              storageClass: miroir-local
+              dataSourceRef:
+                apiGroup: kopiur.home-operations.com
+                kind: Restore
+                name: '{{ .Release.Name }}-statefulset'
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

@@ -5,9 +5,12 @@ kind: HelmRelease
 metadata:
   name: sws
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: sws
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
   interval: 1h
   values:
     networkpolicies:
@@ -16,14 +19,14 @@ spec:
         controller: atuin
         forceRename: sws-external-ingress
         ingress:
-        - fromEndpoints:
-          - matchLabels:
-              k8s:io.kubernetes.pod.namespace: network
-              gateway.networking.k8s.io/gateway-name: envoy-external
-          toPorts:
-          - ports:
-            - port: '8080'
-              protocol: TCP
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: network
+                  gateway.networking.k8s.io/gateway-name: envoy-external
+            toPorts:
+              - ports:
+                  - port: '8080'
+                    protocol: TCP
     controllers:
       atuin:
         containers:

@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: lingarr
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: lingarr
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       lingarr:
@@ -27,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/lingarr-translate/lingarr
-              tag: 1.0.9@sha256:26b3dba8ba1d6b37bdde752418bf3f14d3fac16a3c05a64a2c840e8c507d24e5 
+              tag: 1.0.9@sha256:26b3dba8ba1d6b37bdde752418bf3f14d3fac16a3c05a64a2c840e8c507d24e5
             env:
               ASPNETCORE_URLS: http://+:80
               DB_CONNECTION: sqlite

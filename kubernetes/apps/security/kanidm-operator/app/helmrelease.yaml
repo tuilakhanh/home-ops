@@ -1,9 +1,14 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: kaniop
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: kaniop
+    spec:
+      url: oci://ghcr.io/pando85/helm-charts/kaniop
+      ref:
+        tag: 0.21.0
+      interval: 1h
   interval: 30m

@@ -7,6 +7,5 @@ resources:
   - ./groups.yaml
   - ./httproute.yaml
   - ./kanidmoauth2client.yaml
-  - ./ocirepository.yaml
   - ./helmrelease.yaml
   - ./secret.sops.yaml

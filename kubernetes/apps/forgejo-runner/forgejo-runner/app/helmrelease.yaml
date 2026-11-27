@@ -5,9 +5,13 @@ kind: HelmRelease
 metadata:
   name: forgejo-runner
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: forgejo-runner
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+      interval: 1h
   interval: 30m
   values:
     configMaps:

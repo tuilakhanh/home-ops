@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: filebrowser
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: filebrowser
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       filebrowser:

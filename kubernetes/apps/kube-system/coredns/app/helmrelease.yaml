@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: coredns
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: coredns
+    spec:
+      url: oci://ghcr.io/coredns/charts/coredns
+      ref:
+        tag: 1.49.0
+  interval: 1h
   values:
     fullnameOverride: coredns
     image:

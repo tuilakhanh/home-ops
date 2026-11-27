@@ -7,7 +7,6 @@ resources:
   - ./clusterissuer-sunsilk.yaml
   - ./grafanadashboard.yaml
   - ./helmrelease.yaml
-  - ./ocirepository.yaml
   - ./postgres.yaml
   - ./prometheusrule.yaml
   - ./secret.sops.yaml

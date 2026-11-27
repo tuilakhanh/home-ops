@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: shoko
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: shoko
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       shoko:
@@ -27,7 +30,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
         containers:
           app:
             image:
@@ -42,7 +45,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 100m
@@ -56,17 +59,17 @@ spec:
             whenDeleted: Retain
             whenScaled: Retain
           volumeClaimTemplates:
-          - name: config
-            accessMode: ReadWriteOnce
-            size: 1Gi
-            storageClass: miroir-local
-            dataSourceRef:
-              apiGroup: kopiur.home-operations.com
-              kind: Restore
-              name: '{{ .Release.Name }}-statefulset'
-            advancedMounts:
-              app:
-              - path: /.shoko
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 1Gi
+              storageClass: miroir-local
+              dataSourceRef:
+                apiGroup: kopiur.home-operations.com
+                kind: Restore
+                name: '{{ .Release.Name }}-statefulset'
+              advancedMounts:
+                app:
+                  - path: /.shoko
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

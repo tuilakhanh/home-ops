@@ -5,15 +5,18 @@ kind: HelmRelease
 metadata:
   name: kopiur
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: kopiur
+    spec:
+      url: oci://ghcr.io/home-operations/charts/kopiur
+      ref:
+        tag: 0.11.2
   interval: 1h
   postRenderers:
     - kustomize:
         patches:
-          # Kopiur 0.9.2 reads status.resolved from the parent Restore before
-          # patching its status, but the chart only grants restores/status.
+          # The restore mover reads its parent Restore before updating status.
+          # The pinned chart grants only restores/status; keep this read permission.
           - patch: |-
               - op: add
                 path: /rules/-

@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: k8s-gateway
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: k8s-gateway
+    spec:
+      url: oci://ghcr.io/k8s-gateway/charts/k8s-gateway
+      ref:
+        tag: 3.7.2
+  interval: 1h
   values:
     fullnameOverride: k8s-gateway
     domain: "tuilakhanh.id.vn"
@@ -21,4 +24,6 @@ spec:
       annotations:
         lbipam.cilium.io/ips: 192.168.1.101
       externalTrafficPolicy: Cluster
-    watchedResources: ["HTTPRoute", "Service"]
+    watchedResources:
+      - "HTTPRoute"
+      - "Service"

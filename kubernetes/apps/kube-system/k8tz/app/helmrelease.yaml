@@ -4,9 +4,12 @@ kind: HelmRelease
 metadata:
   name: k8tz
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: k8tz
+    spec:
+      url: oci://ghcr.io/k8tz/k8tz/charts/k8tz
+      ref:
+        tag: 0.22.0
   interval: 1h
   values:
     namespace: null

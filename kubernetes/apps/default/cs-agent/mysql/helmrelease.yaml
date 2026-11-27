@@ -5,9 +5,12 @@ kind: HelmRelease
 metadata:
   name: &app cs-agent-mysql
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: *app
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
   interval: 1h
   values:
     controllers:
@@ -56,17 +59,17 @@ spec:
             whenDeleted: Retain
             whenScaled: Retain
           volumeClaimTemplates:
-          - name: data
-            accessMode: ReadWriteOnce
-            size: 5Gi
-            storageClass: miroir-local
-            dataSourceRef:
-              apiGroup: kopiur.home-operations.com
-              kind: Restore
-              name: '{{ .Release.Name }}-statefulset'
-            advancedMounts:
-              app:
-              - path: /var/lib/mysql
+            - name: data
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: miroir-local
+              dataSourceRef:
+                apiGroup: kopiur.home-operations.com
+                kind: Restore
+                name: '{{ .Release.Name }}-statefulset'
+              advancedMounts:
+                app:
+                  - path: /var/lib/mysql
     defaultPodOptions:
       enableServiceLinks: false
       securityContext:

@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: librespeed
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: librespeed
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       librespeed:
@@ -24,7 +27,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
         containers:
           app:
             image:
@@ -57,7 +60,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -65,7 +68,7 @@ spec:
         runAsGroup: 101
         fsGroup: 101
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     service:
       app:
         ports:

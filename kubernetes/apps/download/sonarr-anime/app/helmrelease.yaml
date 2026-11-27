@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: &app sonarr-anime
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: sonarr-anime
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       sonarr-anime:
@@ -72,14 +75,14 @@ spec:
             whenDeleted: Retain
             whenScaled: Retain
           volumeClaimTemplates:
-          - name: config
-            accessMode: ReadWriteOnce
-            size: 1Gi
-            storageClass: miroir-local
-            dataSourceRef:
-              apiGroup: kopiur.home-operations.com
-              kind: Restore
-              name: '{{ .Release.Name }}-statefulset'
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 1Gi
+              storageClass: miroir-local
+              dataSourceRef:
+                apiGroup: kopiur.home-operations.com
+                kind: Restore
+                name: '{{ .Release.Name }}-statefulset'
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

@@ -4,9 +4,13 @@ kind: HelmRelease
 metadata:
   name: forgejo
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: forgejo
+    spec:
+      url: oci://code.forgejo.org/forgejo-helm/forgejo
+      ref:
+        tag: 17.3.2
+      interval: 1h
   interval: 30m
   dependsOn:
     - name: valkey

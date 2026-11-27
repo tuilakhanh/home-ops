@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: metrics-server
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: metrics-server
+    spec:
+      url: oci://ghcr.io/home-operations/charts-mirror/metrics-server
+      ref:
+        tag: 3.14.0
+  interval: 1h
   values:
     args:
       - --kubelet-insecure-tls
@@ -22,16 +25,21 @@ spec:
       metricRelabelings:
         - action: drop
           regex: apiserver_request_duration_seconds_bucket
-          sourceLabels: ["__name__"]
+          sourceLabels:
+            - "__name__"
         - action: drop
-          sourceLabels: ["__name__"]
+          sourceLabels:
+            - "__name__"
           regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
         - action: drop
-          sourceLabels: ["__name__"]
+          sourceLabels:
+            - "__name__"
           regex: apiserver_(response|watch_events)_sizes_bucket
         - action: drop
-          sourceLabels: ["__name__"]
+          sourceLabels:
+            - "__name__"
           regex: apiserver_request_body_size_bytes_bucket
         - action: drop
-          sourceLabels: ["__name__"]
+          sourceLabels:
+            - "__name__"
           regex: (work|queue)_duration_seconds_bucket

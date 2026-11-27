@@ -5,9 +5,12 @@ kind: HelmRelease
 metadata:
   name: barman-cloud
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: plugin-barman-cloud
+    spec:
+      url: oci://ghcr.io/cloudnative-pg/charts/plugin-barman-cloud
+      ref:
+        tag: 0.8.0
   interval: 1h
   values:
     crds:

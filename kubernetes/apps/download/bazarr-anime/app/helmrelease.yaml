@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: &app bazarr-anime
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: bazarr-anime
+    spec:
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      ref:
+        tag: 5.3.0
+  interval: 1h
   values:
     controllers:
       bazarr-anime:
@@ -64,7 +67,7 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: &port 6767
+                    port: *port
                   periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 5
@@ -77,8 +80,8 @@ spec:
               requests:
                 cpu: 15m
                 memory: 128Mi
-              # limits:
-              #   memory: 1Gi
+                # limits:
+                #   memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -92,14 +95,14 @@ spec:
             whenDeleted: Retain
             whenScaled: Retain
           volumeClaimTemplates:
-          - name: config
-            accessMode: ReadWriteOnce
-            size: 5Gi
-            storageClass: miroir-local
-            dataSourceRef:
-              apiGroup: kopiur.home-operations.com
-              kind: Restore
-              name: '{{ .Release.Name }}-statefulset'
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: miroir-local
+              dataSourceRef:
+                apiGroup: kopiur.home-operations.com
+                kind: Restore
+                name: '{{ .Release.Name }}-statefulset'
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

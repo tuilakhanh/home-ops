@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./db-init.sops.yaml
   - ./helmrelease.yaml
-  - ./ocirepository.yaml
   - ./secret.sops.yaml

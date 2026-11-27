@@ -5,10 +5,13 @@ kind: HelmRelease
 metadata:
   name: kube-state-metrics
 spec:
-  interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: kube-state-metrics
+    spec:
+      url: oci://ghcr.io/prometheus-community/charts/kube-state-metrics
+      ref:
+        tag: 8.7.1
+  interval: 1h
   values:
     fullnameOverride: kube-state-metrics
     metricLabelsAllowlist:
@@ -23,5 +26,6 @@ spec:
           - action: replace
             regex: (.*)
             replacement: $1
-            sourceLabels: ["__meta_kubernetes_pod_node_name"]
+            sourceLabels:
+              - "__meta_kubernetes_pod_node_name"
             targetLabel: kubernetes_node
