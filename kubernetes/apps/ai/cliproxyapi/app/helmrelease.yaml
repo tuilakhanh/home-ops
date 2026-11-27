@@ -20,6 +20,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     controllers:
       *app:
+        type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -53,6 +54,22 @@ spec:
               capabilities:
                 drop:
                   - ALL
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: data
+            accessMode: ReadWriteOnce
+            size: 5Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
+            globalMounts:
+            - path: /data
     service:
       *app:
         ports:
@@ -70,10 +87,6 @@ spec:
         existingClaim: cliproxyapi-config
         globalMounts:
           - path: /config
-      data:
-        existingClaim: *app
-        globalMounts:
-          - path: /data
       tmpfs:
         type: emptyDir
         globalMounts:

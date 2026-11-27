@@ -6,7 +6,8 @@ metadata:
   name: cliproxyapi
 spec:
   components:
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
   dependsOn:
     - name: kopiur
       namespace: kopiur-system
@@ -15,6 +16,8 @@ spec:
   postBuild:
     substitute:
       APP: cliproxyapi
+      KOPIUR_CLAIM: data
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 5Gi
       KOPIUR_PUID: "65534"
       KOPIUR_PGID: "65534"
