@@ -22,12 +22,12 @@ spec:
         fsGroup: 65534
         fsGroupChangePolicy: OnRootMismatch
     controllers:
-      *app:
+      cliproxyapi:
         type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          *app:
+          cliproxyapi:
             image:
               repository: mirror.gcr.io/eceasy/cli-proxy-api
               tag: v8.0.61
@@ -74,7 +74,7 @@ spec:
               globalMounts:
                 - path: /data
     service:
-      *app:
+      cliproxyapi:
         ports:
           http:
             port: *port
