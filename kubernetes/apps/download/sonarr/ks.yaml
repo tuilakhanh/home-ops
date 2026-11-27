@@ -7,7 +7,8 @@ metadata:
 spec:
   components:
     - ../../../../components/cnpg/app-template
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
     - ../../../../components/zeroscaler
   dependsOn:
     - name: kopiur
@@ -17,7 +18,9 @@ spec:
   postBuild:
     substitute:
       APP: sonarr
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 1Gi
+      CONTROLLER: StatefulSet
       ZEROSCALER_TARGET: sonarr
   prune: true
   sourceRef:
