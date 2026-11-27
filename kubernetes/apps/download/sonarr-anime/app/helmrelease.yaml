@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       sonarr-anime:
+        type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -65,6 +66,20 @@ spec:
                 drop:
                   - ALL
 
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: config
+            accessMode: ReadWriteOnce
+            size: 1Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -88,8 +103,6 @@ spec:
           - "{{ .Release.Name }}.tuilakhanh.id.vn"
 
     persistence:
-      config:
-        existingClaim: *app
       tmp:
         type: emptyDir
       media:
