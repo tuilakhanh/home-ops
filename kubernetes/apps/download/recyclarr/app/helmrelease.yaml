@@ -12,21 +12,14 @@ spec:
   values:
     controllers:
       recyclarr:
-        type: cronjob
-        cronjob:
-          schedule: 0 0 * * *
-          backoffLimit: 0
-          concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
-          failedJobsHistory: 1
-          ttlSecondsAfterFinished: 86400
-
+        type: statefulset
         containers:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 8.8.1@sha256:3e9c41b9ec29bbf65fe846864058730d321a21f7695d8c0d9437b73e34d50ad9
             env:
+              CRON_SCHEDULE: "0 0 * * *"
               SONARR_ANIME_API_KEY:
                 valueFrom:
                   secretKeyRef:
@@ -49,11 +42,6 @@ spec:
                     key: RADARR__AUTH__APIKEY
               RECYCLARR_DATA_DIR:
                 value: /tmp
-            args:
-              - sync
-              # - state 
-              # - repair 
-              # - --adopt
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -64,9 +52,20 @@ spec:
                 memory: 36M
               limits:
                 memory: 128M
-        pod:
-          restartPolicy: Never
-
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: config
+            accessMode: ReadWriteOnce
+            size: 512Mi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -76,8 +75,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
 
     persistence:
-      config:
-        existingClaim: "{{ .Release.Name }}"
       config-file:
         type: configMap
         name: "{{ .Release.Name }}-configmap"
