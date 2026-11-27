@@ -27,4 +27,8 @@ spec:
         name: ${KOPIUR_CLAIM:=config}-${APP}-0
       # Preserve the source identity used by snapshots of the original PVC.
       sourcePathOverride: /pvc/${APP}
+  verification:
+    quick:
+      schedule:
+        cron: H 3 * * *
   volumeSnapshotClassName: ${KOPIUR_SNAPSHOTCLASS:=miroir}
