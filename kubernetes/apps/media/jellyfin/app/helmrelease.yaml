@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       jellyfin:
+        type: statefulset
         pod:
           resourceClaims:
             - name: gpu
@@ -62,6 +63,23 @@ spec:
               limits:
                 memory: 4Gi
 
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: config
+            accessMode: ReadWriteOnce
+            size: 25Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
+            advancedMounts:
+              app:
+              - path: /config
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -86,13 +104,6 @@ spec:
           - "{{ .Release.Name }}.tuilakhanh.id.vn"
 
     persistence:
-      config:
-        existingClaim: *app
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /config
-              
       metadata:
         size: 10Gi
         accessMode: ReadWriteOnce
