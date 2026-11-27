@@ -36,6 +36,7 @@ spec:
 
     controllers:
       *app:
+        type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -100,6 +101,23 @@ spec:
                 drop:
                   - ALL
 
+        statefulset:
+          podManagementPolicy: Parallel
+          persistentVolumeClaimRetentionPolicy:
+            whenDeleted: Retain
+            whenScaled: Retain
+          volumeClaimTemplates:
+          - name: data
+            accessMode: ReadWriteOnce
+            size: 5Gi
+            storageClass: miroir-local
+            dataSourceRef:
+              apiGroup: kopiur.home-operations.com
+              kind: Restore
+              name: '{{ .Release.Name }}-statefulset'
+            advancedMounts:
+              app:
+              - path: /app/data
       valkey:
         type: statefulset
         containers:
@@ -177,12 +195,6 @@ spec:
                 port: *port
 
     persistence:
-      data:
-        existingClaim: *app
-        advancedMounts:
-          sub2api:
-            app:
-              - path: /app/data
       tmp:
         type: emptyDir
         globalMounts:
