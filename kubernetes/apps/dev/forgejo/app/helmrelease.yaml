@@ -10,6 +10,47 @@ spec:
   interval: 30m
   dependsOn:
     - name: valkey
+  # The Forgejo chart emits only a Deployment; retain its generated configuration.
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+              name: forgejo
+            patch: |-
+              - op: replace
+                path: /kind
+                value: StatefulSet
+              - op: remove
+                path: /spec/strategy
+              - op: add
+                path: /spec/serviceName
+                value: forgejo-headless
+              - op: add
+                path: /spec/podManagementPolicy
+                value: Parallel
+              - op: add
+                path: /spec/persistentVolumeClaimRetentionPolicy
+                value:
+                  whenDeleted: Retain
+                  whenScaled: Retain
+              - op: add
+                path: /spec/volumeClaimTemplates
+                value:
+                  - metadata:
+                      name: data
+                    spec:
+                      accessModes: [ReadWriteOnce]
+                      storageClassName: miroir-local
+                      resources:
+                        requests:
+                          storage: 10Gi
+                      dataSourceRef:
+                        apiGroup: kopiur.home-operations.com
+                        kind: Restore
+                        name: forgejo-statefulset
   values:
     gitea:
       admin:
@@ -108,7 +149,22 @@ spec:
       tag: 17.0.1-rootless
     persistence:
       create: false
-      claimName: forgejo
+      mount: false
+    extraDeploy:
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: forgejo-headless
+        spec:
+          clusterIP: None
+          publishNotReadyAddresses: true
+          selector:
+            app.kubernetes.io/name: forgejo
+            app.kubernetes.io/instance: forgejo
+          ports:
+            - name: http
+              port: 3000
+              targetPort: 3000
     service:
       ssh:
         port: *sshPort
