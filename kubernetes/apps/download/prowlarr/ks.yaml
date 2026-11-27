@@ -7,7 +7,8 @@ metadata:
 spec:
   components:
     - ../../../../components/cnpg/app-template
-    - ../../../../components/kopiur/backup
+    - ../../../../components/kopiur/statefulset
+    - ../../../../components/kopiur/legacy-pvc
   dependsOn:
     - name: kopiur
       namespace: kopiur-system
@@ -16,6 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: prowlarr
+      KOPIUR_ON_MISSING_SNAPSHOT: Fail
       KOPIUR_CAPACITY: 1Gi
   prune: true
   sourceRef:
