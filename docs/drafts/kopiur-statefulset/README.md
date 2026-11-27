@@ -2,7 +2,7 @@
 
 The GitOps manifests now convert all 23 existing Kopiur backup-component consumers to restore-backed StatefulSet claim templates. This implements the pattern introduced in onedr0p/home-ops at [9ccbadf](https://github.com/onedr0p/home-ops/commit/9ccbadf2998793687699045276c93e210c970795) and developed through [8b6210c](https://github.com/onedr0p/home-ops/commit/8b6210cbd824781a4139af0ef90d8ddecff51e0b). The previously supplied hashes were newest first.
 
-Status: all 23 live cutovers are complete. All workloads and Flux resources are Ready, every new claim restored its exact final snapshot, and every backup from a new claim succeeded. The 23 old PVCs and their backing PVs and Miroir volumes were deleted after user approval; original Restore objects remain retained. See [cleanup.json](./cleanup.json) for the current audit. The current-cluster fleet audit passed; [verification.json](./verification.json) records the migration audit before cleanup. See [LIVE-STATUS.md](./LIVE-STATUS.md) for per-app commits, final snapshot IDs, restore evidence, and backups from the new claims. The implementation and validation notes below describe the conversion. Unrelated working-tree changes are retained.
+Status: all 23 live cutovers are complete. All workloads and Flux resources are Ready, every new claim restored its exact final snapshot, and every backup from a new claim succeeded. Old PVCs and Restores remain retained for rollback. The current-cluster fleet audit passed; [verification.json](./verification.json) records the result. See [LIVE-STATUS.md](./LIVE-STATUS.md) for per-app commits, final snapshot IDs, restore evidence, and backups from the new claims. The implementation and validation notes below describe the conversion. Unrelated working-tree changes are retained.
 
 ## Implementation
 
@@ -12,10 +12,10 @@ Status: all 23 live cutovers are complete. All workloads and Flux resources are 
 - Restores run with application `KOPIUR_PUID`/`KOPIUR_PGID` and fsGroup. Existing overrides 65534 (cliproxyapi) and 999 (MySQL) remain. Forgejo uses 1000 and `nas`; Jellyfin also keeps `nas` and its compressor override.
 - Every migrated app sets `KOPIUR_ON_MISSING_SNAPSHOT: Fail`; missing backup data must block migration. The reusable component's default remains Continue for deliberate empty bootstraps.
 - StatefulSet PVC retention is explicitly Retain for deletion and scale-down.
-- During cutover, the temporary legacy-pvc component protected old claims and original Restore objects from pruning. After approval, the component was removed, the 23 old claims and their backing volumes were deleted, and the original Restore objects were retained. The StatefulSets mount their new claims.
-- The zeroscaler component defaults to StatefulSet. SWS and Immich explicitly set `CONTROLLER: Deployment`; all 13 existing autoscaler targets are preserved.
+- `kubernetes/components/kopiur/legacy-pvc` temporarily keeps each old standalone claim in desired state, annotated `kustomize.toolkit.fluxcd.io/prune: disabled`. The old claims remain available for rollback. The new StatefulSets mount only their new claims.
+- Existing zeroscaler consumers explicitly target StatefulSet. The shared Deployment default stays unchanged for unrelated workloads.
 
-The unused backup and legacy-pvc components have been removed, following upstream [abf63ec](https://github.com/onedr0p/home-ops/commit/abf63ec5e58187deb1c87d791990196d606d8485). Applications use only the statefulset component for Kopiur. The old PVCs are gone; recovery of pre-cutover data now requires a backup restore.
+The old backup component is retained for compatibility; no application references it after the 23 cutovers. Legacy PVC and Restore objects stay in desired state through the legacy-pvc component for the rollback window. Remove that component only after validation; its prune annotations leave the old resources for explicit cleanup.
 
 ## App-specific changes
 
@@ -23,7 +23,7 @@ Recyclarr follows upstream's conversion from CronJob to a long-running StatefulS
 
 Forgejo chart 17.3.2 only emits a Deployment. A targeted Helm post-render patch changes it to a StatefulSet and adds the data claim template; the chart continues to generate its configuration, init containers, services, and routes. `persistence.mount: false` removes the chart's standalone data-volume reference so the StatefulSet template supplies `data`. An extra headless Service supplies the governing service. Preserve this post-render check when upgrading Forgejo's chart.
 
-MySQL (`default/cs-agent-mysql`) previously ran as a StatefulSet with an external PVC. Adding a claim template was an immutable spec change, so the stopped StatefulSet was recreated after both client Deployments were quiesced and its final snapshot was verified. The restored database has the same six tables and an identical schema; the web client can query it. Client replicas were restored to game=0 and web=1. The dependencies remain intact; its original PVC was deleted in the approved cleanup. No automatic force/recreation setting is enabled.
+MySQL (`default/cs-agent-mysql`) previously ran as a StatefulSet with an external PVC. Adding a claim template was an immutable spec change, so the stopped StatefulSet was recreated after both client Deployments were quiesced and its final snapshot was verified. The restored database has the same six tables and an identical schema; the web client can query it. Client replicas were restored to game=0 and web=1. The original PVC and dependencies remain intact. No automatic force/recreation setting is enabled.
 
 Shoko and Jellyfin keep their separate metadata claims; AdGuard Home keeps its work claim; cliproxyapi keeps its configuration claim. Only the primary volume already backed up by Kopiur changes. Their extra data still needs its existing protection or a separate backup plan. Sub2api's Valkey controller is unchanged.
 
@@ -31,9 +31,7 @@ Existing workloads outside the backup component (including slskd, Immich, operat
 
 ## Migration inventory
 
-All old claims listed below have been deleted. New claims and extra data volumes remain intact.
-
-| Namespace / app | Deleted old claim | New StatefulSet claim | Size | Repository |
+| Namespace / app | Retained old claim | New StatefulSet claim | Size | Repository |
 | --- | --- | --- | --- | --- |
 | ai / cliproxyapi | cliproxyapi | data-cliproxyapi-0 | 5Gi | cloudflare |
 | ai / sub2api | sub2api | data-sub2api-0 | 5Gi | cloudflare |
@@ -61,8 +59,6 @@ All old claims listed below have been deleted. New claims and extra data volumes
 
 ## Cutover: one application at a time
 
-The following records the procedure used. The temporary legacy-pvc component existed during cutover and was removed after the approved cleanup.
-
 Do not deploy this batch as an unattended fleet-wide cutover. A controller conversion does not copy current writes by itself. The new claims restore snapshots; existing bound PVCs cannot be renamed or repopulated merely by editing dataSourceRef.
 
 1. Record the original workload configuration, replica count, PVC/PV identity, repository, and policy identity. Apply the legacy PVC protection as a separate initial step before switching controllers. Verify the old PVC's prune-disabled annotation. Keep dependent data and external databases accounted for.
@@ -82,4 +78,4 @@ Each app was rendered before and after with its actual pinned Helm chart (app-te
 
 Each app and its Flux components are also built together with Kustomize and app substitutions. Checks match the policy source, legacy claim protection, repository, missing-snapshot behavior, and autoscaler target to the rendered StatefulSet. Strict server-side dry-run validation checks the Kopiur resources, retained claims, autoscalers, and new workloads against the current API. Before cutover, MySQL's existing StatefulSet rejected its immutable template change as expected; a fresh-object dry-run validated its replacement schema separately.
 
-The live audit additionally checked each claiming PVC's exact restored snapshot ID, successful retained final and post-cutover Snapshot objects, Bound new claims and, before cleanup, Bound old claims, live pod mounts, StatefulSet retention, autoscaler targets, repository identity, active backup schedules, and resumed Flux reconciliation. MySQL schema and client access and AdGuard Home configuration and DNS checks passed. See [LIVE-STATUS.md](./LIVE-STATUS.md) and [verification.json](./verification.json) for the migration evidence. The subsequent cleanup audit in [cleanup.json](./cleanup.json) confirms all 23 old claims, PVs, and Miroir volumes are gone, all 41 other Bound claims are preserved, and all apps remain healthy.
+The live audit additionally checked each claiming PVC's exact restored snapshot ID, successful retained final and post-cutover Snapshot objects, Bound old and new claims, live pod mounts, StatefulSet retention, autoscaler targets, repository identity, active backup schedules, and resumed Flux reconciliation. MySQL schema and client access and AdGuard Home configuration and DNS checks passed. See [LIVE-STATUS.md](./LIVE-STATUS.md) and [verification.json](./verification.json) for the evidence.
