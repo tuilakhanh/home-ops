@@ -46,7 +46,7 @@ spec:
           app:
             image:
               repository: ghcr.io/wei-shaw/sub2api
-              tag: 0.2.25
+              tag: 0.2.26
             env:
               AUTO_SETUP: "true"
               SERVER_HOST: 0.0.0.0
